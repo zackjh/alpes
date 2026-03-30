@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# Project-Specific
+f3set-tennis-frames/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
