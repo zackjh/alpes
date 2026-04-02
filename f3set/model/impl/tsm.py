@@ -37,12 +37,17 @@ class TemporalShift(nn.Module):
         self.inplace = inplace
         self.step = step
         if inplace:
-            print('=> Using TSM, in-place shift...')
-        print('=> Using TSM, fold div: {}'.format(self.fold_div))
+            print("[LOG][tsm.py] => Using TSM, in-place shift...")
+        print("[LOG][tsm.py] => Using TSM, fold div: {}".format(self.fold_div))
 
     def forward(self, x):
-        x = self.shift(x, self.n_segment, fold_div=self.fold_div,
-                       inplace=self.inplace, step=self.step)
+        x = self.shift(
+            x,
+            self.n_segment,
+            fold_div=self.fold_div,
+            inplace=self.inplace,
+            step=self.step,
+        )
         return self.net(x)
 
     @staticmethod
@@ -59,8 +64,10 @@ class TemporalShift(nn.Module):
         else:
             out = torch.zeros_like(x)
             out[:, :-step, :fold] = x[:, step:, :fold]  # shift left
-            out[:, step:, fold: 2 * fold] = x[:, :-step, fold: 2 * fold]  # shift right
-            out[:, :, 2 * fold:] = x[:, :, 2 * fold:]  # not shift
+            out[:, step:, fold : 2 * fold] = x[
+                :, :-step, fold : 2 * fold
+            ]  # shift right
+            out[:, :, 2 * fold :] = x[:, :, 2 * fold :]  # not shift
 
         return out.view(nt, c, h, w)
 
@@ -77,8 +84,8 @@ class InplaceShift(torch.autograd.Function):
         buffer[:, :-1] = input.data[:, 1:, :fold]
         input.data[:, :, :fold] = buffer
         buffer.zero_()
-        buffer[:, 1:] = input.data[:, :-1, fold: 2 * fold]
-        input.data[:, :, fold: 2 * fold] = buffer
+        buffer[:, 1:] = input.data[:, :-1, fold : 2 * fold]
+        input.data[:, :, fold : 2 * fold] = buffer
         return input
 
     @staticmethod
@@ -90,6 +97,6 @@ class InplaceShift(torch.autograd.Function):
         buffer[:, 1:] = grad_output.data[:, :-1, :fold]
         grad_output.data[:, :, :fold] = buffer
         buffer.zero_()
-        buffer[:, :-1] = grad_output.data[:, 1:, fold: 2 * fold]
-        grad_output.data[:, :, fold: 2 * fold] = buffer
+        buffer[:, :-1] = grad_output.data[:, 1:, fold : 2 * fold]
+        grad_output.data[:, :, fold : 2 * fold] = buffer
         return grad_output, None

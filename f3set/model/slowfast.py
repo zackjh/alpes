@@ -1,4 +1,4 @@
-'''SlowFast backbone, modified from mmaction2 (https://github.com/open-mmlab/mmaction2)'''
+"""SlowFast backbone, modified from mmaction2 (https://github.com/open-mmlab/mmaction2)"""
 
 import torch
 import torch.nn as nn
@@ -7,7 +7,6 @@ from torch.nn.modules.batchnorm import _BatchNorm
 import logging
 
 from .resnet3d import ConvModule, kaiming_init, ResNet3d
-
 
 
 class ResNet3dPathway(ResNet3d):
@@ -28,13 +27,15 @@ class ResNet3dPathway(ResNet3d):
         **kwargs (keyword arguments): Keywords arguments for ResNet3d.
     """
 
-    def __init__(self,
-                 *args,
-                 lateral=False,
-                 speed_ratio=8,
-                 channel_ratio=8,
-                 fusion_kernel=5,
-                 **kwargs):
+    def __init__(
+        self,
+        *args,
+        lateral=False,
+        speed_ratio=8,
+        channel_ratio=8,
+        fusion_kernel=5,
+        **kwargs,
+    ):
         self.lateral = lateral
         self.speed_ratio = speed_ratio
         self.channel_ratio = channel_ratio
@@ -54,7 +55,8 @@ class ResNet3dPathway(ResNet3d):
                 bias=False,
                 conv_cfg=self.conv_cfg,
                 norm_cfg=None,
-                act_cfg=None)
+                act_cfg=None,
+            )
 
         self.lateral_connections = []
         for i in range(len(self.stage_blocks)):
@@ -63,9 +65,10 @@ class ResNet3dPathway(ResNet3d):
 
             if lateral and i != self.num_stages - 1:
                 # no lateral connection needed in final stage
-                lateral_name = f'layer{(i + 1)}_lateral'
+                lateral_name = f"layer{(i + 1)}_lateral"
                 setattr(
-                    self, lateral_name,
+                    self,
+                    lateral_name,
                     ConvModule(
                         self.inplanes // self.channel_ratio,
                         self.inplanes * 2 // self.channel_ratio,
@@ -75,26 +78,30 @@ class ResNet3dPathway(ResNet3d):
                         bias=False,
                         conv_cfg=self.conv_cfg,
                         norm_cfg=None,
-                        act_cfg=None))
+                        act_cfg=None,
+                    ),
+                )
                 self.lateral_connections.append(lateral_name)
 
-    def make_res_layer(self,
-                       block,
-                       inplanes,
-                       planes,
-                       blocks,
-                       spatial_stride=1,
-                       temporal_stride=1,
-                       dilation=1,
-                       style='pytorch',
-                       inflate=1,
-                       inflate_style='3x1x1',
-                       non_local=0,
-                       non_local_cfg=dict(),
-                       conv_cfg=None,
-                       norm_cfg=None,
-                       act_cfg=None,
-                       with_cp=False):
+    def make_res_layer(
+        self,
+        block,
+        inplanes,
+        planes,
+        blocks,
+        spatial_stride=1,
+        temporal_stride=1,
+        dilation=1,
+        style="pytorch",
+        inflate=1,
+        inflate_style="3x1x1",
+        non_local=0,
+        non_local_cfg=dict(),
+        conv_cfg=None,
+        norm_cfg=None,
+        act_cfg=None,
+        with_cp=False,
+    ):
         """Build residual layer for Slowfast.
 
         Args:
@@ -133,17 +140,19 @@ class ResNet3dPathway(ResNet3d):
         Returns:
             nn.Module: A residual layer for the given config.
         """
-        inflate = inflate if not isinstance(inflate,
-                                            int) else (inflate, ) * blocks
-        non_local = non_local if not isinstance(
-            non_local, int) else (non_local, ) * blocks
+        inflate = inflate if not isinstance(inflate, int) else (inflate,) * blocks
+        non_local = (
+            non_local if not isinstance(non_local, int) else (non_local,) * blocks
+        )
         assert len(inflate) == blocks and len(non_local) == blocks
         if self.lateral:
             lateral_inplanes = inplanes * 2 // self.channel_ratio
         else:
             lateral_inplanes = 0
-        if (spatial_stride != 1
-                or (inplanes + lateral_inplanes) != planes * block.expansion):
+        if (
+            spatial_stride != 1
+            or (inplanes + lateral_inplanes) != planes * block.expansion
+        ):
             downsample = ConvModule(
                 inplanes + lateral_inplanes,
                 planes * block.expansion,
@@ -152,7 +161,8 @@ class ResNet3dPathway(ResNet3d):
                 bias=False,
                 conv_cfg=conv_cfg,
                 norm_cfg=norm_cfg,
-                act_cfg=None)
+                act_cfg=None,
+            )
         else:
             downsample = None
 
@@ -173,7 +183,9 @@ class ResNet3dPathway(ResNet3d):
                 conv_cfg=conv_cfg,
                 norm_cfg=norm_cfg,
                 act_cfg=act_cfg,
-                with_cp=with_cp))
+                with_cp=with_cp,
+            )
+        )
         inplanes = planes * block.expansion
 
         for i in range(1, blocks):
@@ -192,7 +204,9 @@ class ResNet3dPathway(ResNet3d):
                     conv_cfg=conv_cfg,
                     norm_cfg=norm_cfg,
                     act_cfg=act_cfg,
-                    with_cp=with_cp))
+                    with_cp=with_cp,
+                )
+            )
 
         return nn.Sequential(*layers)
 
@@ -211,50 +225,62 @@ class ResNet3dPathway(ResNet3d):
         """
 
         state_dict_r2d = _load_checkpoint(self.pretrained)
-        if 'state_dict' in state_dict_r2d:
-            state_dict_r2d = state_dict_r2d['state_dict']
+        if "state_dict" in state_dict_r2d:
+            state_dict_r2d = state_dict_r2d["state_dict"]
 
         inflated_param_names = []
         for name, module in self.named_modules():
-            if 'lateral' in name:
+            if "lateral" in name:
                 continue
             if isinstance(module, ConvModule):
                 # we use a ConvModule to wrap conv+bn+relu layers, thus the
                 # name mapping is needed
-                if 'downsample' in name:
+                if "downsample" in name:
                     # layer{X}.{Y}.downsample.conv->layer{X}.{Y}.downsample.0
-                    original_conv_name = name + '.0'
+                    original_conv_name = name + ".0"
                     # layer{X}.{Y}.downsample.bn->layer{X}.{Y}.downsample.1
-                    original_bn_name = name + '.1'
+                    original_bn_name = name + ".1"
                 else:
                     # layer{X}.{Y}.conv{n}.conv->layer{X}.{Y}.conv{n}
                     original_conv_name = name
                     # layer{X}.{Y}.conv{n}.bn->layer{X}.{Y}.bn{n}
-                    original_bn_name = name.replace('conv', 'bn')
-                if original_conv_name + '.weight' not in state_dict_r2d:
-                    logger.warning(f'Module not exist in the state_dict_r2d'
-                                   f': {original_conv_name}')
+                    original_bn_name = name.replace("conv", "bn")
+                if original_conv_name + ".weight" not in state_dict_r2d:
+                    logger.warning(
+                        f"Module not exist in the state_dict_r2d"
+                        f": {original_conv_name}"
+                    )
                 else:
-                    self._inflate_conv_params(module.conv, state_dict_r2d,
-                                              original_conv_name,
-                                              inflated_param_names)
-                if original_bn_name + '.weight' not in state_dict_r2d:
-                    logger.warning(f'Module not exist in the state_dict_r2d'
-                                   f': {original_bn_name}')
+                    self._inflate_conv_params(
+                        module.conv,
+                        state_dict_r2d,
+                        original_conv_name,
+                        inflated_param_names,
+                    )
+                if original_bn_name + ".weight" not in state_dict_r2d:
+                    logger.warning(
+                        f"Module not exist in the state_dict_r2d"
+                        f": {original_bn_name}"
+                    )
                 else:
-                    self._inflate_bn_params(module.bn, state_dict_r2d,
-                                            original_bn_name,
-                                            inflated_param_names)
+                    self._inflate_bn_params(
+                        module.bn,
+                        state_dict_r2d,
+                        original_bn_name,
+                        inflated_param_names,
+                    )
 
         # check if any parameters in the 2d checkpoint are not loaded
-        remaining_names = set(
-            state_dict_r2d.keys()) - set(inflated_param_names)
+        remaining_names = set(state_dict_r2d.keys()) - set(inflated_param_names)
         if remaining_names:
-            logger.info(f'These parameters in the 2d checkpoint are not loaded'
-                        f': {remaining_names}')
+            logger.info(
+                f"These parameters in the 2d checkpoint are not loaded"
+                f": {remaining_names}"
+            )
 
-    def _inflate_conv_params(self, conv3d, state_dict_2d, module_name_2d,
-                             inflated_param_names):
+    def _inflate_conv_params(
+        self, conv3d, state_dict_2d, module_name_2d, inflated_param_names
+    ):
         """Inflate a conv module from 2d to 3d.
 
         The differences of conv modules betweene 2d and 3d in Pathway
@@ -270,7 +296,7 @@ class ResNet3dPathway(ResNet3d):
             inflated_param_names (list[str]): List of parameters that have been
                 inflated.
         """
-        weight_2d_name = module_name_2d + '.weight'
+        weight_2d_name = module_name_2d + ".weight"
         conv2d_weight = state_dict_2d[weight_2d_name]
         old_shape = conv2d_weight.shape
         new_shape = conv3d.weight.data.shape
@@ -279,20 +305,23 @@ class ResNet3dPathway(ResNet3d):
             # Inplanes may be different due to lateral connections
             new_channels = new_shape[1] - old_shape[1]
             pad_shape = old_shape
-            pad_shape = pad_shape[:1] + (new_channels, ) + pad_shape[2:]
+            pad_shape = pad_shape[:1] + (new_channels,) + pad_shape[2:]
             # Expand parameters by concat extra channels
             conv2d_weight = torch.cat(
-                (conv2d_weight,
-                 torch.zeros(pad_shape).type_as(conv2d_weight).to(
-                     conv2d_weight.device)),
-                dim=1)
-        new_weight = conv2d_weight.data.unsqueeze(2).expand_as(
-            conv3d.weight) / kernel_t
+                (
+                    conv2d_weight,
+                    torch.zeros(pad_shape)
+                    .type_as(conv2d_weight)
+                    .to(conv2d_weight.device),
+                ),
+                dim=1,
+            )
+        new_weight = conv2d_weight.data.unsqueeze(2).expand_as(conv3d.weight) / kernel_t
         conv3d.weight.data.copy_(new_weight)
         inflated_param_names.append(weight_2d_name)
 
-        if getattr(conv3d, 'bias') is not None:
-            bias_2d_name = module_name_2d + '.bias'
+        if getattr(conv3d, "bias") is not None:
+            bias_2d_name = module_name_2d + ".bias"
             conv3d.bias.data.copy_(state_dict_2d[bias_2d_name])
             inflated_param_names.append(bias_2d_name)
 
@@ -306,12 +335,12 @@ class ResNet3dPathway(ResNet3d):
             for param in self.conv1.parameters():
                 param.requires_grad = False
 
-        # print(self.frozen_stages)
+        # print("[LOG][slowfast.py]" + self.frozen_stages)
 
         for i in range(1, self.frozen_stages + 1):
-            m = getattr(self, f'layer{i}')
+            m = getattr(self, f"layer{i}")
             m.eval()
-            # print(m)
+            # print("[LOG][slowfast.py]" + m)
             for param in m.parameters():
                 param.requires_grad = False
 
@@ -339,7 +368,7 @@ class ResNet3dPathway(ResNet3d):
 
 
 pathway_cfg = {
-    'resnet3d': ResNet3dPathway,
+    "resnet3d": ResNet3dPathway,
     # TODO: BNInceptionPathway
 }
 
@@ -354,13 +383,13 @@ def build_pathway(cfg, *args, **kwargs):
     Returns:
         nn.Module: Created pathway.
     """
-    if not (isinstance(cfg, dict) and 'type' in cfg):
+    if not (isinstance(cfg, dict) and "type" in cfg):
         raise TypeError('cfg must be a dict containing the key "type"')
     cfg_ = cfg.copy()
 
-    pathway_type = cfg_.pop('type')
+    pathway_type = cfg_.pop("type")
     if pathway_type not in pathway_cfg:
-        raise KeyError(f'Unrecognized pathway type {pathway_type}')
+        raise KeyError(f"Unrecognized pathway type {pathway_type}")
 
     pathway_cls = pathway_cfg[pathway_type]
     pathway = pathway_cls(*args, **kwargs, **cfg_)
@@ -413,43 +442,47 @@ class ResNet3dSlowFast(nn.Module):
                 conv1_kernel=(5, 7, 7), conv1_stride_t=1, pool1_stride_t=1)
     """
 
-    def __init__(self,
-                 pretrained,
-                 depth=50,
-                 resample_rate=8,
-                 speed_ratio=8,
-                 channel_ratio=8,
-                 fusion_kernel=5,
-                 slow_pathway=dict(
-                     type='resnet3d',
-                     depth=50,
-                     pretrained=None,
-                     lateral=True,
-                     conv1_kernel=(1, 7, 7),
-                     dilations=(1, 1, 1, 1),
-                     conv1_stride_t=1,
-                     pool1_stride_t=1,
-                     inflate=(0, 0, 1, 1),
-                     spatial_strides=(1, 2, 2, 1),
-                     fusion_kernel=5),
-                 fast_pathway=dict(
-                     type='resnet3d',
-                     depth=50,
-                     pretrained=None,
-                     lateral=False,
-                     base_channels=8,
-                     conv1_kernel=(5, 7, 7),
-                     conv1_stride_t=1,
-                     pool1_stride_t=1,
-                     spatial_strides=(1, 2, 2, 1)),
-                 freeze_bn=True,
-                 freeze_bn_affine=False,
-                 slow_upsample=2,
-                 frozen_stages=-1):
+    def __init__(
+        self,
+        pretrained,
+        depth=50,
+        resample_rate=8,
+        speed_ratio=8,
+        channel_ratio=8,
+        fusion_kernel=5,
+        slow_pathway=dict(
+            type="resnet3d",
+            depth=50,
+            pretrained=None,
+            lateral=True,
+            conv1_kernel=(1, 7, 7),
+            dilations=(1, 1, 1, 1),
+            conv1_stride_t=1,
+            pool1_stride_t=1,
+            inflate=(0, 0, 1, 1),
+            spatial_strides=(1, 2, 2, 1),
+            fusion_kernel=5,
+        ),
+        fast_pathway=dict(
+            type="resnet3d",
+            depth=50,
+            pretrained=None,
+            lateral=False,
+            base_channels=8,
+            conv1_kernel=(5, 7, 7),
+            conv1_stride_t=1,
+            pool1_stride_t=1,
+            spatial_strides=(1, 2, 2, 1),
+        ),
+        freeze_bn=True,
+        freeze_bn_affine=False,
+        slow_upsample=2,
+        frozen_stages=-1,
+    ):
         super().__init__()
-        slow_pathway['depth'] = depth
-        fast_pathway['depth'] = depth
-        slow_pathway['fusion_kernel'] = fusion_kernel
+        slow_pathway["depth"] = depth
+        fast_pathway["depth"] = depth
+        slow_pathway["fusion_kernel"] = fusion_kernel
         self.pretrained = pretrained
         self.resample_rate = resample_rate
         self.speed_ratio = speed_ratio
@@ -460,9 +493,9 @@ class ResNet3dSlowFast(nn.Module):
         self.slow_upsample = slow_upsample
         self.frozen_stages = frozen_stages
 
-        if slow_pathway['lateral']:
-            slow_pathway['speed_ratio'] = speed_ratio
-            slow_pathway['channel_ratio'] = channel_ratio
+        if slow_pathway["lateral"]:
+            slow_pathway["speed_ratio"] = speed_ratio
+            slow_pathway["channel_ratio"] = channel_ratio
 
         self.slow_path = build_pathway(slow_pathway)
         self.fast_path = build_pathway(fast_pathway)
@@ -480,22 +513,27 @@ class ResNet3dSlowFast(nn.Module):
             self.fast_path.init_weights()
             self.slow_path.init_weights()
         else:
-            raise TypeError('pretrained must be a str or None')
+            raise TypeError("pretrained must be a str or None")
 
     def load_pretrained_weight(self, ckpt_path=None):
         if ckpt_path is None:
-            ckpt_path = 'https://download.openmmlab.com/mmaction/recognition/slowfast/slowfast_r50_256p_4x16x1_256e_kinetics400_rgb/slowfast_r50_256p_4x16x1_256e_kinetics400_rgb_20200728-145f1097.pth'
+            ckpt_path = "https://download.openmmlab.com/mmaction/recognition/slowfast/slowfast_r50_256p_4x16x1_256e_kinetics400_rgb/slowfast_r50_256p_4x16x1_256e_kinetics400_rgb_20200728-145f1097.pth"
             # ckpt_path = 'https://download.openmmlab.com/mmaction/recognition/slowfast/slowfast_r50_8x8x1_256e_kinetics400_rgb/slowfast_r50_8x8x1_256e_kinetics400_rgb_20200716-73547d2b.pth'
             # ckpt_path = 'https://download.openmmlab.com/mmaction/v1.0/recognition/slowfast/slowfast_r101_8xb8-8x8x1-256e_kinetics400-rgb/slowfast_r101_8xb8-8x8x1-256e_kinetics400-rgb_20220818-9c0e09bd.pth'
-        logging.info('load pretrained model ' + ckpt_path)
+        logging.info("load pretrained model " + ckpt_path)
 
-        if ckpt_path.startswith('http'):
+        if ckpt_path.startswith("http"):
             checkpoint = torch.hub.load_state_dict_from_url(
-                ckpt_path, map_location='cpu', check_hash=True)
+                ckpt_path, map_location="cpu", check_hash=True
+            )
         else:
             checkpoint = torch.load(ckpt_path)
-        state_dict = checkpoint['state_dict']
-        state_dict = {k[len('backbone.'):]:v for k, v in state_dict.items() if 'cls_head' not in k}
+        state_dict = checkpoint["state_dict"]
+        state_dict = {
+            k[len("backbone.") :]: v
+            for k, v in state_dict.items()
+            if "cls_head" not in k
+        }
 
         self.load_state_dict(state_dict)
 
@@ -523,17 +561,16 @@ class ResNet3dSlowFast(nn.Module):
             concatenated features from Slow and Fast Pathways
         """
         x_slow = nn.functional.interpolate(
-            x,
-            mode='nearest',
-            scale_factor=(1.0 / self.resample_rate, 1.0, 1.0))
+            x, mode="nearest", scale_factor=(1.0 / self.resample_rate, 1.0, 1.0)
+        )
         x_slow = self.slow_path.conv1(x_slow)
         x_slow = self.slow_path.maxpool(x_slow)
 
         x_fast = nn.functional.interpolate(
             x,
-            mode='nearest',
-            scale_factor=(1.0 / (self.resample_rate // self.speed_ratio), 1.0,
-                          1.0))
+            mode="nearest",
+            scale_factor=(1.0 / (self.resample_rate // self.speed_ratio), 1.0, 1.0),
+        )
         x_fast = self.fast_path.conv1(x_fast)
         x_fast = self.fast_path.maxpool(x_fast)
 
@@ -546,8 +583,7 @@ class ResNet3dSlowFast(nn.Module):
             x_slow = res_layer(x_slow)
             res_layer_fast = getattr(self.fast_path, layer_name)
             x_fast = res_layer_fast(x_fast)
-            if (i != len(self.slow_path.res_layers) - 1
-                    and self.slow_path.lateral):
+            if i != len(self.slow_path.res_layers) - 1 and self.slow_path.lateral:
                 # No fusion needed in the final stage
                 lateral_name = self.slow_path.lateral_connections[i]
                 conv_lateral = getattr(self.slow_path, lateral_name)
@@ -558,65 +594,67 @@ class ResNet3dSlowFast(nn.Module):
         x_slow = F.adaptive_avg_pool3d(x_slow, (None, 1, 1)).flatten(2)
         x_fast = F.adaptive_avg_pool3d(x_fast, (None, 1, 1)).flatten(2)
 
-        # print(x_slow.shape, x_fast.shape)
+        # print("[LOG][slowfast.py]" + x_slow.shape, x_fast.shape)
 
         # output stride = 1
         if self.slow_upsample == 8:
             x_fast_down = x_fast
-            x_slow_up = F.interpolate(x_slow, scale_factor=8, mode='linear')
+            x_slow_up = F.interpolate(x_slow, scale_factor=8, mode="linear")
         # output stride = 1
         elif self.slow_upsample == 4:
             x_fast_down = x_fast
-            x_slow_up = F.interpolate(x_slow, scale_factor=4, mode='linear')
+            x_slow_up = F.interpolate(x_slow, scale_factor=4, mode="linear")
         # output stride = 2
         elif self.slow_upsample == 2:
-            x_fast_down = F.interpolate(x_fast, scale_factor=0.5, mode='linear')
-            x_slow_up = F.interpolate(x_slow, scale_factor=2, mode='linear')
+            x_fast_down = F.interpolate(x_fast, scale_factor=0.5, mode="linear")
+            x_slow_up = F.interpolate(x_slow, scale_factor=2, mode="linear")
 
         out = torch.cat((x_slow_up, x_fast_down), dim=1)
         return out
 
 
-    
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     import ipdb as pdb
+
     # from flop_count import flop_count
     import time
 
     depth = 50
-    slow_pathway = slow_pathway=dict(
-                     type='resnet3d',
-                     depth=depth,
-                     pretrained=None,
-                     lateral=True,
-                     conv1_kernel=(1, 7, 7),
-                     dilations=(1, 1, 1, 1),
-                     conv1_stride_t=1,
-                     pool1_stride_t=1,
-                     inflate=(0, 0, 1, 1))
-    fast_pathway=dict(
-                     type='resnet3d',
-                     depth=depth,
-                     pretrained=None,
-                     lateral=False,
-                     base_channels=8,
-                     conv1_kernel=(5, 7, 7),
-                     conv1_stride_t=1,
-                     pool1_stride_t=1)
-                     
+    slow_pathway = slow_pathway = dict(
+        type="resnet3d",
+        depth=depth,
+        pretrained=None,
+        lateral=True,
+        conv1_kernel=(1, 7, 7),
+        dilations=(1, 1, 1, 1),
+        conv1_stride_t=1,
+        pool1_stride_t=1,
+        inflate=(0, 0, 1, 1),
+    )
+    fast_pathway = dict(
+        type="resnet3d",
+        depth=depth,
+        pretrained=None,
+        lateral=False,
+        base_channels=8,
+        conv1_kernel=(5, 7, 7),
+        conv1_stride_t=1,
+        pool1_stride_t=1,
+    )
+
     model = ResNet3dSlowFast(
-        None, slow_pathway=slow_pathway,
+        None,
+        slow_pathway=slow_pathway,
         fast_pathway=fast_pathway,
         resample_rate=8,
         speed_ratio=8,
         channel_ratio=8,
-        slow_upsample=8)
-    device = torch.device('cuda')
-
+        slow_upsample=8,
+    )
+    device = torch.device("cuda")
 
     x = torch.rand([1, 3, 32, 96, 96], device=device)
-    
+
     model.to(device)
 
     model.eval()
@@ -628,7 +666,7 @@ if __name__ == '__main__':
 
     for _ in range(10):
         y = model(x)
-        print(y.shape)
+        print("[LOG][slowfast.py]" + y.shape)
 
     s = time.time()
     for _ in range(20):
@@ -636,8 +674,11 @@ if __name__ == '__main__':
     diff = (time.time() - s) / 20
     memory = torch.cuda.max_memory_allocated() / 1024 / 1024
     # # out shape (1, 2048, 2, 7, 7)
-    print(y.shape)
-    # print([yi.shape for yi in y])
-    print('{:.2f} seconds, {:.0f}MB memory {:.3f}GFLOPs'.format(diff*1000, memory, flops))
-    
-    
+    print("[LOG][slowfast.py]" + y.shape)
+    # print("[LOG][slowfast.py]" + [yi.shape for yi in y])
+    print(
+        "[LOG][slowfast.py]"
+        + "{:.2f} seconds, {:.0f}MB memory {:.3f}GFLOPs".format(
+            diff * 1000, memory, flops
+        )
+    )

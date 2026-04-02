@@ -13,16 +13,22 @@ import torch.nn.functional as F
 import torchvision
 import torchvision.transforms as transforms
 from util.io import load_json
-from .transform import RandomGaussianNoise, RandomHorizontalFlipFLow, \
-    RandomOffsetFlow, SeedableRandomSquareCrop, ThreeCrop
+from .transform import (
+    RandomGaussianNoise,
+    RandomHorizontalFlipFLow,
+    RandomOffsetFlow,
+    SeedableRandomSquareCrop,
+    ThreeCrop,
+)
 
 
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD = [0.229, 0.224, 0.225]
 
+
 class FrameReader:
 
-    IMG_NAME = '{:06d}.jpg'
+    IMG_NAME = "{:06d}.jpg"
 
     def __init__(self, frame_dir, crop_transform, img_transform, same_transform):
         self._frame_dir = frame_dir
@@ -48,7 +54,7 @@ class FrameReader:
                 continue
 
             img_num = FrameReader.IMG_NAME.format(frame_num)
-            
+
             if self._frame_dir is not None:
                 frame_path = os.path.join(self._frame_dir, video_name, img_num)
             try:
@@ -89,7 +95,8 @@ class FrameReader:
         if n_pad_start > 0 or (pad and n_pad_end > 0):
             if self._frame_dir is not None:
                 ret = nn.functional.pad(
-                    ret, (0, 0, 0, 0, 0, 0, n_pad_start, n_pad_end if pad else 0))
+                    ret, (0, 0, 0, 0, 0, 0, n_pad_start, n_pad_end if pad else 0)
+                )
 
         return ret
 
@@ -97,26 +104,24 @@ class FrameReader:
 # Pad the start/end of videos with empty frames
 DEFAULT_PAD_LEN = 5
 
+
 def _get_deferred_rgb_transform():
     img_transforms = [
         # Jittering separately is faster (low variance)
         transforms.RandomApply(
-            nn.ModuleList([transforms.ColorJitter(hue=0.2)]), p=0.25),
+            nn.ModuleList([transforms.ColorJitter(hue=0.2)]), p=0.25
+        ),
         transforms.RandomApply(
-            nn.ModuleList([
-                transforms.ColorJitter(saturation=(0.7, 1.2))
-            ]), p=0.25),
+            nn.ModuleList([transforms.ColorJitter(saturation=(0.7, 1.2))]), p=0.25
+        ),
         transforms.RandomApply(
-            nn.ModuleList([
-                transforms.ColorJitter(brightness=(0.7, 1.2))
-            ]), p=0.25),
+            nn.ModuleList([transforms.ColorJitter(brightness=(0.7, 1.2))]), p=0.25
+        ),
         transforms.RandomApply(
-            nn.ModuleList([
-                transforms.ColorJitter(contrast=(0.7, 1.2))
-            ]), p=0.25),
-        transforms.RandomApply(
-            nn.ModuleList([transforms.GaussianBlur(5)]), p=0.25),
-        transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD)
+            nn.ModuleList([transforms.ColorJitter(contrast=(0.7, 1.2))]), p=0.25
+        ),
+        transforms.RandomApply(nn.ModuleList([transforms.GaussianBlur(5)]), p=0.25),
+        transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD),
     ]
     return torch.jit.script(nn.Sequential(*img_transforms))
 
@@ -124,19 +129,20 @@ def _get_deferred_rgb_transform():
 def _get_deferred_bw_transform():
     img_transforms = [
         transforms.RandomApply(
-            nn.ModuleList([transforms.ColorJitter(brightness=0.3)]), p=0.25),
+            nn.ModuleList([transforms.ColorJitter(brightness=0.3)]), p=0.25
+        ),
         transforms.RandomApply(
-            nn.ModuleList([transforms.ColorJitter(contrast=0.3)]), p=0.25),
-        transforms.RandomApply(
-            nn.ModuleList([transforms.GaussianBlur(5)]), p=0.25),
+            nn.ModuleList([transforms.ColorJitter(contrast=0.3)]), p=0.25
+        ),
+        transforms.RandomApply(nn.ModuleList([transforms.GaussianBlur(5)]), p=0.25),
         transforms.Normalize(mean=[0.5], std=[0.5]),
-        RandomGaussianNoise()
+        RandomGaussianNoise(),
     ]
     return torch.jit.script(nn.Sequential(*img_transforms))
 
 
 def _load_frame_deferred(gpu_transform, batch, device):
-    frame = batch['frame'].to(device)
+    frame = batch["frame"].to(device)
     with torch.no_grad():
         for i in range(frame.shape[0]):
             frame[i] = gpu_transform(frame[i])
@@ -144,11 +150,7 @@ def _load_frame_deferred(gpu_transform, batch, device):
 
 
 def _get_img_transforms(
-        is_eval,
-        crop_dim,
-        same_transform,
-        defer_transform=False,
-        multi_crop=False
+    is_eval, crop_dim, same_transform, defer_transform=False, multi_crop=False
 ):
     crop_transform = None
     if crop_dim is not None:
@@ -159,7 +161,7 @@ def _get_img_transforms(
             crop_transform = transforms.CenterCrop(crop_dim)
             # crop_transform = None
         elif same_transform:
-            print('=> Using seeded crops!')
+            print("[LOG][frame_process.py]=> Using seeded crops!")
             crop_transform = SeedableRandomSquareCrop(crop_dim)
         else:
             crop_transform = transforms.RandomCrop(crop_dim)
@@ -173,69 +175,77 @@ def _get_img_transforms(
         # )
 
         if not defer_transform:
-            img_transforms.extend([
-                # Jittering separately is faster (low variance)
-                transforms.RandomApply(
-                    nn.ModuleList([transforms.ColorJitter(hue=0.2)]),
-                    p=0.25),
-                transforms.RandomApply(
-                    nn.ModuleList([
-                        transforms.ColorJitter(saturation=(0.7, 1.2))
-                    ]), p=0.25),
-                transforms.RandomApply(
-                    nn.ModuleList([
-                        transforms.ColorJitter(brightness=(0.7, 1.2))
-                    ]), p=0.25),
-                transforms.RandomApply(
-                    nn.ModuleList([
-                        transforms.ColorJitter(contrast=(0.7, 1.2))
-                    ]), p=0.25),
-                transforms.RandomApply(
-                    nn.ModuleList([transforms.GaussianBlur(5)]), p=0.25)
-            ])
+            img_transforms.extend(
+                [
+                    # Jittering separately is faster (low variance)
+                    transforms.RandomApply(
+                        nn.ModuleList([transforms.ColorJitter(hue=0.2)]), p=0.25
+                    ),
+                    transforms.RandomApply(
+                        nn.ModuleList([transforms.ColorJitter(saturation=(0.7, 1.2))]),
+                        p=0.25,
+                    ),
+                    transforms.RandomApply(
+                        nn.ModuleList([transforms.ColorJitter(brightness=(0.7, 1.2))]),
+                        p=0.25,
+                    ),
+                    transforms.RandomApply(
+                        nn.ModuleList([transforms.ColorJitter(contrast=(0.7, 1.2))]),
+                        p=0.25,
+                    ),
+                    transforms.RandomApply(
+                        nn.ModuleList([transforms.GaussianBlur(5)]), p=0.25
+                    ),
+                ]
+            )
 
     if not defer_transform:
-        img_transforms.append(transforms.Normalize(
-            mean=IMAGENET_MEAN, std=IMAGENET_STD))
+        img_transforms.append(
+            transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD)
+        )
 
     img_transform = torch.jit.script(nn.Sequential(*img_transforms))
     return crop_transform, img_transform
 
 
 def _print_info_helper(src_file, labels):
-        num_frames = sum([x['num_frames'] for x in labels])
-        num_events = sum([len(x['events']) for x in labels])
-        print('{} : {} videos, {} frames, {:0.5f}% non-bg'.format(
-            src_file, len(labels), num_frames,
-            num_events / num_frames * 100))
+    num_frames = sum([x["num_frames"] for x in labels])
+    num_events = sum([len(x["events"]) for x in labels])
+    print(
+        "{} : {} videos, {} frames, {:0.5f}% non-bg".format(
+            src_file, len(labels), num_frames, num_events / num_frames * 100
+        )
+    )
 
 
 IGNORED_NOT_SHOWN_FLAG = False
+
+
 class ActionSeqDataset(Dataset):
 
     def __init__(
-            self,
-            classes,                    # dict of class names to idx
-            label_file,                 # path to label json
-            frame_dir,                  # path to frames
-            clip_len,
-            dataset_len,                # Number of clips
-            is_eval=True,               # Disable random augmentation
-            crop_dim=None,
-            stride=1,                   # Downsample frame rate
-            same_transform=True,        # Apply the same random augmentation to
-                                        # each frame in a clip
-            dilate_len=0,               # Dilate ground truth labels
-            pad_len=DEFAULT_PAD_LEN,    # Number of frames to pad the start
-                                        # and end of videos
+        self,
+        classes,  # dict of class names to idx
+        label_file,  # path to label json
+        frame_dir,  # path to frames
+        clip_len,
+        dataset_len,  # Number of clips
+        is_eval=True,  # Disable random augmentation
+        crop_dim=None,
+        stride=1,  # Downsample frame rate
+        same_transform=True,  # Apply the same random augmentation to
+        # each frame in a clip
+        dilate_len=0,  # Dilate ground truth labels
+        pad_len=DEFAULT_PAD_LEN,  # Number of frames to pad the start
+        # and end of videos
     ):
         self._src_file = label_file
         self._labels = load_json(label_file)
         self._class_dict = classes
-        self._video_idxs = {x['video']: i for i, x in enumerate(self._labels)}
+        self._video_idxs = {x["video"]: i for i, x in enumerate(self._labels)}
 
         # Sample videos weighted by their length
-        num_frames = [v['num_frames'] for v in self._labels]
+        num_frames = [v["num_frames"] for v in self._labels]
         self._weights_by_length = np.array(num_frames) / np.sum(num_frames)
 
         self._clip_len = clip_len
@@ -254,30 +264,36 @@ class ActionSeqDataset(Dataset):
         # Try to do defer the latter half of the transforms to the GPU
         self._gpu_transform = None
         if not is_eval and same_transform:
-            print('=> Deferring some RGB transforms to the GPU!')
+            print("=> Deferring some RGB transforms to the GPU!")
             self._gpu_transform = _get_deferred_rgb_transform()
 
         crop_transform, img_transform = _get_img_transforms(
-            is_eval, crop_dim, same_transform, defer_transform=self._gpu_transform is not None)
+            is_eval,
+            crop_dim,
+            same_transform,
+            defer_transform=self._gpu_transform is not None,
+        )
 
-        self._frame_reader = FrameReader(frame_dir, crop_transform, img_transform, same_transform)
+        self._frame_reader = FrameReader(
+            frame_dir, crop_transform, img_transform, same_transform
+        )
 
     def load_frame_gpu(self, batch, device):
-        key_padding_mask = batch['frame'].sum(dim=(2,3,4)) == 0
+        key_padding_mask = batch["frame"].sum(dim=(2, 3, 4)) == 0
         if self._gpu_transform is None:
-            frame = batch['frame'].to(device)
+            frame = batch["frame"].to(device)
         else:
             frame = _load_frame_deferred(self._gpu_transform, batch, device)
         return frame, key_padding_mask.to(device)
 
     def _sample_uniform(self):
-        video_meta = random.choices(
-            self._labels, weights=self._weights_by_length)[0]
-        video_len = video_meta['num_frames']
-        fps = video_meta['fps']
+        video_meta = random.choices(self._labels, weights=self._weights_by_length)[0]
+        video_len = video_meta["num_frames"]
+        fps = video_meta["fps"]
         stride = self._stride
         base_idx = -self._pad_len * stride + random.randint(
-            0, max(0, video_len - 1 + (2 * self._pad_len - self._clip_len) * stride))
+            0, max(0, video_len - 1 + (2 * self._pad_len - self._clip_len) * stride)
+        )
 
         return video_meta, base_idx, stride
 
@@ -286,43 +302,49 @@ class ActionSeqDataset(Dataset):
 
         # coarse-grained per-frame label
         coarse_labels = np.zeros(self._clip_len, np.int64)
-        for event in video_meta['events']:
-            event_frame = event['frame']
+        for event in video_meta["events"]:
+            event_frame = event["frame"]
             # Index of event in label array
             label_idx = (event_frame - base_idx) // stride
-            if (label_idx >= 0 and label_idx < self._clip_len):
+            if label_idx >= 0 and label_idx < self._clip_len:
                 for i in range(max(0, label_idx), min(self._clip_len, label_idx + 1)):
                     coarse_labels[i] = 1
 
         # fine-grained per-frame label
         fine_labels = np.zeros((self._clip_len, len(self._class_dict)), np.int64)
-        for event in video_meta['events']:
-            event_frame = event['frame']
+        for event in video_meta["events"]:
+            event_frame = event["frame"]
             # Index of event in label array
             label_idx = (event_frame - base_idx) // stride
-            if (label_idx >= 0 and label_idx < self._clip_len):
+            if label_idx >= 0 and label_idx < self._clip_len:
                 for i in range(max(0, label_idx), min(self._clip_len, label_idx + 1)):
-                    for sub_label in event['label'].split('_'):
+                    for sub_label in event["label"].split("_"):
                         if sub_label in self._class_dict:
                             fine_labels[i, self._class_dict[sub_label] - 1] = 1
 
         # handedness
         hand = np.zeros(2, np.int64)
-        if 'far_hand' in video_meta and video_meta['far_hand'] == 'LH':
+        if "far_hand" in video_meta and video_meta["far_hand"] == "LH":
             hand[0] = 1
-        if 'near_hand' in video_meta and video_meta['near_hand'] == 'LH':
+        if "near_hand" in video_meta and video_meta["near_hand"] == "LH":
             hand[1] = 1
 
         frames = self._frame_reader.load_frames(
-            video_meta['video'], base_idx,
-            base_idx + self._clip_len * stride, pad=True,
-            stride=stride, randomize=not self._is_eval)
+            video_meta["video"],
+            base_idx,
+            base_idx + self._clip_len * stride,
+            pad=True,
+            stride=stride,
+            randomize=not self._is_eval,
+        )
 
-        return {'frame': frames,
-                'hand': hand,
-                'contains_event': int(np.sum(coarse_labels) > 0),
-                'coarse_label': coarse_labels,
-                'fine_label': fine_labels}
+        return {
+            "frame": frames,
+            "hand": hand,
+            "contains_event": int(np.sum(coarse_labels) > 0),
+            "coarse_label": coarse_labels,
+            "fine_label": fine_labels,
+        }
 
     def __getitem__(self, unused):
         ret = self._get_one()
@@ -338,28 +360,29 @@ class ActionSeqDataset(Dataset):
 class ActionSeqVideoDataset(Dataset):
 
     def __init__(
-            self,
-            classes,
-            label_file,
-            frame_dir,
-            clip_len,
-            overlap_len=0,
-            crop_dim=None,
-            stride=1,
-            pad_len=DEFAULT_PAD_LEN,
-            flip=False,
-            multi_crop=False,
-            skip_partial_end=True
+        self,
+        classes,
+        label_file,
+        frame_dir,
+        clip_len,
+        overlap_len=0,
+        crop_dim=None,
+        stride=1,
+        pad_len=DEFAULT_PAD_LEN,
+        flip=False,
+        multi_crop=False,
+        skip_partial_end=True,
     ):
         self._src_file = label_file
         self._labels = load_json(label_file)
         self._class_dict = classes
-        self._video_idxs = {x['video']: i for i, x in enumerate(self._labels)}
+        self._video_idxs = {x["video"]: i for i, x in enumerate(self._labels)}
         self._clip_len = clip_len
         self._stride = stride
 
         crop_transform, img_transform = _get_img_transforms(
-            is_eval=True, crop_dim=crop_dim, same_transform=True, multi_crop=multi_crop)
+            is_eval=True, crop_dim=crop_dim, same_transform=True, multi_crop=multi_crop
+        )
 
         # No need to enforce same_transform since the transforms are
         # deterministic
@@ -373,16 +396,18 @@ class ActionSeqVideoDataset(Dataset):
             has_clip = False
             for i in range(
                 -pad_len * self._stride,
-                max(0, l['num_frames'] - (overlap_len * stride)
-                        * int(skip_partial_end)), \
-                # Need to ensure that all clips have at least one frame
-                (clip_len - overlap_len) * self._stride
+                max(
+                    0, l["num_frames"] - (overlap_len * stride) * int(skip_partial_end)
+                ),  # Need to ensure that all clips have at least one frame
+                (clip_len - overlap_len) * self._stride,
             ):
                 has_clip = True
-                if 'far_hand' in l and 'near_hand' in l:
-                    self._clips.append((l['video'], l['far_hand'], l['near_hand'], l['fps'], i))
+                if "far_hand" in l and "near_hand" in l:
+                    self._clips.append(
+                        (l["video"], l["far_hand"], l["near_hand"], l["fps"], i)
+                    )
                 else:
-                    self._clips.append((l['video'], 0, 0, l['fps'], i))
+                    self._clips.append((l["video"], 0, 0, l["fps"], i))
             assert has_clip, l
 
     def __len__(self):
@@ -391,52 +416,61 @@ class ActionSeqVideoDataset(Dataset):
     def __getitem__(self, idx):
         video_name, far_hand, near_hand, fps, start = self._clips[idx]
         hand = np.zeros(2, np.int64)
-        if far_hand == 'LH':
+        if far_hand == "LH":
             hand[0] = 1
-        if near_hand == 'LH':
+        if near_hand == "LH":
             hand[1] = 1
         stride = self._stride  # self._stride - 1 if fps < 29 else self._stride
         frames = self._frame_reader.load_frames(
-            video_name, start, start + self._clip_len * stride, pad=True,
-            stride=stride)
+            video_name, start, start + self._clip_len * stride, pad=True, stride=stride
+        )
         src_key_padding_mask = frames.sum(dim=(1, 2, 3)) == 0
 
         if self._flip:
             frames = torch.stack((frames, frames.flip(-1)), dim=0)
 
-        return {'video': video_name, 'fps': fps, 'start': start // stride, 'hand': hand,
-                'frame': frames, 'src_key_padding_mask': src_key_padding_mask}
+        return {
+            "video": video_name,
+            "fps": fps,
+            "start": start // stride,
+            "hand": hand,
+            "frame": frames,
+            "src_key_padding_mask": src_key_padding_mask,
+        }
 
     def get_labels(self, video, index=0):
         meta = self._labels[self._video_idxs[video]]
-        num_frames = meta['num_frames']
+        num_frames = meta["num_frames"]
         num_labels = num_frames // self._stride
         # if num_frames % self._stride != 0:
         #     num_labels += 1
         coarse_labels = np.zeros(num_labels, int)
         fine_labels = np.zeros((num_labels, len(self._class_dict)), int)
-        
-        for event in meta['events']:
-            frame = event['frame']
-            label = event['label']
+
+        for event in meta["events"]:
+            frame = event["frame"]
+            label = event["label"]
             if frame < num_frames:
                 coarse_labels[frame // self._stride] = 1
                 fine_label = np.zeros(len(self._class_dict), int)
-                for sub_label in label.split('_'):
+                for sub_label in label.split("_"):
                     if sub_label in self._class_dict:
                         fine_label[self._class_dict[sub_label] - 1] = 1
                 fine_labels[frame // self._stride, :] = fine_label
             else:
-                print('Warning: {} >= {} is past the end {}'.format(
-                    frame, num_frames, meta['video']))
+                print(
+                    "Warning: {} >= {} is past the end {}".format(
+                        frame, num_frames, meta["video"]
+                    )
+                )
         return coarse_labels, fine_labels
 
     def get_handedness(self, video):
         meta = self._labels[self._video_idxs[video]]
-        far_hand, near_hand = 'RH', 'RH'
-        if 'far_hand' in meta and 'near_hand' in meta:
-            far_hand = meta['far_hand']
-            near_hand = meta['near_hand']
+        far_hand, near_hand = "RH", "RH"
+        if "far_hand" in meta and "near_hand" in meta:
+            far_hand = meta["far_hand"]
+            near_hand = meta["near_hand"]
         return far_hand, near_hand
 
     @property
@@ -445,9 +479,12 @@ class ActionSeqVideoDataset(Dataset):
 
     @property
     def videos(self):
-        return sorted([
-            (v['video'], v['num_frames'] // self._stride,
-             v['fps'] / self._stride) for v in self._labels])
+        return sorted(
+            [
+                (v["video"], v["num_frames"] // self._stride, v["fps"] / self._stride)
+                for v in self._labels
+            ]
+        )
 
     @property
     def labels(self):
@@ -458,16 +495,22 @@ class ActionSeqVideoDataset(Dataset):
             labels = []
             for x in self._labels:
                 x_copy = copy.deepcopy(x)
-                x_copy['fps'] /= self._stride
-                x_copy['num_frames'] //= self._stride
-                for e in x_copy['events']:
-                    e['frame'] //= self._stride
+                x_copy["fps"] /= self._stride
+                x_copy["num_frames"] //= self._stride
+                for e in x_copy["events"]:
+                    e["frame"] //= self._stride
                 labels.append(x_copy)
             return labels
 
     def print_info(self):
-        num_frames = sum([x['num_frames'] for x in self._labels])
-        num_events = sum([len(x['events']) for x in self._labels])
-        print('{} : {} videos, {} frames ({} stride), {:0.5f}% non-bg'.format(
-            self._src_file, len(self._labels), num_frames, self._stride,
-            num_events / num_frames * 100))
+        num_frames = sum([x["num_frames"] for x in self._labels])
+        num_events = sum([len(x["events"]) for x in self._labels])
+        print(
+            "{} : {} videos, {} frames ({} stride), {:0.5f}% non-bg".format(
+                self._src_file,
+                len(self._labels),
+                num_frames,
+                self._stride,
+                num_events / num_frames * 100,
+            )
+        )

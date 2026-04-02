@@ -22,7 +22,7 @@ class ContextAwareWeights:
             elif i < k1 + k2 + k3:
                 mul_w[i] = ((i - k1 - k2) - k3) / k3
                 add_w[i] = (i - k1 - k2) / k3
-                radius[i] = 1. - hit_radius
+                radius[i] = 1.0 - hit_radius
             else:
                 mul_w[i] = (i - k1 - k2 - k3) / k4
         self._w = np.stack([mul_w, add_w, radius], axis=1)
@@ -49,7 +49,7 @@ def set_calf_error_flag():
 
 
 def get_calf(pred, weights):
-    pred_scores = F.softmax(pred, dim=2)    # (N, L, C)
+    pred_scores = F.softmax(pred, dim=2)  # (N, L, C)
     cl = -torch.log(
         weights[:, :, :, 1] - pred_scores[:, :, 1:] * weights[:, :, :, 0]
     ) + torch.log(weights[:, :, :, 2])
@@ -59,16 +59,22 @@ def get_calf(pred, weights):
     if CALF_ERROR_FLAG:
         tmp = torch.sum(cl)
         if torch.isinf(tmp):
-            print('Found Inf in CALF. Supressing future errors.')
+            print("[LOG][calf.py] Found Inf in CALF. Supressing future errors.")
             CALF_ERROR_FLAG = False
         if torch.isnan(tmp):
-            print('Found NaN in CALF. Supressing future errors.')
+            print("[LOG][calf.py] Found NaN in CALF. Supressing future errors.")
             CALF_ERROR_FLAG = False
     return torch.mean(cl)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     c = ContextAwareWeights()
-    print(c.weights)
-    print('All 1:', -(c.weights[:, 1] - np.ones(len(c)) * c.weights[:, 0]))
-    print('All 0:', -(c.weights[:, 1] - np.zeros(len(c)) * c.weights[:, 0]))
+    print("[LOG][calf.py]" + c.weights)
+    print(
+        "[LOG][calf.py]" + "All 1:",
+        -(c.weights[:, 1] - np.ones(len(c)) * c.weights[:, 0]),
+    )
+    print(
+        "[LOG][calf.py]" + "All 0:",
+        -(c.weights[:, 1] - np.zeros(len(c)) * c.weights[:, 0]),
+    )

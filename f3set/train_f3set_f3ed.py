@@ -122,6 +122,29 @@ def get_args():
 
     parser.add_argument("-mgpu", "--gpu_parallel", action="store_true")
 
+    parser.add_argument(
+        "--train_json_path",
+        type=str,
+        default=None,
+        help="Optional path to training split JSON",
+    )
+    parser.add_argument(
+        "--val_json_path",
+        type=str,
+        default=None,
+        help="Optional path to validation split JSON",
+    )
+    parser.add_argument(
+        "--test_json_path",
+        type=str,
+        default=None,
+        help="Optional path to test split JSON",
+    )
+
+    parser.add_argument(
+        "--skip_test_eval", action="store_true", help="Skip final test evaluation"
+    )
+
     return parser.parse_args()
 
 
@@ -485,6 +508,7 @@ def evaluate(model, dataset, classes, delta=0, window=5, device="cuda"):
                 support[start:end] += 1
 
     # evaluation metrices
+    print("[LOG][train_f3set_f3ed.py] Created `error_sequences_baseline.txt`")
     f = open("error_sequences_f3ed.txt", "w")
     edit_scores = []
     f1_element = np.zeros((len(classes), 3), int)
@@ -628,16 +652,14 @@ def evaluate(model, dataset, classes, delta=0, window=5, device="cuda"):
         count += 1
     f1 /= count
 
-    print("Mean F1 (event):", np.mean(f1))
-    print()
+    print("[LOG][train_f3set_f3ed.py] Mean F1 (Event):", np.mean(f1))
 
     precision = f1_element[:, 0] / (f1_element[:, 0] + f1_element[:, 1] + 1e-10)
     recall = f1_element[:, 0] / (f1_element[:, 0] + f1_element[:, 2] + 1e-10)
     f1 = 2 * precision * recall / (precision + recall + 1e-10)
-    print("Mean F1 (element):", np.mean(f1))
-    print()
+    print("[LOG][train_f3set_f3ed.py] Mean F1 (Element):", np.mean(f1))
 
-    print("Edit score:", sum(edit_scores) / len(edit_scores))
+    print("[LOG][train_f3set_f3ed.py] Edit Score:", sum(edit_scores) / len(edit_scores))
     return sum(edit_scores) / len(edit_scores)
 
 
@@ -666,27 +688,36 @@ def get_best_epoch_and_history(save_dir, criterion):
 def get_datasets(args):
     classes = load_classes(os.path.join("data", args.dataset, "elements.txt"))
 
+    train_json = args.train_json_path or os.path.join(
+        "data", args.dataset, "train.json"
+    )
+    val_json = args.val_json_path or os.path.join("data", args.dataset, "val.json")
+
     dataset_len = EPOCH_NUM_FRAMES // (args.clip_len * args.stride)
     dataset_kwargs = {"crop_dim": args.crop_dim, "stride": args.stride}
 
-    print("Dataset size:", dataset_len)
+    print("[LOG][train_f3set_f3ed.py] Train JSON:", train_json)
+    print("[LOG][train_f3set_f3ed.py] Validation JSON:", val_json)
+    print("[LOG][train_f3set_f3ed.py] Dataset Size:", dataset_len)
+
     train_data = ActionSeqDataset(
         classes,
-        os.path.join("data", args.dataset, "train.json"),
+        train_json,
         args.frame_dir,
         args.clip_len,
         dataset_len,
         is_eval=False,
-        **dataset_kwargs
+        **dataset_kwargs,
     )
     train_data.print_info()
+
     val_data = ActionSeqDataset(
         classes,
-        os.path.join("data", args.dataset, "val.json"),
+        val_json,
         args.frame_dir,
         args.clip_len,
         dataset_len // 4,
-        **dataset_kwargs
+        **dataset_kwargs,
     )
     val_data.print_info()
 
@@ -695,7 +726,7 @@ def get_datasets(args):
         # Only perform edit score evaluation during training if criterion is edit
         val_data_frames = ActionSeqVideoDataset(
             classes,
-            os.path.join("data", args.dataset, "val.json"),
+            val_json,
             args.frame_dir,
             args.clip_len,
             crop_dim=args.crop_dim,
@@ -710,7 +741,7 @@ def load_from_save(args, model, optimizer, scaler, lr_scheduler):
     assert args.save_dir is not None
     epoch = get_last_epoch(args.save_dir)
 
-    print("Loading from epoch {}".format(epoch))
+    print("[LOG][train_f3set_f3ed.py] Loading From Epoch {}".format(epoch))
     model.load(
         torch.load(os.path.join(args.save_dir, "checkpoint_{:03d}.pt".format(epoch)))
     )
@@ -747,6 +778,9 @@ def store_config(file_path, args, num_epochs, classes):
         "start_val_epoch": args.start_val_epoch,
         "gpu_parallel": args.gpu_parallel,
         "epoch_num_frames": EPOCH_NUM_FRAMES,
+        "train_json_path": args.train_json_path,
+        "val_json_path": args.val_json_path,
+        "test_json_path": args.test_json_path,
     }
     store_json(file_path, config, pretty=True)
 
@@ -759,7 +793,7 @@ def get_num_train_workers(args):
 def get_lr_scheduler(args, optimizer, num_steps_per_epoch):
     cosine_epochs = args.num_epochs - args.warm_up_epochs
     print(
-        "Using Linear Warmup ({}) + Cosine Annealing LR ({})".format(
+        "[LOG][train_f3set_f3ed.py] Using Linear Warmup ({}) + Cosine Annealing LR ({})".format(
             args.warm_up_epochs, cosine_epochs
         )
     )
@@ -856,9 +890,15 @@ def main(args):
         val_loss = model.epoch(
             val_loader, acc_grad_iter=args.acc_grad_iter, epoch=epoch
         )
+
         print(
-            "[Epoch {}] Train loss: {:0.5f} Val loss: {:0.5f}".format(
-                epoch, train_loss, val_loss
+            "[LOG][train_f3set_f3ed.py] Epoch [{}] - Training Loss: {:0.5f}".format(
+                epoch, train_loss
+            )
+        )
+        print(
+            "[LOG][train_f3set_f3ed.py] Epoch [{}] - Validation Loss: {:0.5f}".format(
+                epoch, val_loss
             )
         )
 
@@ -867,16 +907,21 @@ def main(args):
             if val_loss < best_criterion:
                 best_criterion = val_loss
                 best_epoch = epoch
-                print("New best epoch!")
+                print(
+                    f"[LOG][train_f3set_f3ed.py] Epoch [{best_epoch}] is the new best epoch!"
+                )
         elif args.criterion == "edit":
             if epoch >= args.start_val_epoch:
                 val_edit = evaluate(model, val_data_frames, classes, window=args.window)
                 if args.criterion == "edit" and val_edit > best_criterion:
                     best_criterion = val_edit
                     best_epoch = epoch
-                    print("New best epoch!")
+                    print(
+                        f"[LOG][train_f3set_f3ed.py] Epoch [{best_epoch}] is the new best epoch!"
+                    )
+
         else:
-            print("Unknown criterion:", args.criterion)
+            print("[LOG][train_f3set_f3ed.py] Unknown Criterion:", args.criterion)
 
         losses.append(
             {"epoch": epoch, "train": train_loss, "val": val_loss, "val_edit": val_edit}
@@ -901,7 +946,7 @@ def main(args):
                 os.path.join(args.save_dir, "config.json"), args, num_epochs, classes
             )
 
-    print("Best epoch: {}\n".format(best_epoch))
+    print("[LOG][train_f3set_f3ed.py] Best Epoch: {}\n".format(best_epoch))
 
     if args.save_dir is not None:
         model.load(
@@ -911,13 +956,15 @@ def main(args):
         )
 
         # Evaluate on hold out splits
-        eval_splits = ["test"]
-        for split in eval_splits:
-            split_path = os.path.join("data", args.dataset, "{}.json".format(split))
-            if os.path.exists(split_path):
+        if not args.skip_test_eval:
+            test_json = args.test_json_path or os.path.join(
+                "data", args.dataset, "test.json"
+            )
+            if os.path.exists(test_json):
+                print("[LOG][train_f3set_f3ed.py] Test JSON:", test_json)
                 split_data = ActionSeqVideoDataset(
                     classes,
-                    split_path,
+                    test_json,
                     args.frame_dir,
                     args.clip_len,
                     overlap_len=args.clip_len // 2,

@@ -41,14 +41,15 @@ def get_frame(video_file, frame_num, height=0):
 
 
 def cut_segment_cv2(video_file, out_file, start, end):
-    print('Extracting using cv2:', out_file)
+    print("[LOG][video.py] Extracting using cv2:", out_file)
     vc = cv2.VideoCapture(video_file)
     width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))  # float
-    height = int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT)) # float
+    height = int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))  # float
     fps = vc.get(cv2.CAP_PROP_FPS)
 
-    vo = cv2.VideoWriter(out_file, cv2.VideoWriter_fourcc(*'MP4V'),
-                         fps, (width, height))
+    vo = cv2.VideoWriter(
+        out_file, cv2.VideoWriter_fourcc(*"MP4V"), fps, (width, height)
+    )
     vc.set(cv2.CAP_PROP_POS_FRAMES, start)
     for _ in range(end - start):
         ret, frame = vc.read()

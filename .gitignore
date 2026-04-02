@@ -2,7 +2,7 @@
 .DS_Store
 
 # Project-Specific
-f3set-tennis-frames/
+extracted_frames/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
