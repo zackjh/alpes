@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# Models
+/experiments
+
 # Project-Specific
 extracted_frames/
 
