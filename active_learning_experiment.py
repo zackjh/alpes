@@ -1,5 +1,5 @@
 from pathlib import Path
-from model import F3EDTennis
+from model_wrapper import F3EDTennis
 from datapool import DataPool
 from sampler import RandomSampler
 from utils import import_data_from_json, export_data_to_json
