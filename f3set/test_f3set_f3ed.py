@@ -13,6 +13,9 @@ from train_f3set_f3ed import F3Set, evaluate
 
 
 def get_args():
+    """
+    Helper function to parse arguments.
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("model_dir", help="Path to the model dir")
     parser.add_argument("frame_dir", help="Path to the frame dir")
@@ -27,12 +30,22 @@ def get_args():
 
 
 def get_best_epoch(model_dir, key="val_edit"):
+    """
+    Helper function to get the best epoch.
+
+    The 'best' epoch refers to the epoch in `loss.json` whose `key` has the highest value.
+
+    The default `key` is "val_edit" - this refers to the edit score obtained on the validation set.
+    """
     data = load_json(os.path.join(model_dir, "loss.json"))
     best = max(data, key=lambda x: x[key])
     return best["epoch"]
 
 
 def get_last_epoch(model_dir):
+    """
+    Helper function to get the last epoch.
+    """
     regex = re.compile(r"checkpoint_(\d+)\.pt")
 
     last_epoch = -1
@@ -46,10 +59,16 @@ def get_last_epoch(model_dir):
 
 
 def main(model_dir, frame_dir, split, dataset):
+    """
+    Evaluates the F3ED model provided in `model_dir` on the test split.
+    """
+
+    # 1. Get model config
     config_path = os.path.join(model_dir, "config.json")
     with open(config_path) as fp:
         print("[LOG][test_f3set_f3ed.py]" + fp.read())
 
+    # 2. Determine best epoch
     config = load_json(config_path)
     if os.path.isfile(os.path.join(model_dir, "loss.json")):
         best_epoch = get_best_epoch(model_dir)
@@ -60,6 +79,7 @@ def main(model_dir, frame_dir, split, dataset):
             f"[LOG][test_f3set_f3ed.py] Unable to find {os.path.join(model_dir, 'loss.json')} testing on last epoch: Epoch [{best_epoch}]"
         )
 
+    # 3. Get dataset
     if dataset is None:
         dataset = config["dataset"]
     else:
@@ -72,6 +92,7 @@ def main(model_dir, frame_dir, split, dataset):
 
     classes = load_classes(os.path.join("data", dataset, "elements.txt"))
 
+    # 4. Initialize model with config from best epoch
     model = F3Set(
         len(classes),
         config["feature_arch"],
@@ -87,6 +108,7 @@ def main(model_dir, frame_dir, split, dataset):
         torch.load(os.path.join(model_dir, "checkpoint_{:03d}.pt".format(best_epoch)))
     )
 
+    # 5. Set up test split
     split_path = os.path.join("data", dataset, "{}.json".format(split))
     split_data = ActionSeqVideoDataset(
         classes,
