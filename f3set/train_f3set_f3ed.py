@@ -514,13 +514,24 @@ def evaluate(model, dataset, classes, delta=0, window=5, device="cuda"):
     f1_element = np.zeros((len(classes), 3), int)
     f1_event = dict()
     for video, (coarse_scores, fine_scores, support) in sorted(pred_dict.items()):
-        coarse_label, fine_label = dataset.get_labels(video)
+        coarse_label, fine_label = dataset.get_labels(
+            video
+        )  # Get labels (AKA ground truths)
+
+        # Normalise the scores
+        # Sliding window causes the same frame to be processed multiple times
+        # This is where we undo that effect
         coarse_scores /= support[:, None]
         fine_scores /= support[:, None]
 
         # argmax pred
-        coarse_scores = non_maximum_suppression_np(coarse_scores, 5)
-        coarse_pred = np.argmax(coarse_scores, axis=1)
+        coarse_scores = non_maximum_suppression_np(
+            coarse_scores, 5
+        )  # NMS: Suppresses scores that aren't the highest ones
+
+        coarse_pred = np.argmax(
+            coarse_scores, axis=1
+        )  # argmax: Generates the actual predictions
 
         # dataset specific
         fine_pred = np.zeros_like(fine_scores, int)

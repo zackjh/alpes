@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 import subprocess
 
@@ -53,3 +54,42 @@ class F3EDTennis:
 
         print("[LOG][model.py] Running test script:", " ".join(cmd))
         subprocess.run(cmd, cwd=self.f3set_repo_root, check=True)
+
+    def get_query_batch_video_names(
+        self,
+        trained_model_path: Path,
+        unlabeled_data_json_path: Path,
+        query_batch_size: int,
+    ) -> list[str]:
+        cmd = [
+            "python3",
+            "get_scores.py",
+            str(trained_model_path),
+            str(unlabeled_data_json_path),
+        ]
+
+        print("[LOG][model.py] Running get_query_batch script:", " ".join(cmd))
+        subprocess.run(cmd, cwd=self.f3set_repo_root, check=True)
+
+        max_uncertainty_per_video_json_path = (
+            trained_model_path / "max_uncertainty_per_video.json"
+        )
+        with open(max_uncertainty_per_video_json_path, "r", encoding="utf-8") as f:
+            max_uncertainty_scores = json.load(f)
+
+        effective_query_batch_size = min(len(max_uncertainty_scores), query_batch_size)
+
+        max_uncertainty_scores_sorted = sorted(
+            max_uncertainty_scores.items(), key=lambda x: x[1], reverse=True
+        )
+
+        # This is the query batch - it's the top k videos with the highest uncertainty scores
+        top_k = max_uncertainty_scores_sorted[:effective_query_batch_size]
+        query_batch_video_names = [x[0] for x in top_k]
+
+        # Save top k samples as into `query_batch.json` for logging
+        with open(trained_model_path / "query_batch.json", "w", encoding="utf-8") as f:
+            json.dump(top_k, f, indent=2)
+
+        # Return only the video names
+        return query_batch_video_names
