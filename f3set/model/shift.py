@@ -63,11 +63,12 @@ def make_temporal_shift(net, clip_len, is_gsm=False, step=1):
 
         def make_block_temporal(stage):
             blocks = list(stage.children())
-            print(
-                "[LOG][shift.py] => Processing stage with {} blocks residual".format(
-                    len(blocks)
-                )
-            )
+            # Print statement was commented out to make output more readable
+            # print(
+            #     "[LOG][shift.py] => Processing stage with {} blocks residual".format(
+            #         len(blocks)
+            #     )
+            # )
             for i, b in enumerate(blocks):
                 if i % n_round == 0:
                     blocks[i].conv1 = _build_shift(b.conv1)
@@ -86,7 +87,8 @@ def make_temporal_shift(net, clip_len, is_gsm=False, step=1):
 
         def make_block_temporal(stage):
             blocks = list(stage.children())
-            print("=> Processing stage with {} blocks residual".format(len(blocks)))
+            # Print statement was commented out to make output more readable
+            # print("=> Processing stage with {} blocks residual".format(len(blocks)))
             for i, b in enumerate(blocks):
                 if i % n_round == 0:
                     blocks[i].conv1 = _build_shift(b.conv1)
@@ -104,11 +106,12 @@ def make_temporal_shift(net, clip_len, is_gsm=False, step=1):
 
         def make_block_temporal(stage):
             blocks = list(stage.blocks)
-            print(
-                "[LOG][shift.py] => Processing stage with {} blocks residual".format(
-                    len(blocks)
-                )
-            )
+            # Print statement was commented out to make output more readable
+            # print(
+            #     "[LOG][shift.py] => Processing stage with {} blocks residual".format(
+            #         len(blocks)
+            #     )
+            # )
 
             for i, b in enumerate(blocks):
                 if i % n_round == 0:

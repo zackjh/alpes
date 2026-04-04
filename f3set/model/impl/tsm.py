@@ -36,9 +36,11 @@ class TemporalShift(nn.Module):
         self.fold_div = n_div
         self.inplace = inplace
         self.step = step
-        if inplace:
-            print("[LOG][tsm.py] => Using TSM, in-place shift...")
-        print("[LOG][tsm.py] => Using TSM, fold div: {}".format(self.fold_div))
+        # Print statements were commented out to make output more readable
+        # if inplace:
+        #     print("[LOG][tsm.py] => Using TSM, in-place shift...")
+        # else:
+        #     print("[LOG][tsm.py] => Using TSM, fold div: {}".format(self.fold_div))
 
     def forward(self, x):
         x = self.shift(

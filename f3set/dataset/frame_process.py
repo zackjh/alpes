@@ -264,7 +264,8 @@ class ActionSeqDataset(Dataset):
         # Try to do defer the latter half of the transforms to the GPU
         self._gpu_transform = None
         if not is_eval and same_transform:
-            print("=> Deferring some RGB transforms to the GPU!")
+            # Print statement commented out to improve readability of logs
+            # print("[LOG][frame_process.py] => Deferring some RGB transforms to the GPU!")
             self._gpu_transform = _get_deferred_rgb_transform()
 
         crop_transform, img_transform = _get_img_transforms(
