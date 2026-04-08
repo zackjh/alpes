@@ -49,11 +49,6 @@ frame_dir = Path(
     "/mnt/ssd2/zachary/alpes/f3set/data/f3set-tennis/extracted_frames"
 ).resolve()
 
-# VARIABLES
-best_epoch_checkpoint_path = Path(
-    "/mnt/ssd2/zachary/alpes/experiments/random_sampling_1/active_learning_iteration_0/checkpoint_024.pt"
-).resolve()
-
 
 # HELPER FUNCTIONS
 def get_best_epoch(model_dir, key="val_edit"):

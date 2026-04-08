@@ -6,19 +6,25 @@ from utils import import_data_from_json, export_data_to_json
 
 
 # Experiment config
-EXPERIMENT_NAME = "uncertainty_sampling_top_1000"
+EXPERIMENT_NAME = "uncertainty_sampling_initial_100_query_100"
+
+EXPERIMENT_TYPE = "uncertainty_sampling"  # Possible options: "uncertainty_sampling", "random_sampling"
+
+if EXPERIMENT_TYPE not in ["random_sampling", "uncertainty_sampling"]:
+    raise ValueError(f"`{EXPERIMENT_TYPE}` is not a valid `EXPERIMENT_TYPE`")
 
 F3SET_REPO_ROOT = Path("/mnt/ssd2/zachary/alpes/f3set")
 
 SEED = 1234
 
-INITIAL_LABELED_POOL_SIZE = 1000
-QUERY_BATCH_SIZE = 1000
+INITIAL_LABELED_POOL_SIZE = 100
+QUERY_BATCH_SIZE = 100
 
 NUM_OF_EPOCHS = 25
 START_VAL_EPOCH = 15
 
 print(f"[LOG][active_learning_experiment.py] Experiment Name is: {EXPERIMENT_NAME}")
+print(f"[LOG][active_learning_experiment.py] Experiment Type is: {EXPERIMENT_TYPE}")
 print(f"[LOG][active_learning_experiment.py] Seed is: {SEED}")
 
 # Get absolute path for experiment results (i.e. not a relative path)
@@ -97,17 +103,34 @@ while True:
     unlabeled_data_json_path = active_learning_iteration_path / "unlabeled_data.json"
     export_data_to_json(unlabeled_data_json_path, unlabeled_pool)
 
-    # Get query batch
-    query_batch_video_names = model.get_query_batch_video_names(
-        active_learning_iteration_path, unlabeled_data_json_path, QUERY_BATCH_SIZE
-    )
+    if EXPERIMENT_TYPE == "uncertainty_sampling":
+        print(
+            f"[LOG][active_learning_experiment.py] Sampling {QUERY_BATCH_SIZE} samples from the unlabeled pool using uncertainty sampling"
+        )
+        # Get query batch using uncertainty sampling
+        query_batch_video_names = model.get_query_batch_video_names(
+            active_learning_iteration_path, unlabeled_data_json_path, QUERY_BATCH_SIZE
+        )
 
-    # Remove query batch from the unlabeled pool
-    query_batch = unlabeled_pool.remove_samples_from_list_of_video_names(
-        query_batch_video_names
-    )
+        # Remove query batch from the unlabeled pool
+        query_batch = unlabeled_pool.remove_samples_from_list_of_video_names(
+            query_batch_video_names
+        )
 
-    # Add query batch to the labeled pool
-    labeled_pool.add_samples(query_batch)
+        # Add query batch to the labeled pool
+        labeled_pool.add_samples(query_batch)
+
+    elif EXPERIMENT_TYPE == "random_sampling":
+        print(
+            f"[LOG][active_learning_experiment.py] Randomly sampling {QUERY_BATCH_SIZE} samples from the unlabeled pool"
+        )
+        # Get query batch using random sampling (i.e. no active learning)
+        query_batch = random_sampler.get_samples(QUERY_BATCH_SIZE, unlabeled_pool)
+
+        # Remove query batch from the unlabeled pool
+        unlabeled_pool.remove_samples(query_batch)
+
+        # Add query batch to the labeled pool
+        labeled_pool.add_samples(query_batch)
 
     active_learning_iteration += 1
