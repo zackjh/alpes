@@ -1,0 +1,39 @@
+[tool.pyright]
+include = ["src", "scripts"]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.*",
+    "src/AdaSpot",
+    "src/F3Set"
+]
+ignore = ["src/AdaSpot", "src/F3Set"]
+
+[tool.ruff]
+line-length = 88
+src = ["src", "scripts"]
+extend-exclude = ["src/AdaSpot", "src/F3Set"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "I",    # import sorting
+    "B",    # bugbear: likely bugs
+    "UP",   # pyupgrade: modern Python syntax
+    "SIM",  # simplify code
+    "C4",   # comprehensions
+    "PIE",  # miscellaneous cleanups
+    "PERF", # performance footguns
+    "RUF",  # Ruff-specific rules
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = [
+    "E501", # line too long
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
