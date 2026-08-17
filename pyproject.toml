@@ -1,3 +1,19 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alpes"
+version = "0.0.0"
+description = "Active learning for precise event spotting"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src", "src.F3Set", "src.F3Set.*", "src.AdaSpot", "src.AdaSpot.*"]
+namespaces = false
+
 [tool.pyright]
 include = ["src", "scripts"]
 exclude = [
