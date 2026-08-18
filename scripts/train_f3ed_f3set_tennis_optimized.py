@@ -477,7 +477,7 @@ def main() -> None:
             "initial_labeled_pool_frame_budget": initial_frame_budget,
             "query_batch_frame_budget": query_frame_budget,
             "f3ed": {
-                "feature_arch": "rny002",
+                "feature_arch": "rny002_tsm",
                 "temporal_arch": "gru",
                 "use_ctx": True,
                 "epoch_num_frames": EPOCH_NUM_FRAMES,
