@@ -52,7 +52,7 @@ def main() -> None:
     )
     model = F3Set(
         len(classes),
-        "rny002",
+        "rny002_tsm",
         "gru",
         CLIP_LEN,
         step=STRIDE,
