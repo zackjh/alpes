@@ -8,6 +8,7 @@ comparable to round zero of the active-learning experiment.
 
 import argparse
 import json
+import os
 import random
 from pathlib import Path
 
@@ -34,6 +35,10 @@ from train_f3ed_f3set_tennis import (
 )
 
 # Use deterministic settings for reproducibility
+# CUDA 10.2+ requires a deterministic cuBLAS workspace configuration when
+# torch.use_deterministic_algorithms(True) is enabled.  Set it before the first
+# CUDA operation; preserve either supported value if the caller supplied one.
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 cudnn.benchmark = False
 cudnn.deterministic = True
 torch.use_deterministic_algorithms(True)

@@ -20,6 +20,10 @@ from torch.optim.lr_scheduler import ChainedScheduler, CosineAnnealingLR, Linear
 from torch.utils.data import DataLoader
 
 # Use deterministic settings for reproducibility
+# CUDA 10.2+ requires a deterministic cuBLAS workspace configuration when
+# torch.use_deterministic_algorithms(True) is enabled.  Set it before the first
+# CUDA operation; preserve either supported value if the caller supplied one.
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 cudnn.benchmark = False
 cudnn.deterministic = True
 torch.use_deterministic_algorithms(True)
