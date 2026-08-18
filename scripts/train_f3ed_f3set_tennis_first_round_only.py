@@ -132,7 +132,7 @@ def main() -> None:
             "initial_labeled_pool_frame_budget": initial_frame_budget,
             "first_round_only": True,
             "f3ed": {
-                "feature_arch": "rny002",
+                "feature_arch": "rny002_tsm",
                 "temporal_arch": "gru",
                 "use_ctx": True,
                 "epoch_num_frames": EPOCH_NUM_FRAMES,
