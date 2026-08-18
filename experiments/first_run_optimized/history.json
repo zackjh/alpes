@@ -1,0 +1,20 @@
+[
+  {
+    "round": 0,
+    "labeled_pool_size": 2500,
+    "best_epoch": 42,
+    "val_edit": 66.09042459692083
+  },
+  {
+    "round": 1,
+    "labeled_pool_size": 5000,
+    "best_epoch": 49,
+    "val_edit": 67.58344987228085
+  },
+  {
+    "round": 2,
+    "labeled_pool_size": 7436,
+    "best_epoch": 46,
+    "val_edit": 69.88855627956922
+  }
+]

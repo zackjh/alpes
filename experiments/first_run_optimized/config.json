@@ -1,0 +1,24 @@
+{
+  "name": "first_run_optimized",
+  "seed": 67,
+  "query_strategy": "RANDOM_SAMPLING",
+  "initial_labeled_pool_size": 2500,
+  "query_batch_size": 2500,
+  "f3ed": {
+    "feature_arch": "rny002",
+    "temporal_arch": "gru",
+    "use_ctx": true,
+    "epoch_num_frames": 500000,
+    "clip_len": 96,
+    "stride": 2,
+    "crop_dim": 224,
+    "batch_size": 4,
+    "num_epochs": 50,
+    "warm_up_epochs": 3,
+    "start_val_epoch": 30,
+    "learning_rate": 0.001,
+    "window": 5
+  },
+  "validation_loss_computed": false,
+  "test_evaluation_during_training": false
+}

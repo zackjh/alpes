@@ -1,0 +1,6 @@
+{
+  "checkpoint": "/mnt/ssd2/zachary/alpes/experiments/first_run_optimized/round_001/checkpoint.pt",
+  "test_f1_event": 0.3214794621710816,
+  "test_f1_element": 0.6761487794260803,
+  "test_edit": 66.31258127931507
+}
