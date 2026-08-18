@@ -30,7 +30,12 @@ from scripts.train_f3ed_f3set_tennis import (
     train_round,
 )
 from src.F3Set.util.dataset import load_classes
+from torch.backends import cudnn
 
+# Use deterministic settings for reproducibility
+cudnn.benchmark = False
+cudnn.deterministic = True
+torch.use_deterministic_algorithms(True)
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
