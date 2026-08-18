@@ -7,21 +7,12 @@ selection) and test-set evaluation.  Checkpoints use the same state-dict format
 as train_f3ed_f3set_tennis.py.
 """
 
-# Direct execution requires updating sys.path before project-local imports.
-# ruff: noqa: E402
-
 import json
 import math
 import os
 import random
-import sys
 from contextlib import nullcontext
 from pathlib import Path
-
-# Make direct execution (``python scripts/<name>.py``) independent of an
-# editable installation or PYTHONPATH configuration.
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT))
 
 import numpy as np
 import torch
@@ -34,6 +25,7 @@ from src.F3Set.dataset.frame_process import (
 from src.F3Set.model.common import step
 from src.F3Set.train_f3set_f3ed import F3Set, evaluate
 from src.F3Set.util.dataset import load_classes
+from torch.backends import cudnn
 from torch.optim.lr_scheduler import ChainedScheduler, CosineAnnealingLR, LinearLR
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -50,10 +42,17 @@ from train_f3ed_f3set_tennis import (
     STRIDE,
     WARM_UP_EPOCHS,
     WINDOW,
+    frame_budget_from_percentage,
     parse_args,
     query,
+    random_clips_to_frame_budget,
     save_json,
 )
+
+# Optimize for speed at the expense of reproducibility
+cudnn.benchmark = True
+cudnn.deterministic = False
+torch.use_deterministic_algorithms(False)
 
 
 def _without_nan(value: torch.Tensor) -> torch.Tensor:
@@ -412,15 +411,16 @@ def train_round(
 def main() -> None:
     args = parse_args()
 
-    if args.initial_labeled_pool_size <= 0:
-        raise ValueError("initial labeled pool size must be positive")
-    if args.query_batch_size <= 0:
-        raise ValueError("query batch size must be positive")
+    if not 0 < args.initial_labeled_pool_size <= 100:
+        raise ValueError("initial labeled pool size must be in (0, 100] percent")
+    if not 0 < args.query_batch_size <= 100:
+        raise ValueError("query batch size must be in (0, 100] percent")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
-    dataset_root = PROJECT_ROOT / "src" / "F3Set" / "data" / "f3set-tennis"
-    frame_dir = PROJECT_ROOT / "data" / "f3set-tennis-frames"
+    project_root = Path(__file__).resolve().parents[1]
+    dataset_root = project_root / "src" / "F3Set" / "data" / "f3set-tennis"
+    frame_dir = project_root / "data" / "f3set-tennis-frames"
     train_file = dataset_root / "train.json"
     val_file = dataset_root / "val.json"
 
@@ -430,9 +430,20 @@ def main() -> None:
     with train_file.open() as f:
         train_annotations = json.load(f)
 
-    if args.initial_labeled_pool_size > len(train_annotations):
+    frame_counts = [annotation["num_frames"] for annotation in train_annotations]
+    total_training_frames = sum(frame_counts)
+    initial_frame_budget = frame_budget_from_percentage(
+        args.initial_labeled_pool_size,
+        total_training_frames,
+    )
+    query_frame_budget = frame_budget_from_percentage(
+        args.query_batch_size,
+        total_training_frames,
+    )
+
+    if initial_frame_budget > total_training_frames:
         raise ValueError(
-            "initial labeled pool size cannot exceed the training set size"
+            "initial labeled pool frame budget cannot exceed the training pool"
         )
 
     random.seed(args.seed)
@@ -441,9 +452,16 @@ def main() -> None:
     torch.cuda.manual_seed_all(args.seed)
     rng = random.Random(args.seed)
 
-    all_indices = list(range(len(train_annotations)))
-    labeled_indices = set(rng.sample(all_indices, args.initial_labeled_pool_size))
-    unlabeled_indices = set(all_indices) - labeled_indices
+    all_indices = set(range(len(train_annotations)))
+    labeled_indices = set(
+        random_clips_to_frame_budget(
+            all_indices,
+            frame_counts,
+            initial_frame_budget,
+            rng,
+        )
+    )
+    unlabeled_indices = all_indices - labeled_indices
     classes = load_classes(str(dataset_root / "elements.txt"))
 
     save_json(
@@ -454,6 +472,10 @@ def main() -> None:
             "query_strategy": args.query_strategy,
             "initial_labeled_pool_size": args.initial_labeled_pool_size,
             "query_batch_size": args.query_batch_size,
+            "active_learning_budget_unit": "percent_of_training_frames",
+            "total_training_frames": total_training_frames,
+            "initial_labeled_pool_frame_budget": initial_frame_budget,
+            "query_batch_frame_budget": query_frame_budget,
             "f3ed": {
                 "feature_arch": "rny002",
                 "temporal_arch": "gru",
@@ -481,10 +503,12 @@ def main() -> None:
         round_dir = run_dir / f"round_{round_number:03d}"
         round_dir.mkdir()
 
+        labeled_frames = sum(frame_counts[i] for i in labeled_indices)
+        unlabeled_frames = sum(frame_counts[i] for i in unlabeled_indices)
         print(
             f"\n=== Round {round_number} ===\n"
-            f"Labeled:   {len(labeled_indices)}\n"
-            f"Unlabeled: {len(unlabeled_indices)}"
+            f"Labeled:   {len(labeled_indices)} clips / {labeled_frames} frames\n"
+            f"Unlabeled: {len(unlabeled_indices)} clips / {unlabeled_frames} frames"
         )
 
         labeled_file = round_dir / "labeled_train.json"
@@ -505,6 +529,10 @@ def main() -> None:
             {
                 "round": round_number,
                 "labeled_pool_size": len(labeled_indices),
+                "labeled_pool_frames": labeled_frames,
+                "labeled_budget_percent": (
+                    100 * labeled_frames / total_training_frames
+                ),
                 "best_epoch": best_epoch,
                 "val_edit": best_val_edit,
             }
@@ -519,7 +547,8 @@ def main() -> None:
             args.query_strategy,
             model,
             unlabeled_indices,
-            args.query_batch_size,
+            query_frame_budget,
+            frame_counts,
             rng,
         )
         save_json(

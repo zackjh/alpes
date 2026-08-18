@@ -15,8 +15,14 @@ from src.F3Set.dataset.frame_process import (
 )
 from src.F3Set.train_f3set_f3ed import F3Set, evaluate
 from src.F3Set.util.dataset import load_classes
+from torch.backends import cudnn
 from torch.optim.lr_scheduler import ChainedScheduler, CosineAnnealingLR, LinearLR
 from torch.utils.data import DataLoader
+
+# Use deterministic settings for reproducibility
+cudnn.benchmark = False
+cudnn.deterministic = True
+torch.use_deterministic_algorithms(True)
 
 # F3ED training configuration from the original F3Set implementation.
 EPOCH_NUM_FRAMES = 500_000
@@ -39,8 +45,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--name", required=True)
     parser.add_argument("--seed", type=int, required=True)
     parser.add_argument("--output_dir", type=Path, required=True)
-    parser.add_argument("--initial_labeled_pool_size", type=int, required=True)
-    parser.add_argument("--query_batch_size", type=int, required=True)
+    parser.add_argument(
+        "--initial_labeled_pool_size",
+        type=float,
+        required=True,
+        metavar="PERCENT",
+        help="initial labeled-frame budget as a percentage of the training set",
+    )
+    parser.add_argument(
+        "--query_batch_size",
+        type=float,
+        required=True,
+        metavar="PERCENT",
+        help="per-query frame budget as a percentage of the training set",
+    )
     parser.add_argument(
         "--query_strategy",
         required=True,
@@ -58,19 +76,55 @@ def save_json(path: Path, data: object) -> None:
         json.dump(data, f, indent=2)
 
 
+def frame_budget_from_percentage(percentage: float, total_frames: int) -> int:
+    """Convert a percentage of the annotation budget to a frame target."""
+    return math.ceil(total_frames * percentage / 100)
+
+
+def select_clips_to_frame_budget(
+    ordered_indices: list[int],
+    frame_counts: list[int],
+    frame_budget: int,
+) -> list[int]:
+    """Take whole clips in order until their frames meet the target budget."""
+    selected = []
+    selected_frames = 0
+    for index in ordered_indices:
+        selected.append(index)
+        selected_frames += frame_counts[index]
+        if selected_frames >= frame_budget:
+            break
+    return selected
+
+
+def random_clips_to_frame_budget(
+    candidate_indices: set[int],
+    frame_counts: list[int],
+    frame_budget: int,
+    rng: random.Random,
+) -> list[int]:
+    """Randomly order candidates and select whole clips to a frame budget."""
+    candidates = sorted(candidate_indices)
+    rng.shuffle(candidates)
+    return select_clips_to_frame_budget(candidates, frame_counts, frame_budget)
+
+
 def query(
     strategy: str,
     model: F3Set,
     unlabeled_indices: set[int],
-    query_size: int,
+    query_frame_budget: int,
+    frame_counts: list[int],
     rng: random.Random,
 ) -> list[int]:
     """Select samples from the unlabeled pool."""
-    candidates = sorted(unlabeled_indices)
-    query_size = min(query_size, len(candidates))
-
     if strategy == "RANDOM_SAMPLING":
-        return rng.sample(candidates, query_size)
+        return random_clips_to_frame_budget(
+            unlabeled_indices,
+            frame_counts,
+            query_frame_budget,
+            rng,
+        )
 
     if strategy == "UNCERTAINTY_MEASURE":
         raise NotImplementedError("Uncertainty sampling is not implemented yet")
@@ -258,11 +312,11 @@ def train_round(
 def main() -> None:
     args = parse_args()
 
-    if args.initial_labeled_pool_size <= 0:
-        raise ValueError("initial labeled pool size must be positive")
+    if not 0 < args.initial_labeled_pool_size <= 100:
+        raise ValueError("initial labeled pool size must be in (0, 100] percent")
 
-    if args.query_batch_size <= 0:
-        raise ValueError("query batch size must be positive")
+    if not 0 < args.query_batch_size <= 100:
+        raise ValueError("query batch size must be in (0, 100] percent")
 
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -281,9 +335,20 @@ def main() -> None:
     with train_file.open() as f:
         train_annotations = json.load(f)
 
-    if args.initial_labeled_pool_size > len(train_annotations):
+    frame_counts = [annotation["num_frames"] for annotation in train_annotations]
+    total_training_frames = sum(frame_counts)
+    initial_frame_budget = frame_budget_from_percentage(
+        args.initial_labeled_pool_size,
+        total_training_frames,
+    )
+    query_frame_budget = frame_budget_from_percentage(
+        args.query_batch_size,
+        total_training_frames,
+    )
+
+    if initial_frame_budget > total_training_frames:
         raise ValueError(
-            "initial labeled pool size cannot exceed the training set size"
+            "initial labeled pool frame budget cannot exceed the training pool"
         )
 
     # Seed the experiment while otherwise leaving F3ED's training behaviour
@@ -295,9 +360,16 @@ def main() -> None:
 
     rng = random.Random(args.seed)
 
-    all_indices = list(range(len(train_annotations)))
-    labeled_indices = set(rng.sample(all_indices, args.initial_labeled_pool_size))
-    unlabeled_indices = set(all_indices) - labeled_indices
+    all_indices = set(range(len(train_annotations)))
+    labeled_indices = set(
+        random_clips_to_frame_budget(
+            all_indices,
+            frame_counts,
+            initial_frame_budget,
+            rng,
+        )
+    )
+    unlabeled_indices = all_indices - labeled_indices
 
     classes = load_classes(str(dataset_root / "elements.txt"))
 
@@ -309,6 +381,10 @@ def main() -> None:
             "query_strategy": args.query_strategy,
             "initial_labeled_pool_size": args.initial_labeled_pool_size,
             "query_batch_size": args.query_batch_size,
+            "active_learning_budget_unit": "percent_of_training_frames",
+            "total_training_frames": total_training_frames,
+            "initial_labeled_pool_frame_budget": initial_frame_budget,
+            "query_batch_frame_budget": query_frame_budget,
             "f3ed": {
                 "feature_arch": "rny002",
                 "temporal_arch": "gru",
@@ -334,10 +410,12 @@ def main() -> None:
         round_dir = run_dir / f"round_{round_number:03d}"
         round_dir.mkdir()
 
+        labeled_frames = sum(frame_counts[i] for i in labeled_indices)
+        unlabeled_frames = sum(frame_counts[i] for i in unlabeled_indices)
         print(
             f"\n=== Round {round_number} ===\n"
-            f"Labeled:   {len(labeled_indices)}\n"
-            f"Unlabeled: {len(unlabeled_indices)}"
+            f"Labeled:   {len(labeled_indices)} clips / {labeled_frames} frames\n"
+            f"Unlabeled: {len(unlabeled_indices)} clips / {unlabeled_frames} frames"
         )
 
         # ActionSeqDataset expects an annotation JSON, so expose the current
@@ -361,6 +439,10 @@ def main() -> None:
             {
                 "round": round_number,
                 "labeled_pool_size": len(labeled_indices),
+                "labeled_pool_frames": labeled_frames,
+                "labeled_budget_percent": (
+                    100 * labeled_frames / total_training_frames
+                ),
                 "best_epoch": best_epoch,
                 "val_edit": best_val_edit,
                 "test_edit": test_edit,
@@ -376,7 +458,8 @@ def main() -> None:
             args.query_strategy,
             model,
             unlabeled_indices,
-            args.query_batch_size,
+            query_frame_budget,
+            frame_counts,
             rng,
         )
 
