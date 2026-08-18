@@ -13,7 +13,10 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from scripts.train_f3ed_f3set_tennis import (
+from src.F3Set.util.dataset import load_classes
+from torch.backends import cudnn
+
+from train_f3ed_f3set_tennis import (
     BATCH_SIZE,
     CLIP_LEN,
     CROP_DIM,
@@ -29,8 +32,6 @@ from scripts.train_f3ed_f3set_tennis import (
     save_json,
     train_round,
 )
-from src.F3Set.util.dataset import load_classes
-from torch.backends import cudnn
 
 # Use deterministic settings for reproducibility
 cudnn.benchmark = False
