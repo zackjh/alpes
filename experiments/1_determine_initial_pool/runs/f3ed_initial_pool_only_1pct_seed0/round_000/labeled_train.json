@@ -1,0 +1,2934 @@
+[
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 92,
+    "video": "20210401-W-Miami-SF-Bianca_Andreescu-Maria_Sakkari_57481_57573",
+    "far_name": "Bianca Andreescu",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 0,
+    "near_name": "Maria Sakkari",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 4,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 30,
+        "label": "far_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 52,
+        "label": "near_deuce_return_bh_gs_IO_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 24.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 161,
+    "video": "20230124-W-Australian_Open-QF-Jelena_Ostapenko-Elena_Rybakina_33639_33800",
+    "far_name": "Jelena Ostapenko",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 3,
+    "near_name": "Elena Rybakina",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 5,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 38,
+        "label": "far_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 56,
+        "label": "near_deuce_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 84,
+        "label": "far_middle_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 113,
+        "label": "near_deuce_stroke_fh_gs_DL_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 374,
+    "video": "20210401-W-Miami-SF-Bianca_Andreescu-Maria_Sakkari_78966_79340",
+    "far_name": "Bianca Andreescu",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 6,
+    "far_point": 0,
+    "near_name": "Maria Sakkari",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 5,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 32,
+        "label": "near_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 58,
+        "label": "far_ad_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 90,
+        "label": "near_middle_stroke_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 121,
+        "label": "far_ad_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 161,
+        "label": "near_ad_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 194,
+        "label": "far_middle_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 227,
+        "label": "near_middle_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 267,
+        "label": "far_ad_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 306,
+        "label": "near_ad_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 336,
+        "label": "far_middle_stroke_fh_gs_DM_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 231,
+    "video": "20220906-M-US_Open-QF-Casper_Ruud-Matteo_Berrettini_188783_189014",
+    "far_name": "Matteo Berrettini",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 5,
+    "far_point": 2,
+    "near_name": "Casper Ruud",
+    "near_hand": "RH",
+    "near_set": 2,
+    "near_game": 3,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 39,
+        "label": "far_deuce_serve_-_-_T_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 23.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 250,
+    "video": "20210815-W-Montreal-F-Karolina_Pliskova-Camila_Giorgi_7755_8005",
+    "far_name": "Karolina Pliskova",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 0,
+    "near_name": "Camila Giorgi",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 33,
+        "label": "near_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 54,
+        "label": "far_ad_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 84,
+        "label": "near_middle_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 110,
+        "label": "far_middle_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 151,
+        "label": "near_middle_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 178,
+        "label": "far_middle_stroke_fh_gs_DM_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 235,
+    "video": "20190312-W-Indian_Wells-R16-Aryna_Sabalenka-Angelique_Kerber_73149_73384",
+    "far_name": "Aryna Sabalenka",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 0,
+    "far_point": 1,
+    "near_name": "Angelique Kerber",
+    "near_hand": "LH",
+    "near_set": 1,
+    "near_game": 0,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 77,
+        "label": "far_ad_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 107,
+        "label": "near_middle_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 139,
+        "label": "far_middle_stroke_fh_gs_IO_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 104,
+    "video": "20190124-W-Australian_Open-SF-Karolina_Pliskova-Naomi_Osaka_48545_48649",
+    "far_name": "Naomi Osaka",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 0,
+    "near_name": "Karolina Pliskova",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 2,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 1,
+        "label": "near_deuce_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 20,
+        "label": "far_deuce_return_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 54,
+        "label": "near_deuce_stroke_fh_gs_DL_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 111,
+    "video": "20220907-M-US_Open-QF-Andrey_Rublev-Frances_Tiafoe_82562_82673",
+    "far_name": "Andrey Rublev",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 6,
+    "far_point": 1,
+    "near_name": "Frances Tiafoe",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 6,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 31,
+        "label": "far_ad_serve_-_-_B_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 205,
+    "video": "20160814-M-Olympics-F-Andy_Murray-Juan_Martin_Del_Potro_157343_157548",
+    "far_name": "Juan Martin Del Potro",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 1,
+    "near_name": "Andy Murray",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 69,
+        "label": "far_middle_return_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 101,
+        "label": "near_ad_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 140,
+        "label": "far_ad_stroke_fh_gs_IO_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 124,
+    "video": "20230129-M-Australian_Open-F-Novak_Djokovic-Stefanos_Tsitsipas_203617_203741",
+    "far_name": "Novak Djokovic",
+    "far_hand": "RH",
+    "far_set": 2,
+    "far_game": 6,
+    "far_point": 2,
+    "near_name": "Stefanos Tsitsipas",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 6,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 11,
+        "label": "near_deuce_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 29,
+        "label": "far_deuce_return_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 60,
+        "label": "near_middle_stroke_fh_gs_IO_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 301,
+    "video": "20220126-W-Australian_Open-QF-Iga_Swiatek-Kaia_Kanepi_188337_188638",
+    "far_name": "Kaia Kanepi",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 5,
+    "far_point": 2,
+    "near_name": "Iga Swiatek",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 6,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 39,
+        "label": "far_ad_serve_-_-_W_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 115,
+    "video": "20151101-W-Singapore-F-Petra_Kvitova-Agnieszka_Radwanska_27549_27664",
+    "far_name": "Agnieszka Radwanska",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 3,
+    "near_name": "Petra Kvitova",
+    "near_hand": "LH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 53,
+        "label": "far_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 73,
+        "label": "near_ad_return_fh_gs_CC_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 136,
+    "video": "20191027-W-Shenzhen_Finals-RR-Naomi_Osaka-Petra_Kvitova_27115_27251",
+    "far_name": "Naomi Osaka",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 0,
+    "far_point": 1,
+    "near_name": "Petra Kvitova",
+    "near_hand": "LH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 57,
+        "label": "far_deuce_serve_-_-_W_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 122,
+    "video": "20130705-M-Wimbledon-SF-Novak_Djokovic-Juan_Martin_Del_Potro_94490_94612",
+    "far_name": "Juan Martin Del Potro",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 0,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 28,
+        "label": "near_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 48,
+        "label": "far_middle_return_bh_gs_CC_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 78,
+    "video": "20190818-W-Cincinnati-F-Madison_Keys-Svetlana_Kuznetsova_112938_113016",
+    "far_name": "Svetlana Kuznetsova",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 3,
+    "near_name": "Madison Keys",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 12,
+        "label": "near_ad_serve_-_-_W_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 219,
+    "video": "20170924-M-Laver_Cup-RR-Roger_Federer-Nick_Kyrgios_55607_55826",
+    "far_name": "Nick Kyrgios",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 5,
+    "far_point": 1,
+    "near_name": "Roger Federer",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 4,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 29,
+        "label": "far_ad_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 46,
+        "label": "near_ad_return_bh_slice_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 94,
+        "label": "far_ad_stroke_bh_drop_DL_approach_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 122,
+    "video": "20210216-M-Australian_Open-QF-Novak_Djokovic-Alexander_Zverev_118921_119043",
+    "far_name": "Novak Djokovic",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 2,
+    "near_name": "Alexander Zverev",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 18,
+        "label": "far_deuce_serve_-_-_W_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 193,
+    "video": "20220909-M-US_Open-SF-Frances_Tiafoe-Carlos_Alcaraz_115511_115704",
+    "far_name": "Carlos Alcaraz",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 1,
+    "near_name": "Frances Tiafoe",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 50,
+        "label": "far_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 70,
+        "label": "near_middle_return_fh_gs_IO_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 190,
+    "video": "20140627-W-Wimbledon-R32-Venus_Williams-Petra_Kvitova_32975_33165",
+    "far_name": "Petra Kvitova",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 2,
+    "far_point": 2,
+    "near_name": "Venus Williams",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 3,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 23,
+        "label": "far_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 45,
+        "label": "near_middle_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 81,
+        "label": "far_middle_stroke_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 112,
+        "label": "near_deuce_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 144,
+        "label": "far_deuce_stroke_bh_gs_CC_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 176,
+    "video": "20151101-W-Singapore-F-Petra_Kvitova-Agnieszka_Radwanska_155478_155654",
+    "far_name": "Petra Kvitova",
+    "far_hand": "LH",
+    "far_set": 1,
+    "far_game": 1,
+    "far_point": 4,
+    "near_name": "Agnieszka Radwanska",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 0,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 45,
+        "label": "near_ad_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 70,
+        "label": "far_ad_return_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 95,
+        "label": "near_ad_stroke_bh_gs_CC_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 40,
+    "video": "20141123-M-Davis_Cup_World_Group_F-RR-Richard_Gasquet-Roger_Federer_110313_110353",
+    "far_name": "Richard Gasquet",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 0,
+    "far_point": 1,
+    "near_name": "Roger Federer",
+    "near_hand": "RH",
+    "near_set": 2,
+    "near_game": 0,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 15,
+        "label": "far_ad_serve_-_-_W_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 322,
+    "video": "20200128-W-Australian_Open-QF-Ashleigh_Barty-Petra_Kvitova_715_1037",
+    "far_name": "Petra Kvitova",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 0,
+    "far_point": 0,
+    "near_name": "Ashleigh Barty",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 38,
+        "label": "near_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 55,
+        "label": "far_ad_return_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 81,
+        "label": "near_middle_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 123,
+        "label": "far_middle_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 155,
+        "label": "near_ad_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 187,
+        "label": "far_middle_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 217,
+        "label": "near_ad_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 250,
+        "label": "far_middle_stroke_fh_gs_IO_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 145,
+    "video": "20191006-W-Beijing-F-Ashleigh_Barty-Naomi_Osaka_107877_108022",
+    "far_name": "Ashleigh Barty",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 2,
+    "far_point": 0,
+    "near_name": "Naomi Osaka",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 3,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 32,
+        "label": "far_deuce_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 52,
+        "label": "near_deuce_return_fh_gs_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 171,
+    "video": "20180605-M-Roland_Garros-QF-Marco_Cecchinato-Novak_Djokovic_184343_184514",
+    "far_name": "Marco Cecchinato",
+    "far_hand": "RH",
+    "far_set": 2,
+    "far_game": 1,
+    "far_point": 0,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 3,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 6,
+        "label": "far_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 26,
+        "label": "near_middle_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 60,
+        "label": "far_middle_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 88,
+        "label": "near_deuce_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 118,
+        "label": "far_deuce_stroke_fh_drop_DL_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 113,
+    "video": "20190315-W-Indian_Wells-SF-Bianca_Andreescu-Elina_Svitolina_67816_67929",
+    "far_name": "Elina Svitolina",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 0,
+    "near_name": "Bianca Andreescu",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 5,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 34,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 53,
+        "label": "far_middle_return_fh_slice_DM_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 122,
+    "video": "20220125-M-Australian_Open-QF-Rafael_Nadal-Denis_Shapovalov_103498_103620",
+    "far_name": "Denis Shapovalov",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 2,
+    "near_name": "Rafael Nadal",
+    "near_hand": "LH",
+    "near_set": 1,
+    "near_game": 2,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 72,
+        "label": "far_middle_return_fh_gs_DM_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 136,
+    "video": "20200128-W-Australian_Open-QF-Ashleigh_Barty-Petra_Kvitova_76313_76449",
+    "far_name": "Ashleigh Barty",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 5,
+    "far_point": 0,
+    "near_name": "Petra Kvitova",
+    "near_hand": "LH",
+    "near_set": 0,
+    "near_game": 5,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 5,
+        "label": "far_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 24,
+        "label": "near_deuce_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 56,
+        "label": "far_middle_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 82,
+        "label": "near_middle_stroke_bh_gs_DM_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 30.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 110,
+    "video": "20201011-M-Roland_Garros-F-Novak_Djokovic-Rafael_Nadal_113106_113216",
+    "far_name": "Rafael Nadal",
+    "far_hand": "LH",
+    "far_set": 1,
+    "far_game": 0,
+    "far_point": 1,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 1,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 44,
+        "label": "far_ad_serve_-_-_W_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 74,
+    "video": "20210218-M-Australian_Open-SF-Novak_Djokovic-Aslan_Karatsev_2351_2425",
+    "far_name": "Aslan Karatsev",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 0,
+    "far_point": 0,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 0,
+        "label": "near_ad_serve_-_-_W_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 169,
+    "video": "20220125-M-Australian_Open-QF-Rafael_Nadal-Denis_Shapovalov_30989_31158",
+    "far_name": "Rafael Nadal",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 0,
+    "near_name": "Denis Shapovalov",
+    "near_hand": "LH",
+    "near_set": 0,
+    "near_game": 1,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 29,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 46,
+        "label": "far_middle_return_bh_slice_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 89,
+        "label": "near_deuce_stroke_bh_gs_DL_approach_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 174,
+    "video": "20200128-W-Australian_Open-QF-Ashleigh_Barty-Petra_Kvitova_10932_11106",
+    "far_name": "Ashleigh Barty",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 0,
+    "near_name": "Petra Kvitova",
+    "near_hand": "LH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 40,
+        "label": "near_ad_serve_-_-_W_approach_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 60,
+        "label": "far_ad_return_bh_slice_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 104,
+        "label": "near_ad_stroke_fh_volley_DM_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 253,
+    "video": "20190312-W-Indian_Wells-R16-Aryna_Sabalenka-Angelique_Kerber_25264_25517",
+    "far_name": "Aryna Sabalenka",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 0,
+    "far_point": 2,
+    "near_name": "Angelique Kerber",
+    "near_hand": "LH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 27,
+        "label": "far_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 55,
+        "label": "near_ad_return_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 92,
+        "label": "far_middle_stroke_fh_gs_CC_approach_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 121,
+        "label": "near_deuce_stroke_bh_lob_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 175,
+        "label": "far_deuce_stroke_fh_smash_CC_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 216,
+    "video": "20220909-M-US_Open-SF-Frances_Tiafoe-Carlos_Alcaraz_41329_41545",
+    "far_name": "Frances Tiafoe",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 0,
+    "near_name": "Carlos Alcaraz",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 3,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 59,
+        "label": "far_ad_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 80,
+        "label": "near_ad_return_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 115,
+        "label": "far_middle_stroke_fh_gs_CC_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 152,
+    "video": "20200129-M-Australian_Open-QF-Rafael_Nadal-Dominic_Thiem_7697_7849",
+    "far_name": "Rafael Nadal",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 0,
+    "near_name": "Dominic Thiem",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 19,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 39,
+        "label": "far_middle_return_bh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 68,
+        "label": "near_ad_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 99,
+        "label": "far_middle_stroke_fh_gs_IO_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 192,
+    "video": "20190714-M-Wimbledon-F-Roger_Federer-Novak_Djokovic_2740_2932",
+    "far_name": "Roger Federer",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 0,
+    "far_point": 3,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 15,
+        "label": "far_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 35,
+        "label": "near_middle_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 73,
+        "label": "far_middle_stroke_fh_gs_CC_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 158,
+    "video": "20140627-W-Wimbledon-R32-Venus_Williams-Petra_Kvitova_77426_77584",
+    "far_name": "Petra Kvitova",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 0,
+    "far_point": 2,
+    "near_name": "Venus Williams",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 24,
+        "label": "far_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 42,
+        "label": "near_ad_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 75,
+        "label": "far_middle_stroke_bh_gs_CC_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 154,
+    "video": "20150702-M-Wimbledon-R64-Dustin_Brown-Rafael_Nadal_91047_91201",
+    "far_name": "Rafael Nadal",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 1,
+    "near_name": "Dustin Brown",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 16,
+        "label": "near_ad_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 31,
+        "label": "far_ad_return_fh_slice_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 149,
+    "video": "20190920-M-Laver_Cup-RR-Denis_Shapovalov-Dominic_Thiem_36905_37054",
+    "far_name": "Denis Shapovalov",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 2,
+    "far_point": 4,
+    "near_name": "Dominic Thiem",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 4,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 27,
+        "label": "far_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 45,
+        "label": "near_ad_return_bh_slice_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 183,
+    "video": "20130702-W-Wimbledon-QF-Agnieszka_Radwanska-Na_Li_141141_141324",
+    "far_name": "Na Li",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 2,
+    "far_point": 0,
+    "near_name": "Agnieszka Radwanska",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 4,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 20,
+        "label": "far_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 41,
+        "label": "near_ad_return_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 75,
+        "label": "far_ad_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 113,
+        "label": "near_middle_stroke_fh_gs_IO_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 333,
+    "video": "20220125-M-Australian_Open-QF-Rafael_Nadal-Denis_Shapovalov_99424_99757",
+    "far_name": "Denis Shapovalov",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 0,
+    "near_name": "Rafael Nadal",
+    "near_hand": "LH",
+    "near_set": 1,
+    "near_game": 2,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 30,
+        "label": "near_ad_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 47,
+        "label": "far_ad_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 79,
+        "label": "near_middle_stroke_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 108,
+        "label": "far_deuce_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 142,
+        "label": "near_middle_stroke_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 171,
+        "label": "far_deuce_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 202,
+        "label": "near_deuce_stroke_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 230,
+        "label": "far_deuce_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 263,
+        "label": "near_middle_stroke_fh_gs_CC_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 152,
+    "video": "20190712-M-Wimbledon-SF-Roger_Federer-Rafael_Nadal_144275_144427",
+    "far_name": "Rafael Nadal",
+    "far_hand": "LH",
+    "far_set": 1,
+    "far_game": 1,
+    "far_point": 0,
+    "near_name": "Roger Federer",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 31,
+        "label": "near_deuce_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 58,
+        "label": "far_deuce_return_bh_gs_CC_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 216,
+    "video": "20160814-M-Olympics-F-Andy_Murray-Juan_Martin_Del_Potro_238944_239160",
+    "far_name": "Juan Martin Del Potro",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 2,
+    "far_point": 1,
+    "near_name": "Andy Murray",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 3,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 50,
+        "label": "far_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 68,
+        "label": "near_middle_return_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 101,
+        "label": "far_middle_stroke_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 127,
+        "label": "near_ad_stroke_bh_gs_DM_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 220,
+    "video": "20200201-W-Australian_Open-F-Sofia_Kenin-Garbine_Muguruza_79229_79449",
+    "far_name": "Garbine Muguruza",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 0,
+    "near_name": "Sofia Kenin",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 4,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 71,
+        "label": "far_middle_return_bh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 102,
+        "label": "near_deuce_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 134,
+        "label": "far_deuce_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 164,
+        "label": "near_deuce_stroke_fh_gs_DM_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 257,
+    "video": "20220907-W-US_Open-QF-Iga_Swiatek-Jessica_Pegula_161610_161867",
+    "far_name": "Jessica Pegula",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 6,
+    "far_point": 0,
+    "near_name": "Iga Swiatek",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 6,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 50,
+        "label": "far_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 79,
+        "label": "near_deuce_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 124,
+        "label": "far_middle_stroke_fh_gs_DM_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 212,
+    "video": "20210218-M-Australian_Open-SF-Novak_Djokovic-Aslan_Karatsev_85503_85715",
+    "far_name": "Novak Djokovic",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 5,
+    "far_point": 2,
+    "near_name": "Aslan Karatsev",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 3,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 67,
+        "label": "far_deuce_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 100,
+        "label": "near_middle_stroke_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 130,
+        "label": "far_ad_stroke_bh_slice_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 181,
+        "label": "near_ad_stroke_bh_gs_DL_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 24.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 186,
+    "video": "20230124-W-Australian_Open-QF-Jelena_Ostapenko-Elena_Rybakina_98398_98584",
+    "far_name": "Jelena Ostapenko",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 3,
+    "near_name": "Elena Rybakina",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 5,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_deuce_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 68,
+        "label": "far_deuce_return_fh_gs_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 178,
+    "video": "20210912-M-US_Open-F-Novak_Djokovic-Daniil_Medvedev_53297_53475",
+    "far_name": "Daniil Medvedev",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 5,
+    "far_point": 0,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 4,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 50,
+        "label": "far_deuce_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 73,
+        "label": "near_deuce_return_fh_gs_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 260,
+    "video": "20200911-M-US_Open-SF-Dominic_Thiem-Daniil_Medvedev_216140_216400",
+    "far_name": "Daniil Medvedev",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 5,
+    "far_point": 0,
+    "near_name": "Dominic Thiem",
+    "near_hand": "RH",
+    "near_set": 2,
+    "near_game": 2,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 72,
+        "label": "far_middle_return_fh_slice_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 138,
+        "label": "near_middle_stroke_fh_gs_IO_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 257,
+    "video": "20191006-W-Beijing-F-Ashleigh_Barty-Naomi_Osaka_98322_98579",
+    "far_name": "Naomi Osaka",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 2,
+    "far_point": 3,
+    "near_name": "Ashleigh Barty",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 4,
+    "events": [
+      {
+        "frame": 30,
+        "label": "near_ad_serve_-_-_T_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 147,
+    "video": "20220907-W-US_Open-QF-Karolina_Pliskova-Aryna_Sabalenka_65843_65990",
+    "far_name": "Aryna Sabalenka",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 2,
+    "far_point": 2,
+    "near_name": "Karolina Pliskova",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 2,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 47,
+        "label": "far_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 67,
+        "label": "near_deuce_return_bh_gs_DM_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 252,
+    "video": "20210908-M-US_Open-QF-Novak_Djokovic-Matteo_Berrettini_183960_184212",
+    "far_name": "Matteo Berrettini",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 0,
+    "far_point": 0,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 0,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 81,
+        "label": "far_deuce_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 116,
+        "label": "near_middle_stroke_fh_gs_IO_approach_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 152,
+        "label": "far_ad_stroke_bh_slice_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 79,
+    "video": "20220125-M-Australian_Open-QF-Rafael_Nadal-Denis_Shapovalov_213327_213406",
+    "far_name": "Denis Shapovalov",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 2,
+    "near_name": "Rafael Nadal",
+    "near_hand": "LH",
+    "near_set": 2,
+    "near_game": 4,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 23,
+        "label": "far_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 40,
+        "label": "near_middle_return_fh_gs_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 324,
+    "video": "20200912-W-US_Open-F-Naomi_Osaka-Victoria_Azarenka_9066_9390",
+    "far_name": "Victoria Azarenka",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 1,
+    "near_name": "Naomi Osaka",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 91,
+        "label": "far_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 117,
+        "label": "near_middle_return_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 170,
+        "label": "far_middle_stroke_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 203,
+        "label": "near_ad_stroke_bh_gs_CC_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 158,
+    "video": "20220907-W-US_Open-QF-Iga_Swiatek-Jessica_Pegula_134858_135016",
+    "far_name": "Iga Swiatek",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 5,
+    "far_point": 0,
+    "near_name": "Jessica Pegula",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 4,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 90,
+        "label": "far_deuce_serve_-_-_B_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 141,
+    "video": "20180710-W-Wimbledon-QF-Camila_Giorgi-Serena_Williams_115273_115414",
+    "far_name": "Serena Williams",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 0,
+    "far_point": 2,
+    "near_name": "Camila Giorgi",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 27,
+        "label": "far_ad_serve_-_-_W_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 157,
+    "video": "20191006-W-Beijing-F-Ashleigh_Barty-Naomi_Osaka_70526_70683",
+    "far_name": "Ashleigh Barty",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 5,
+    "far_point": 0,
+    "near_name": "Naomi Osaka",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 2,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 40,
+        "label": "near_ad_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 67,
+        "label": "far_ad_return_bh_slice_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 299,
+    "video": "20190124-W-Australian_Open-SF-Karolina_Pliskova-Naomi_Osaka_179994_180293",
+    "far_name": "Karolina Pliskova",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 4,
+    "far_point": 0,
+    "near_name": "Naomi Osaka",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 5,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 75,
+        "label": "far_middle_return_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 119,
+        "label": "near_middle_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 151,
+        "label": "far_deuce_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 187,
+        "label": "near_deuce_stroke_fh_gs_DL_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 219,
+        "label": "far_ad_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 253,
+        "label": "near_ad_stroke_bh_gs_DL_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 195,
+    "video": "20180710-W-Wimbledon-QF-Angelique_Kerber-Daria_Kasatkina_79597_79792",
+    "far_name": "Daria Kasatkina",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 2,
+    "far_point": 3,
+    "near_name": "Angelique Kerber",
+    "near_hand": "LH",
+    "near_set": 1,
+    "near_game": 3,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 34,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 55,
+        "label": "far_middle_return_fh_lob_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 128,
+        "label": "near_deuce_stroke_bh_gs_DL_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 243,
+    "video": "20220129-W-Australian_Open-F-Ashleigh_Barty-Danielle_Collins_59736_59979",
+    "far_name": "Danielle Collins",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 1,
+    "near_name": "Ashleigh Barty",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 0,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 69,
+        "label": "far_middle_return_bh_slice_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 122,
+        "label": "near_ad_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 148,
+        "label": "far_middle_stroke_fh_slice_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 199,
+        "label": "near_deuce_stroke_fh_gs_CC_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 387,
+    "video": "20220907-W-US_Open-QF-Iga_Swiatek-Jessica_Pegula_112433_112820",
+    "far_name": "Iga Swiatek",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 3,
+    "far_point": 1,
+    "near_name": "Jessica Pegula",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 3,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 74,
+        "label": "far_middle_return_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 115,
+        "label": "near_middle_stroke_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 149,
+        "label": "far_ad_stroke_bh_gs_DL_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 196,
+        "label": "near_deuce_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 230,
+        "label": "far_deuce_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 282,
+        "label": "near_middle_stroke_fh_gs_CC_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 158,
+    "video": "20200218-W-Dubai-R32-Elena_Rybakina-Sofia_Kenin_167109_167267",
+    "far_name": "Elena Rybakina",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 2,
+    "far_point": 1,
+    "near_name": "Sofia Kenin",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 2,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 55,
+        "label": "far_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 82,
+        "label": "near_ad_return_bh_gs_CC_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 217,
+    "video": "20230119-W-Australian_Open-R64-Marketa_Vondrousova-Ons_Jabeur_56930_57147",
+    "far_name": "Ons Jabeur",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 0,
+    "near_name": "Marketa Vondrousova",
+    "near_hand": "LH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 72,
+        "label": "far_middle_return_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 107,
+        "label": "near_ad_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 138,
+        "label": "far_ad_stroke_bh_drop_DL_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 301,
+    "video": "20200913-M-US_Open-F-Dominic_Thiem-Alexander_Zverev_121290_121591",
+    "far_name": "Alexander Zverev",
+    "far_hand": "RH",
+    "far_set": 2,
+    "far_game": 0,
+    "far_point": 1,
+    "near_name": "Dominic Thiem",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 70,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 92,
+        "label": "far_middle_return_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 132,
+        "label": "near_middle_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 169,
+        "label": "far_middle_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 203,
+        "label": "near_deuce_stroke_fh_gs_CC_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 205,
+    "video": "20190705-W-Wimbledon-R32-Cori_Gauff-Polona_Hercog_101946_102151",
+    "far_name": "Polona Hercog",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 5,
+    "far_point": 1,
+    "near_name": "Cori Gauff",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 2,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 24,
+        "label": "near_ad_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 48,
+        "label": "far_ad_return_bh_slice_DM_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 198,
+    "video": "20200128-W-Australian_Open-QF-Ashleigh_Barty-Petra_Kvitova_24785_24983",
+    "far_name": "Ashleigh Barty",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 0,
+    "near_name": "Petra Kvitova",
+    "near_hand": "LH",
+    "near_set": 0,
+    "near_game": 2,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 48,
+        "label": "near_deuce_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 66,
+        "label": "far_middle_return_bh_slice_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 114,
+        "label": "near_middle_stroke_fh_gs_IO_approach_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 139,
+        "label": "far_deuce_stroke_fh_gs_DL_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 159,
+        "label": "near_ad_stroke_fh_volley_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 255,
+    "video": "20220130-M-Australian_Open-F-Rafael_Nadal-Daniil_Medvedev_367536_367791",
+    "far_name": "Rafael Nadal",
+    "far_hand": "LH",
+    "far_set": 2,
+    "far_game": 0,
+    "far_point": 1,
+    "near_name": "Daniil Medvedev",
+    "near_hand": "RH",
+    "near_set": 2,
+    "near_game": 0,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 25,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 48,
+        "label": "far_middle_return_bh_slice_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 120,
+        "label": "near_middle_stroke_fh_gs_CC_approach_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 145,
+        "label": "far_deuce_stroke_bh_lob_DL_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 330,
+    "video": "20210908-M-US_Open-QF-Novak_Djokovic-Matteo_Berrettini_116270_116600",
+    "far_name": "Matteo Berrettini",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 6,
+    "far_point": 2,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 5,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 66,
+        "label": "far_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 89,
+        "label": "near_deuce_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 125,
+        "label": "far_middle_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 164,
+        "label": "near_deuce_stroke_fh_slice_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 219,
+        "label": "far_middle_stroke_fh_gs_IO_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 220,
+    "video": "20220909-M-US_Open-SF-Frances_Tiafoe-Carlos_Alcaraz_109031_109251",
+    "far_name": "Carlos Alcaraz",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 0,
+    "near_name": "Frances Tiafoe",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 0,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_ad_serve_-_-_W_approach_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 71,
+        "label": "far_ad_return_bh_slice_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 111,
+        "label": "near_middle_stroke_fh_volley_CC_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 306,
+    "video": "20210907-W-US_Open-QF-Leylah_Fernandez-Elina_Svitolina_6972_7278",
+    "far_name": "Leylah Fernandez",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 0,
+    "near_name": "Elina Svitolina",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 83,
+        "label": "near_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 107,
+        "label": "far_deuce_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 145,
+        "label": "near_middle_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 180,
+        "label": "far_ad_stroke_fh_slice_DL_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 166,
+    "video": "20220907-M-US_Open-QF-Andrey_Rublev-Frances_Tiafoe_16730_16896",
+    "far_name": "Frances Tiafoe",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 2,
+    "near_name": "Andrey Rublev",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 1,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 50,
+        "label": "near_ad_serve_-_-_T_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 194,
+    "video": "20220129-W-Australian_Open-F-Ashleigh_Barty-Danielle_Collins_30409_30603",
+    "far_name": "Ashleigh Barty",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 0,
+    "near_name": "Danielle Collins",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 2,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 25,
+        "label": "near_deuce_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 52,
+        "label": "far_deuce_return_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 85,
+        "label": "near_deuce_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 112,
+        "label": "far_middle_stroke_fh_gs_IO_approach_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 151,
+        "label": "near_ad_stroke_bh_slice_CC_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 284,
+    "video": "20210401-W-Miami-SF-Bianca_Andreescu-Maria_Sakkari_140808_141092",
+    "far_name": "Bianca Andreescu",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 3,
+    "far_point": 3,
+    "near_name": "Maria Sakkari",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 2,
+    "near_point": 4,
+    "events": [
+      {
+        "frame": 31,
+        "label": "far_ad_serve_-_-_B_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 52,
+        "label": "near_ad_return_fh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 80,
+        "label": "far_ad_stroke_bh_slice_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 127,
+        "label": "near_middle_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 155,
+        "label": "far_deuce_stroke_fh_lob_DM_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 30.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 251,
+    "video": "20201011-M-Roland_Garros-F-Novak_Djokovic-Rafael_Nadal_78719_78970",
+    "far_name": "Rafael Nadal",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 0,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 54,
+        "label": "near_ad_serve_-_-_W_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 90,
+    "video": "20180711-M-Wimbledon-QF-Rafael_Nadal-Juan_Martin_Del_Potro_37160_37250",
+    "far_name": "Juan Martin Del Potro",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 0,
+    "near_name": "Rafael Nadal",
+    "near_hand": "LH",
+    "near_set": 0,
+    "near_game": 3,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 4,
+        "label": "near_deuce_serve_-_-_W_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 189,
+    "video": "20160814-M-Olympics-F-Andy_Murray-Juan_Martin_Del_Potro_97614_97803",
+    "far_name": "Andy Murray",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 5,
+    "far_point": 2,
+    "near_name": "Juan Martin Del Potro",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 5,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 64,
+        "label": "far_ad_serve_-_-_W_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 249,
+    "video": "20220907-W-US_Open-QF-Karolina_Pliskova-Aryna_Sabalenka_32873_33122",
+    "far_name": "Aryna Sabalenka",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 4,
+    "far_point": 1,
+    "near_name": "Karolina Pliskova",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 56,
+        "label": "near_deuce_serve_-_-_T_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 29.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 204,
+    "video": "20220906-M-US_Open-QF-Casper_Ruud-Matteo_Berrettini_157185_157389",
+    "far_name": "Matteo Berrettini",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 3,
+    "far_point": 2,
+    "near_name": "Casper Ruud",
+    "near_hand": "RH",
+    "near_set": 2,
+    "near_game": 1,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 41,
+        "label": "far_ad_serve_-_-_W_-_unforced-err",
+        "outcome": "unforced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 304,
+    "video": "20141123-M-Davis_Cup_World_Group_F-RR-Richard_Gasquet-Roger_Federer_155524_155828",
+    "far_name": "Roger Federer",
+    "far_hand": "RH",
+    "far_set": 2,
+    "far_game": 4,
+    "far_point": 2,
+    "near_name": "Richard Gasquet",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 2,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 7,
+        "label": "near_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 27,
+        "label": "far_ad_return_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 64,
+        "label": "near_ad_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 100,
+        "label": "far_ad_stroke_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 137,
+        "label": "near_middle_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 165,
+        "label": "far_deuce_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 199,
+        "label": "near_deuce_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 237,
+        "label": "far_middle_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 266,
+        "label": "near_middle_stroke_fh_gs_CC_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 100,
+    "video": "20150702-M-Wimbledon-R64-Dustin_Brown-Rafael_Nadal_6642_6742",
+    "far_name": "Dustin Brown",
+    "far_hand": "RH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 2,
+    "near_name": "Rafael Nadal",
+    "near_hand": "LH",
+    "near_set": 0,
+    "near_game": 0,
+    "near_point": 1,
+    "events": [
+      {
+        "frame": 14,
+        "label": "near_ad_serve_-_-_T_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 297,
+    "video": "20190124-M-Australian_Open-SF-Stefanos_Tsitsipas-Rafael_Nadal_62066_62363",
+    "far_name": "Rafael Nadal",
+    "far_hand": "LH",
+    "far_set": 1,
+    "far_game": 1,
+    "far_point": 3,
+    "near_name": "Stefanos Tsitsipas",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 2,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 64,
+        "label": "far_ad_serve_-_-_W_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 83,
+        "label": "near_ad_return_bh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 130,
+        "label": "far_middle_stroke_fh_gs_IO_approach_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 159,
+        "label": "near_deuce_stroke_fh_lob_CC_-_forced-err",
+        "outcome": "forced-err"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 203,
+    "video": "20210216-M-Australian_Open-QF-Novak_Djokovic-Alexander_Zverev_127701_127904",
+    "far_name": "Alexander Zverev",
+    "far_hand": "RH",
+    "far_set": 1,
+    "far_game": 2,
+    "far_point": 1,
+    "near_name": "Novak Djokovic",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 5,
+    "near_point": 0,
+    "events": [
+      {
+        "frame": 4,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 21,
+        "label": "far_middle_return_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 59,
+        "label": "near_deuce_stroke_fh_gs_DM_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 88,
+        "label": "far_middle_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 119,
+        "label": "near_ad_stroke_bh_slice_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 162,
+        "label": "far_ad_stroke_fh_gs_II_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 382,
+    "video": "20180710-W-Wimbledon-QF-Angelique_Kerber-Daria_Kasatkina_74348_74730",
+    "far_name": "Angelique Kerber",
+    "far_hand": "LH",
+    "far_set": 1,
+    "far_game": 3,
+    "far_point": 2,
+    "near_name": "Daria Kasatkina",
+    "near_hand": "RH",
+    "near_set": 0,
+    "near_game": 1,
+    "near_point": 3,
+    "events": [
+      {
+        "frame": 39,
+        "label": "near_ad_serve_-_-_T_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 62,
+        "label": "far_middle_return_bh_gs_IO_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 101,
+        "label": "near_ad_stroke_fh_gs_II_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 128,
+        "label": "far_deuce_stroke_bh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 166,
+        "label": "near_deuce_stroke_fh_gs_DL_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 198,
+        "label": "far_ad_stroke_fh_gs_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 235,
+        "label": "near_ad_stroke_bh_drop_DL_approach_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 285,
+        "label": "far_deuce_stroke_bh_slice_CC_-_in",
+        "outcome": "in"
+      },
+      {
+        "frame": 325,
+        "label": "near_deuce_stroke_fh_slice_DM_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  },
+  {
+    "fps": 25.0,
+    "height": 720,
+    "width": 1280,
+    "num_frames": 127,
+    "video": "20140627-W-Wimbledon-R32-Venus_Williams-Petra_Kvitova_81399_81526",
+    "far_name": "Petra Kvitova",
+    "far_hand": "LH",
+    "far_set": 0,
+    "far_game": 1,
+    "far_point": 0,
+    "near_name": "Venus Williams",
+    "near_hand": "RH",
+    "near_set": 1,
+    "near_game": 1,
+    "near_point": 2,
+    "events": [
+      {
+        "frame": 42,
+        "label": "near_deuce_serve_-_-_T_-_winner",
+        "outcome": "winner"
+      }
+    ]
+  }
+]

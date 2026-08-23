@@ -1,0 +1,11 @@
+[
+  {
+    "round": 0,
+    "labeled_pool_size": 1314,
+    "labeled_pool_frames": 286291,
+    "labeled_budget_percent": 17.500284243380797,
+    "best_epoch": 43,
+    "val_edit": 66.96252169183977,
+    "test_edit": 67.28610123861652
+  }
+]

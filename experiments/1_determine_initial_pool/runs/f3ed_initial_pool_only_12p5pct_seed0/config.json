@@ -1,0 +1,24 @@
+{
+  "name": "f3ed_initial_pool_only_12p5pct_seed0",
+  "seed": 0,
+  "initial_labeled_pool_size": 12.5,
+  "active_learning_budget_unit": "percent_of_training_frames",
+  "total_training_frames": 1635922,
+  "initial_labeled_pool_frame_budget": 204491,
+  "first_round_only": true,
+  "f3ed": {
+    "feature_arch": "rny002_tsm",
+    "temporal_arch": "gru",
+    "use_ctx": true,
+    "epoch_num_frames": 500000,
+    "clip_len": 96,
+    "stride": 2,
+    "crop_dim": 224,
+    "batch_size": 4,
+    "num_epochs": 50,
+    "warm_up_epochs": 3,
+    "start_val_epoch": 30,
+    "learning_rate": 0.001,
+    "window": 5
+  }
+}
