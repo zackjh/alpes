@@ -82,7 +82,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--query_score_pooling",
         choices=["MAX", "MEAN"],
-        default="MAX",
         help="temporal pooling used to turn frame query scores into clip scores",
     )
     return parser.parse_args()
