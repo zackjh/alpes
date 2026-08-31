@@ -1,0 +1,82 @@
+[
+  {
+    "round": 0,
+    "labeled_pool_size": 753,
+    "labeled_pool_frames": 163621,
+    "labeled_budget_percent": 10.001760475132677,
+    "best_epoch": 49,
+    "val_edit": 61.532716193309874
+  },
+  {
+    "round": 1,
+    "labeled_pool_size": 1494,
+    "labeled_pool_frames": 327599,
+    "labeled_budget_percent": 20.0253435065975,
+    "best_epoch": 48,
+    "val_edit": 67.6843943537503
+  },
+  {
+    "round": 2,
+    "labeled_pool_size": 2198,
+    "labeled_pool_frames": 491615,
+    "labeled_budget_percent": 30.05124938719572,
+    "best_epoch": 39,
+    "val_edit": 69.18448309458034
+  },
+  {
+    "round": 3,
+    "labeled_pool_size": 2952,
+    "labeled_pool_frames": 655335,
+    "labeled_budget_percent": 40.05906149559698,
+    "best_epoch": 36,
+    "val_edit": 71.81839512340223
+  },
+  {
+    "round": 4,
+    "labeled_pool_size": 3706,
+    "labeled_pool_frames": 819087,
+    "labeled_budget_percent": 50.06882968747899,
+    "best_epoch": 40,
+    "val_edit": 71.52879933941637
+  },
+  {
+    "round": 5,
+    "labeled_pool_size": 4422,
+    "labeled_pool_frames": 982816,
+    "labeled_budget_percent": 60.07719194435921,
+    "best_epoch": 48,
+    "val_edit": 72.82234003607338
+  },
+  {
+    "round": 6,
+    "labeled_pool_size": 5185,
+    "labeled_pool_frames": 1146454,
+    "labeled_budget_percent": 70.07999158884104,
+    "best_epoch": 47,
+    "val_edit": 72.97199860999481
+  },
+  {
+    "round": 7,
+    "labeled_pool_size": 5927,
+    "labeled_pool_frames": 1310324,
+    "labeled_budget_percent": 80.09697283855832,
+    "best_epoch": 48,
+    "val_edit": 73.4091787647803
+  },
+  {
+    "round": 8,
+    "labeled_pool_size": 6683,
+    "labeled_pool_frames": 1474122,
+    "labeled_budget_percent": 90.10955290044392,
+    "best_epoch": 49,
+    "val_edit": 73.99515830064382
+  },
+  {
+    "round": 9,
+    "labeled_pool_size": 7436,
+    "labeled_pool_frames": 1635922,
+    "labeled_budget_percent": 100.0,
+    "best_epoch": 49,
+    "val_edit": 73.99293177073936
+  }
+]

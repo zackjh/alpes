@@ -1,0 +1,154 @@
+[
+  {
+    "round": 0,
+    "labeled_pool_size": 748,
+    "labeled_pool_frames": 163649,
+    "labeled_budget_percent": 10.003472048178336,
+    "best_epoch": 46,
+    "val_edit": 61.09988285338999
+  },
+  {
+    "round": 1,
+    "labeled_pool_size": 1111,
+    "labeled_pool_frames": 245446,
+    "labeled_budget_percent": 15.003527063026233,
+    "best_epoch": 43,
+    "val_edit": 65.61893103702954
+  },
+  {
+    "round": 2,
+    "labeled_pool_size": 1486,
+    "labeled_pool_frames": 327443,
+    "labeled_budget_percent": 20.015807599628832,
+    "best_epoch": 44,
+    "val_edit": 68.09075193760034
+  },
+  {
+    "round": 3,
+    "labeled_pool_size": 1852,
+    "labeled_pool_frames": 409419,
+    "labeled_budget_percent": 25.02680445644719,
+    "best_epoch": 40,
+    "val_edit": 68.62738268800848
+  },
+  {
+    "round": 4,
+    "labeled_pool_size": 2221,
+    "labeled_pool_frames": 491242,
+    "labeled_budget_percent": 30.028448789123196,
+    "best_epoch": 43,
+    "val_edit": 70.71808482963827
+  },
+  {
+    "round": 5,
+    "labeled_pool_size": 2583,
+    "labeled_pool_frames": 573265,
+    "labeled_budget_percent": 35.04231864355391,
+    "best_epoch": 44,
+    "val_edit": 71.51336902679995
+  },
+  {
+    "round": 6,
+    "labeled_pool_size": 2970,
+    "labeled_pool_frames": 655145,
+    "labeled_budget_percent": 40.04744724993001,
+    "best_epoch": 47,
+    "val_edit": 71.71124338492181
+  },
+  {
+    "round": 7,
+    "labeled_pool_size": 3339,
+    "labeled_pool_frames": 737035,
+    "labeled_budget_percent": 45.053187132393845,
+    "best_epoch": 48,
+    "val_edit": 71.26502195706213
+  },
+  {
+    "round": 8,
+    "labeled_pool_size": 3701,
+    "labeled_pool_frames": 818970,
+    "labeled_budget_percent": 50.06167775725248,
+    "best_epoch": 47,
+    "val_edit": 73.18272435487293
+  },
+  {
+    "round": 9,
+    "labeled_pool_size": 4075,
+    "labeled_pool_frames": 901062,
+    "labeled_budget_percent": 55.07976541668857,
+    "best_epoch": 38,
+    "val_edit": 72.65837581432432
+  },
+  {
+    "round": 10,
+    "labeled_pool_size": 4455,
+    "labeled_pool_frames": 983089,
+    "labeled_budget_percent": 60.09387978155438,
+    "best_epoch": 47,
+    "val_edit": 72.80322252889874
+  },
+  {
+    "round": 11,
+    "labeled_pool_size": 4831,
+    "labeled_pool_frames": 1064964,
+    "labeled_budget_percent": 65.09870274988661,
+    "best_epoch": 49,
+    "val_edit": 73.12311196215624
+  },
+  {
+    "round": 12,
+    "labeled_pool_size": 5199,
+    "labeled_pool_frames": 1146871,
+    "labeled_budget_percent": 70.1054818016996,
+    "best_epoch": 46,
+    "val_edit": 73.48008068702975
+  },
+  {
+    "round": 13,
+    "labeled_pool_size": 5568,
+    "labeled_pool_frames": 1228726,
+    "labeled_budget_percent": 75.10908221785635,
+    "best_epoch": 40,
+    "val_edit": 73.17863105251574
+  },
+  {
+    "round": 14,
+    "labeled_pool_size": 5957,
+    "labeled_pool_frames": 1310599,
+    "labeled_budget_percent": 80.11378293097104,
+    "best_epoch": 41,
+    "val_edit": 73.32024502863196
+  },
+  {
+    "round": 15,
+    "labeled_pool_size": 6325,
+    "labeled_pool_frames": 1392574,
+    "labeled_budget_percent": 85.12471866018062,
+    "best_epoch": 49,
+    "val_edit": 74.4449345153668
+  },
+  {
+    "round": 16,
+    "labeled_pool_size": 6707,
+    "labeled_pool_frames": 1474376,
+    "labeled_budget_percent": 90.12507931307239,
+    "best_epoch": 41,
+    "val_edit": 73.77211252992038
+  },
+  {
+    "round": 17,
+    "labeled_pool_size": 7079,
+    "labeled_pool_frames": 1556246,
+    "labeled_budget_percent": 95.12959664336074,
+    "best_epoch": 47,
+    "val_edit": 74.26350876263865
+  },
+  {
+    "round": 18,
+    "labeled_pool_size": 7436,
+    "labeled_pool_frames": 1635922,
+    "labeled_budget_percent": 100.0,
+    "best_epoch": 49,
+    "val_edit": 74.192311918809
+  }
+]
