@@ -415,6 +415,12 @@ def main() -> None:
         raise ValueError("initial labeled pool size must be in (0, 100] percent")
     if not 0 < args.query_batch_size <= 100:
         raise ValueError("query batch size must be in (0, 100] percent")
+    if not 0 < args.max_annotation_budget <= 100:
+        raise ValueError("max annotation budget must be in (0, 100] percent")
+    if args.initial_labeled_pool_size > args.max_annotation_budget:
+        raise ValueError(
+            "initial labeled pool size cannot exceed the max annotation budget"
+        )
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
@@ -438,6 +444,10 @@ def main() -> None:
     )
     query_frame_budget = frame_budget_from_percentage(
         args.query_batch_size,
+        total_training_frames,
+    )
+    max_annotation_frame_budget = frame_budget_from_percentage(
+        args.max_annotation_budget,
         total_training_frames,
     )
 
@@ -473,10 +483,12 @@ def main() -> None:
             "query_score_pooling": args.query_score_pooling,
             "initial_labeled_pool_size": args.initial_labeled_pool_size,
             "query_batch_size": args.query_batch_size,
+            "max_annotation_budget": args.max_annotation_budget,
             "active_learning_budget_unit": "percent_of_training_frames",
             "total_training_frames": total_training_frames,
             "initial_labeled_pool_frame_budget": initial_frame_budget,
             "query_batch_frame_budget": query_frame_budget,
+            "max_annotation_frame_budget": max_annotation_frame_budget,
             "f3ed": {
                 "feature_arch": "rny002_tsm",
                 "temporal_arch": "gru",
@@ -540,6 +552,13 @@ def main() -> None:
         )
         save_json(run_dir / "history.json", history)
 
+        if labeled_frames >= max_annotation_frame_budget:
+            print(
+                "Maximum annotation budget reached: "
+                f"{labeled_frames} / {max_annotation_frame_budget} frames."
+            )
+            break
+
         if not unlabeled_indices:
             print("Entire training set is labeled.")
             break
@@ -573,7 +592,10 @@ def main() -> None:
             args.query_strategy,
             model,
             unlabeled_indices,
-            query_frame_budget,
+            min(
+                query_frame_budget,
+                max_annotation_frame_budget - labeled_frames,
+            ),
             frame_counts,
             rng,
             unlabeled_data=unlabeled_data,
