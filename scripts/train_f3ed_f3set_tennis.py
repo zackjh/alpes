@@ -336,7 +336,7 @@ def train_round(
     test_file: Path,
     frame_dir: Path,
     round_dir: Path,
-) -> tuple[F3Set, int, float, float | None]:
+) -> tuple[F3Set, int, float, float, float, float | None]:
     """Train F3ED from scratch on the current labeled pool."""
     dataset_len = EPOCH_NUM_FRAMES // (CLIP_LEN * STRIDE)
 
@@ -430,6 +430,8 @@ def train_round(
     losses = []
     best_epoch = None
     best_val_edit = -math.inf
+    best_val_f1_event = None
+    best_val_f1_element = None
     checkpoint_file = round_dir / "checkpoint.pt"
 
     for epoch in range(NUM_EPOCHS):
@@ -445,18 +447,25 @@ def train_round(
             epoch=epoch,
         )
 
+        val_f1_event = 0.0
+        val_f1_element = 0.0
         val_edit = 0.0
 
         if epoch >= START_VAL_EPOCH:
-            _, _, val_edit = evaluate(
+            evaluated_f1_event, evaluated_f1_element, evaluated_edit = evaluate(
                 model,
                 val_video_data,
                 classes,
                 window=WINDOW,
             )
+            val_f1_event = float(evaluated_f1_event)
+            val_f1_element = float(evaluated_f1_element)
+            val_edit = float(evaluated_edit)
 
             if val_edit > best_val_edit:
                 best_val_edit = val_edit
+                best_val_f1_event = val_f1_event
+                best_val_f1_element = val_f1_element
                 best_epoch = epoch
                 torch.save(model.state_dict(), checkpoint_file)
 
@@ -465,6 +474,8 @@ def train_round(
                 "epoch": epoch,
                 "train": train_loss,
                 "val": val_loss,
+                "val_f1_event": val_f1_event,
+                "val_f1_element": val_f1_element,
                 "val_edit": val_edit,
             }
         )
@@ -474,10 +485,14 @@ def train_round(
             f"[Epoch {epoch}] "
             f"Train loss: {train_loss:.5f} "
             f"Val loss: {val_loss:.5f} "
+            f"Val F1 event: {val_f1_event:.5f} "
+            f"Val F1 element: {val_f1_element:.5f} "
             f"Val edit: {val_edit:.5f}"
         )
 
     assert best_epoch is not None
+    assert best_val_f1_event is not None
+    assert best_val_f1_element is not None
 
     model.load(torch.load(checkpoint_file))
 
@@ -493,14 +508,22 @@ def train_round(
             stride=STRIDE,
             overlap_len=CLIP_LEN // 2,
         )
-        _, _, test_edit = evaluate(
+        _, _, evaluated_test_edit = evaluate(
             model,
             test_data,
             classes,
             window=WINDOW,
         )
+        test_edit = float(evaluated_test_edit)
 
-    return model, best_epoch, best_val_edit, test_edit
+    return (
+        model,
+        best_epoch,
+        best_val_edit,
+        best_val_f1_event,
+        best_val_f1_element,
+        test_edit,
+    )
 
 
 def main() -> None:
@@ -635,7 +658,14 @@ def main() -> None:
             [train_annotations[i] for i in sorted(labeled_indices)],
         )
 
-        model, best_epoch, best_val_edit, test_edit = train_round(
+        (
+            model,
+            best_epoch,
+            best_val_edit,
+            best_val_f1_event,
+            best_val_f1_element,
+            test_edit,
+        ) = train_round(
             classes,
             labeled_file,
             val_file,
@@ -654,6 +684,8 @@ def main() -> None:
                 ),
                 "best_epoch": best_epoch,
                 "val_edit": best_val_edit,
+                "val_f1_event": best_val_f1_event,
+                "val_f1_element": best_val_f1_element,
                 "test_edit": test_edit,
             }
         )

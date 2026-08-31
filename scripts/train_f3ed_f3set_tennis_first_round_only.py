@@ -157,7 +157,14 @@ def main() -> None:
     )
 
     classes = load_classes(str(dataset_root / "elements.txt"))
-    _, best_epoch, best_val_edit, test_edit = train_round(
+    (
+        _,
+        best_epoch,
+        best_val_edit,
+        best_val_f1_event,
+        best_val_f1_element,
+        test_edit,
+    ) = train_round(
         classes,
         labeled_file,
         val_file,
@@ -178,6 +185,8 @@ def main() -> None:
                 ),
                 "best_epoch": best_epoch,
                 "val_edit": best_val_edit,
+                "val_f1_event": best_val_f1_event,
+                "val_f1_element": best_val_f1_element,
                 "test_edit": test_edit,
             }
         ],
