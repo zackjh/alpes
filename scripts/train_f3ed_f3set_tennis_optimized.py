@@ -380,8 +380,8 @@ def train_round(
         # expensive pass, so subsequent training augmentation stays aligned.
         _consume_validation_loader_seed()
 
-        val_f1_event = 0.0
-        val_f1_element = 0.0
+        val_f1_event: float | None = None
+        val_f1_element: float | None = None
         val_edit = 0.0
         if epoch >= START_VAL_EPOCH:
             evaluated_f1_event, evaluated_f1_element, evaluated_edit = evaluate(
@@ -412,11 +412,17 @@ def train_round(
         )
         save_json(round_dir / "loss.json", losses)
 
+        val_f1_event_text = (
+            "null" if val_f1_event is None else f"{val_f1_event:.5f}"
+        )
+        val_f1_element_text = (
+            "null" if val_f1_element is None else f"{val_f1_element:.5f}"
+        )
         print(
             f"[Epoch {epoch}] "
             f"Train loss: {train_loss:.5f} "
-            f"Val F1 event: {val_f1_event:.5f} "
-            f"Val F1 element: {val_f1_element:.5f} "
+            f"Val F1 event: {val_f1_event_text} "
+            f"Val F1 element: {val_f1_element_text} "
             f"Val edit: {val_edit:.5f}"
         )
 
