@@ -6,6 +6,8 @@
     "labeled_budget_percent": 12.519178787252693,
     "best_epoch": 49,
     "val_edit": 62.788881717716244,
+    "val_f1_event": 0.2505037942376633,
+    "val_f1_element": 0.6384010622878205,
     "test_edit": 62.87533768003669
   }
 ]
