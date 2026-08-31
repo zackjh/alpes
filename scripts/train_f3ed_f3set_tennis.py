@@ -15,6 +15,7 @@ from src.F3Set.dataset.frame_process import (
 )
 from src.F3Set.train_f3set_f3ed import F3Set, evaluate
 from src.F3Set.util.dataset import load_classes
+from src.F3Set.util.eval import non_maximum_suppression_np
 from torch.backends import cudnn
 from torch.optim.lr_scheduler import ChainedScheduler, CosineAnnealingLR, LinearLR
 from torch.utils.data import DataLoader
@@ -40,6 +41,13 @@ START_VAL_EPOCH = 30
 LEARNING_RATE = 0.001
 WINDOW = 5
 BASE_NUM_WORKERS = 4
+
+QUERY_SCORE_KEYS = {
+    "COARSE_UNCERTAINTY_MEASURE": "coarse_uncertainty_measure",
+    "COARSE_ENTROPY_MEASURE": "coarse_entropy_measure",
+    "FINE_UNCERTAINTY_MEASURE": "fine_uncertainty_measure",
+    "FINE_ENTROPY_MEASURE": "fine_entropy_measure",
+}
 
 
 def parse_args() -> argparse.Namespace:
@@ -67,10 +75,15 @@ def parse_args() -> argparse.Namespace:
         "--query_strategy",
         required=True,
         choices=[
+            *QUERY_SCORE_KEYS,
             "RANDOM_SAMPLING",
-            "UNCERTAINTY_MEASURE",
-            "ENTROPY_MEASURE",
         ],
+    )
+    parser.add_argument(
+        "--query_score_pooling",
+        choices=["MAX", "MEAN"],
+        default="MAX",
+        help="temporal pooling used to turn frame query scores into clip scores",
     )
     return parser.parse_args()
 
@@ -113,6 +126,156 @@ def random_clips_to_frame_budget(
     return select_clips_to_frame_budget(candidates, frame_counts, frame_budget)
 
 
+def uncertainty_measure(probabilities: np.ndarray) -> np.ndarray:
+    """Return the paper's uncertainty measure for binary probabilities."""
+    return 1.0 - 2.0 * np.abs(probabilities - 0.5)
+
+
+def normalized_entropy(probabilities: np.ndarray, axis: int) -> np.ndarray:
+    """Return entropy normalized to [0, 1] for binary distributions."""
+    entropy_terms = np.zeros_like(probabilities, dtype=np.float64)
+    positive = probabilities > 0
+    entropy_terms[positive] = -probabilities[positive] * np.log(probabilities[positive])
+    return entropy_terms.sum(axis=axis) / math.log(2.0)
+
+
+def pool_frame_scores(scores: np.ndarray, pooling: str) -> float:
+    """Pool a non-empty vector of frame scores into a clip score."""
+    if scores.size == 0:
+        raise ValueError("cannot pool an empty score vector")
+    if pooling == "MAX":
+        return float(np.max(scores))
+    if pooling == "MEAN":
+        return float(np.mean(scores))
+    raise ValueError(f"Unknown query score pooling: {pooling}")
+
+
+def calculate_query_scores(
+    coarse_probabilities: np.ndarray,
+    fine_probabilities: np.ndarray,
+    predicted_event_mask: np.ndarray,
+    pooling: str,
+) -> dict[str, float]:
+    """Calculate the coarse and fine UM/EM clip scores."""
+    if coarse_probabilities.ndim != 2 or coarse_probabilities.shape[1] != 2:
+        raise ValueError("coarse probabilities must have shape (frames, 2)")
+    if fine_probabilities.ndim != 2:
+        raise ValueError("fine probabilities must have shape (frames, classes)")
+    if fine_probabilities.shape[0] != coarse_probabilities.shape[0]:
+        raise ValueError("coarse and fine probabilities must have equal frame counts")
+    if predicted_event_mask.shape != (coarse_probabilities.shape[0],):
+        raise ValueError("predicted event mask must have shape (frames,)")
+
+    coarse_confidence = np.max(coarse_probabilities, axis=1)
+    coarse_um_frames = uncertainty_measure(coarse_confidence)
+    coarse_em_frames = normalized_entropy(coarse_probabilities, axis=1)
+
+    # Each fine output is an independent Bernoulli probability. Average the
+    # per-attribute measures so that the result remains on a [0, 1] scale.
+    fine_um_frames = uncertainty_measure(fine_probabilities).mean(axis=1)
+    fine_binary_distributions = np.stack(
+        (fine_probabilities, 1.0 - fine_probabilities),
+        axis=-1,
+    )
+    fine_em_frames = normalized_entropy(fine_binary_distributions, axis=2).mean(axis=1)
+
+    coarse_um = pool_frame_scores(coarse_um_frames, pooling)
+    coarse_em = pool_frame_scores(coarse_em_frames, pooling)
+
+    if np.any(predicted_event_mask):
+        fine_um = pool_frame_scores(fine_um_frames[predicted_event_mask], pooling)
+        fine_em = pool_frame_scores(fine_em_frames[predicted_event_mask], pooling)
+    else:
+        fine_um = 0.0
+        fine_em = 0.0
+
+    return {
+        "coarse_uncertainty_measure": coarse_um,
+        "fine_uncertainty_measure": fine_um,
+        "coarse_entropy_measure": coarse_em,
+        "fine_entropy_measure": fine_em,
+    }
+
+
+def score_unlabeled_clips(
+    model: F3Set,
+    dataset: ActionSeqVideoDataset,
+    pooling: str,
+) -> dict[str, dict[str, float]]:
+    """Run F3ED over the unlabeled pool and score every annotation clip."""
+    predictions = {
+        video: (
+            np.zeros((video_len, 2), np.float64),
+            np.zeros((video_len, model._num_classes), np.float64),
+            np.zeros(video_len, np.int64),
+        )
+        for video, video_len, _ in dataset.videos
+    }
+
+    loader = DataLoader(
+        dataset,
+        batch_size=BATCH_SIZE,
+        shuffle=False,
+        pin_memory=True,
+        num_workers=BASE_NUM_WORKERS * 2,
+    )
+    for batch in loader:
+        _, batch_coarse_scores, batch_fine_scores = model.predict(
+            batch["frame"], batch["hand"]
+        )
+        for batch_index, video in enumerate(batch["video"]):
+            coarse_scores, fine_scores, support = predictions[video]
+            clip_coarse_scores = batch_coarse_scores[batch_index]
+            clip_fine_scores = batch_fine_scores[batch_index]
+            start = int(batch["start"][batch_index])
+
+            if start < 0:
+                clip_coarse_scores = clip_coarse_scores[-start:]
+                clip_fine_scores = clip_fine_scores[-start:]
+                start = 0
+
+            end = min(start + len(clip_coarse_scores), len(coarse_scores))
+            valid_length = end - start
+            if valid_length <= 0:
+                continue
+            coarse_scores[start:end] += clip_coarse_scores[:valid_length]
+            fine_scores[start:end] += clip_fine_scores[:valid_length]
+            support[start:end] += 1
+
+    scores_by_video = {}
+    for video, (coarse_scores, fine_scores, support) in predictions.items():
+        if np.any(support == 0):
+            raise RuntimeError(f"inference did not cover every frame of {video}")
+        coarse_scores /= support[:, None]
+        fine_scores /= support[:, None]
+        predicted_event_mask = np.argmax(
+            non_maximum_suppression_np(coarse_scores.copy(), WINDOW),
+            axis=1,
+        ).astype(bool)
+        scores_by_video[video] = calculate_query_scores(
+            coarse_scores,
+            fine_scores,
+            predicted_event_mask,
+            pooling,
+        )
+    return scores_by_video
+
+
+def select_scored_clips_to_frame_budget(
+    candidate_indices: set[int],
+    scores: dict[int, dict[str, float]],
+    score_key: str,
+    frame_counts: list[int],
+    frame_budget: int,
+) -> list[int]:
+    """Rank by descending score and select whole clips to the frame budget."""
+    ordered_indices = sorted(
+        candidate_indices,
+        key=lambda index: (-scores[index][score_key], index),
+    )
+    return select_clips_to_frame_budget(ordered_indices, frame_counts, frame_budget)
+
+
 def query(
     strategy: str,
     model: F3Set,
@@ -120,23 +283,44 @@ def query(
     query_frame_budget: int,
     frame_counts: list[int],
     rng: random.Random,
-) -> list[int]:
+    unlabeled_data: ActionSeqVideoDataset | None = None,
+    index_by_video: dict[str, int] | None = None,
+    score_pooling: str = "MAX",
+) -> tuple[list[int], dict[int, dict[str, float]] | None]:
     """Select samples from the unlabeled pool."""
     if strategy == "RANDOM_SAMPLING":
-        return random_clips_to_frame_budget(
-            unlabeled_indices,
-            frame_counts,
-            query_frame_budget,
-            rng,
+        return (
+            random_clips_to_frame_budget(
+                unlabeled_indices,
+                frame_counts,
+                query_frame_budget,
+                rng,
+            ),
+            None,
         )
 
-    if strategy == "UNCERTAINTY_MEASURE":
-        raise NotImplementedError("Uncertainty sampling is not implemented yet")
+    if unlabeled_data is None or index_by_video is None:
+        raise ValueError("active query strategies require an unlabeled dataset")
 
-    if strategy == "ENTROPY_MEASURE":
-        raise NotImplementedError("Entropy sampling is not implemented yet")
+    score_key = QUERY_SCORE_KEYS.get(strategy)
+    if score_key is None:
+        raise ValueError(f"Unknown query strategy: {strategy}")
 
-    raise ValueError(f"Unknown query strategy: {strategy}")
+    scores_by_video = score_unlabeled_clips(model, unlabeled_data, score_pooling)
+    scores = {
+        index_by_video[video]: values for video, values in scores_by_video.items()
+    }
+    if set(scores) != unlabeled_indices:
+        raise RuntimeError("scored pool does not match the unlabeled pool")
+
+    selected = select_scored_clips_to_frame_budget(
+        unlabeled_indices,
+        scores,
+        score_key,
+        frame_counts,
+        query_frame_budget,
+    )
+    return selected, scores
 
 
 def train_round(
@@ -383,6 +567,7 @@ def main() -> None:
             "name": args.name,
             "seed": args.seed,
             "query_strategy": args.query_strategy,
+            "query_score_pooling": args.query_score_pooling,
             "initial_labeled_pool_size": args.initial_labeled_pool_size,
             "query_batch_size": args.query_batch_size,
             "active_learning_budget_unit": "percent_of_training_frames",
@@ -458,14 +643,57 @@ def main() -> None:
             print("Entire training set is labeled.")
             break
 
-        queried_indices = query(
+        unlabeled_data = None
+        index_by_video = None
+        if args.query_strategy != "RANDOM_SAMPLING":
+            unlabeled_file = round_dir / "unlabeled_pool.json"
+            unlabeled_annotations = [
+                train_annotations[i] for i in sorted(unlabeled_indices)
+            ]
+            save_json(unlabeled_file, unlabeled_annotations)
+            index_by_video = {
+                annotation["video"]: index
+                for index, annotation in enumerate(train_annotations)
+                if index in unlabeled_indices
+            }
+            if len(index_by_video) != len(unlabeled_indices):
+                raise ValueError("training video names must be unique")
+            unlabeled_data = ActionSeqVideoDataset(
+                classes,
+                str(unlabeled_file),
+                str(frame_dir),
+                CLIP_LEN,
+                crop_dim=CROP_DIM,
+                stride=STRIDE,
+                overlap_len=0,
+            )
+
+        queried_indices, query_scores = query(
             args.query_strategy,
             model,
             unlabeled_indices,
             query_frame_budget,
             frame_counts,
             rng,
+            unlabeled_data=unlabeled_data,
+            index_by_video=index_by_video,
+            score_pooling=args.query_score_pooling,
         )
+
+        if query_scores is not None:
+            selected_indices = set(queried_indices)
+            save_json(
+                round_dir / "query_scores.json",
+                [
+                    {
+                        "index": index,
+                        "video": train_annotations[index]["video"],
+                        "selected": index in selected_indices,
+                        **query_scores[index],
+                    }
+                    for index in sorted(query_scores)
+                ],
+            )
 
         save_json(
             round_dir / "queried_samples.json",

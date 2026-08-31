@@ -470,6 +470,7 @@ def main() -> None:
             "name": args.name,
             "seed": args.seed,
             "query_strategy": args.query_strategy,
+            "query_score_pooling": args.query_score_pooling,
             "initial_labeled_pool_size": args.initial_labeled_pool_size,
             "query_batch_size": args.query_batch_size,
             "active_learning_budget_unit": "percent_of_training_frames",
@@ -543,14 +544,57 @@ def main() -> None:
             print("Entire training set is labeled.")
             break
 
-        queried_indices = query(
+        unlabeled_data = None
+        index_by_video = None
+        if args.query_strategy != "RANDOM_SAMPLING":
+            unlabeled_file = round_dir / "unlabeled_pool.json"
+            unlabeled_annotations = [
+                train_annotations[i] for i in sorted(unlabeled_indices)
+            ]
+            save_json(unlabeled_file, unlabeled_annotations)
+            index_by_video = {
+                annotation["video"]: index
+                for index, annotation in enumerate(train_annotations)
+                if index in unlabeled_indices
+            }
+            if len(index_by_video) != len(unlabeled_indices):
+                raise ValueError("training video names must be unique")
+            unlabeled_data = ActionSeqVideoDataset(
+                classes,
+                str(unlabeled_file),
+                str(frame_dir),
+                CLIP_LEN,
+                crop_dim=CROP_DIM,
+                stride=STRIDE,
+                overlap_len=0,
+            )
+
+        queried_indices, query_scores = query(
             args.query_strategy,
             model,
             unlabeled_indices,
             query_frame_budget,
             frame_counts,
             rng,
+            unlabeled_data=unlabeled_data,
+            index_by_video=index_by_video,
+            score_pooling=args.query_score_pooling,
         )
+
+        if query_scores is not None:
+            selected_indices = set(queried_indices)
+            save_json(
+                round_dir / "query_scores.json",
+                [
+                    {
+                        "index": index,
+                        "video": train_annotations[index]["video"],
+                        "selected": index in selected_indices,
+                        **query_scores[index],
+                    }
+                    for index in sorted(query_scores)
+                ],
+            )
         save_json(
             round_dir / "queried_samples.json",
             [train_annotations[i]["video"] for i in queried_indices],
