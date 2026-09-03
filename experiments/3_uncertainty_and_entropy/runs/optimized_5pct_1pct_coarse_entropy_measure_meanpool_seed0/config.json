@@ -1,0 +1,31 @@
+{
+  "name": "optimized_5pct_1pct_coarse_entropy_measure_meanpool_seed0",
+  "seed": 0,
+  "query_strategy": "COARSE_ENTROPY_MEASURE",
+  "query_score_pooling": "MEAN",
+  "initial_labeled_pool_size": 5.0,
+  "query_batch_size": 1.0,
+  "max_annotation_budget": 10.0,
+  "active_learning_budget_unit": "percent_of_training_frames",
+  "total_training_frames": 1635922,
+  "initial_labeled_pool_frame_budget": 81797,
+  "query_batch_frame_budget": 16360,
+  "max_annotation_frame_budget": 163593,
+  "f3ed": {
+    "feature_arch": "rny002_tsm",
+    "temporal_arch": "gru",
+    "use_ctx": true,
+    "epoch_num_frames": 500000,
+    "clip_len": 96,
+    "stride": 2,
+    "crop_dim": 224,
+    "batch_size": 4,
+    "num_epochs": 50,
+    "warm_up_epochs": 3,
+    "start_val_epoch": 30,
+    "learning_rate": 0.001,
+    "window": 5
+  },
+  "validation_loss_computed": false,
+  "test_evaluation_during_training": false
+}
