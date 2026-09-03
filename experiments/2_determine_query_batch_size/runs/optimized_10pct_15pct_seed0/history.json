@@ -5,7 +5,9 @@
     "labeled_pool_frames": 163621,
     "labeled_budget_percent": 10.001760475132677,
     "best_epoch": 39,
-    "val_edit": 60.74440284095192
+    "val_edit": 60.74440284095192,
+    "val_f1_event": 0.21693189279602837,
+    "val_f1_element": 0.6192757395875937
   },
   {
     "round": 1,
@@ -13,7 +15,9 @@
     "labeled_pool_frames": 409078,
     "labeled_budget_percent": 25.00595994185542,
     "best_epoch": 44,
-    "val_edit": 68.8488899677551
+    "val_edit": 68.8488899677551,
+    "val_f1_event": 0.33616429284306537,
+    "val_f1_element": 0.7007075613660492
   },
   {
     "round": 2,
@@ -21,7 +25,9 @@
     "labeled_pool_frames": 654825,
     "labeled_budget_percent": 40.02788641512248,
     "best_epoch": 40,
-    "val_edit": 70.65593244447685
+    "val_edit": 70.65593244447685,
+    "val_f1_event": 0.3638387256090984,
+    "val_f1_element": 0.7163390453538654
   },
   {
     "round": 3,
@@ -29,7 +35,9 @@
     "labeled_pool_frames": 900346,
     "labeled_budget_percent": 55.035998048806725,
     "best_epoch": 47,
-    "val_edit": 71.53428646644186
+    "val_edit": 71.53428646644186,
+    "val_f1_event": 0.37291194203543415,
+    "val_f1_element": 0.7314472094503787
   },
   {
     "round": 4,
@@ -37,7 +45,9 @@
     "labeled_pool_frames": 1145799,
     "labeled_budget_percent": 70.03995300509438,
     "best_epoch": 40,
-    "val_edit": 74.10822065510061
+    "val_edit": 74.10822065510061,
+    "val_f1_event": 0.3819174081534891,
+    "val_f1_element": 0.7336592498609548
   },
   {
     "round": 5,
@@ -45,7 +55,9 @@
     "labeled_pool_frames": 1391289,
     "labeled_budget_percent": 85.04616968290664,
     "best_epoch": 48,
-    "val_edit": 74.09279649284326
+    "val_edit": 74.09279649284326,
+    "val_f1_event": 0.395016459779691,
+    "val_f1_element": 0.7412797640080844
   },
   {
     "round": 6,
@@ -53,6 +65,8 @@
     "labeled_pool_frames": 1635922,
     "labeled_budget_percent": 100.0,
     "best_epoch": 44,
-    "val_edit": 74.07301268254913
+    "val_edit": 74.07301268254913,
+    "val_f1_event": 0.3997340020545164,
+    "val_f1_element": 0.7420793816177442
   }
 ]
