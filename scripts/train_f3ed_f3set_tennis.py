@@ -47,7 +47,21 @@ QUERY_SCORE_KEYS = {
     "COARSE_ENTROPY_MEASURE": "coarse_entropy_measure",
     "FINE_UNCERTAINTY_MEASURE": "fine_uncertainty_measure",
     "FINE_ENTROPY_MEASURE": "fine_entropy_measure",
+    "GROUPED_FINE_ENTROPY": "grouped_fine_entropy",
 }
+
+FINE_SUBCLASS_SPECS = (
+    ("player", ("near", "far"), False),
+    ("court_position", ("deuce", "middle", "ad"), False),
+    ("action", ("serve", "return", "stroke"), False),
+    ("handedness", ("fh", "bh"), True),
+    ("stroke_type", ("gs", "slice", "volley", "smash", "drop", "lob"), True),
+    ("direction", ("T", "B", "W", "CC", "DL", "DM", "II", "IO"), False),
+    ("approach", ("approach",), True),
+    ("outcome", ("in", "winner", "forced-err", "unforced-err"), False),
+)
+
+FineSubclassGroups = tuple[tuple[tuple[int, ...], bool], ...]
 
 
 def parse_args() -> argparse.Namespace:
@@ -145,6 +159,96 @@ def normalized_entropy(probabilities: np.ndarray, axis: int) -> np.ndarray:
     return entropy_terms.sum(axis=axis) / math.log(2.0)
 
 
+def build_fine_subclass_groups(classes: dict[str, int]) -> FineSubclassGroups:
+    """Validate the tennis elements and return zero-based grouped column indices."""
+    configured_labels = [
+        label for _, labels, _ in FINE_SUBCLASS_SPECS for label in labels
+    ]
+    duplicate_labels = sorted(
+        {label for label in configured_labels if configured_labels.count(label) > 1}
+    )
+    if duplicate_labels:
+        raise ValueError(
+            "fine subclass configuration contains duplicate labels: "
+            + ", ".join(duplicate_labels)
+        )
+
+    configured_set = set(configured_labels)
+    class_set = set(classes)
+    missing = sorted(configured_set - class_set)
+    unexpected = sorted(class_set - configured_set)
+    if missing or unexpected:
+        details = []
+        if missing:
+            details.append(f"missing labels: {', '.join(missing)}")
+        if unexpected:
+            details.append(f"unexpected labels: {', '.join(unexpected)}")
+        raise ValueError(
+            "incompatible fine subclass labels (" + "; ".join(details) + ")"
+        )
+
+    expected_ids = list(range(1, len(configured_labels) + 1))
+    if sorted(classes.values()) != expected_ids:
+        raise ValueError(
+            "fine class IDs must be unique and contiguous from 1 through "
+            f"{len(configured_labels)}"
+        )
+
+    return tuple(
+        (tuple(classes[label] - 1 for label in labels), includes_null)
+        for _, labels, includes_null in FINE_SUBCLASS_SPECS
+    )
+
+
+def grouped_fine_entropy(
+    probabilities: np.ndarray,
+    groups: FineSubclassGroups,
+) -> np.ndarray:
+    """Return equally weighted normalized categorical entropy for each frame."""
+    if probabilities.ndim != 2:
+        raise ValueError("fine probabilities must have shape (frames, classes)")
+
+    probabilities = probabilities.astype(np.float64, copy=False)
+    epsilon = np.finfo(np.float64).eps
+    clipped = np.clip(probabilities, epsilon, 1.0 - epsilon)
+    logits = np.log(clipped) - np.log1p(-clipped)
+
+    group_entropies = []
+    for indices, includes_null in groups:
+        if not indices:
+            raise ValueError("fine subclass groups cannot be empty")
+        if min(indices) < 0 or max(indices) >= probabilities.shape[1]:
+            raise ValueError("fine subclass group index is outside probability columns")
+
+        group_logits = logits[:, indices]
+        if includes_null:
+            # A zero null logit makes this the distribution obtained by
+            # conditioning independent Bernoulli outputs on at most one active
+            # value: the named-category weights are their sigmoid odds and the
+            # null weight is one.
+            group_logits = np.concatenate(
+                (group_logits, np.zeros((len(probabilities), 1), dtype=np.float64)),
+                axis=1,
+            )
+
+        group_logits = group_logits - np.max(group_logits, axis=1, keepdims=True)
+        group_probabilities = np.exp(group_logits)
+        group_probabilities /= group_probabilities.sum(axis=1, keepdims=True)
+
+        entropy_terms = np.zeros_like(group_probabilities)
+        positive = group_probabilities > 0
+        entropy_terms[positive] = -group_probabilities[positive] * np.log(
+            group_probabilities[positive]
+        )
+        group_entropies.append(
+            entropy_terms.sum(axis=1) / math.log(group_probabilities.shape[1])
+        )
+
+    if not group_entropies:
+        raise ValueError("at least one fine subclass group is required")
+    return np.stack(group_entropies, axis=1).mean(axis=1)
+
+
 def pool_frame_scores(scores: np.ndarray, pooling: str) -> float:
     """Pool a non-empty vector of frame scores into a clip score."""
     if scores.size == 0:
@@ -161,8 +265,9 @@ def calculate_query_scores(
     fine_probabilities: np.ndarray,
     predicted_event_mask: np.ndarray,
     pooling: str,
+    fine_subclass_groups: FineSubclassGroups,
 ) -> dict[str, float]:
-    """Calculate the coarse and fine UM/EM clip scores."""
+    """Calculate the coarse, fine, and grouped-fine clip scores."""
     if coarse_probabilities.ndim != 2 or coarse_probabilities.shape[1] != 2:
         raise ValueError("coarse probabilities must have shape (frames, 2)")
     if fine_probabilities.ndim != 2:
@@ -184,6 +289,10 @@ def calculate_query_scores(
         axis=-1,
     )
     fine_em_frames = normalized_entropy(fine_binary_distributions, axis=2).mean(axis=1)
+    grouped_fine_em_frames = grouped_fine_entropy(
+        fine_probabilities,
+        fine_subclass_groups,
+    )
 
     coarse_um = pool_frame_scores(coarse_um_frames, pooling)
     coarse_em = pool_frame_scores(coarse_em_frames, pooling)
@@ -191,15 +300,21 @@ def calculate_query_scores(
     if np.any(predicted_event_mask):
         fine_um = pool_frame_scores(fine_um_frames[predicted_event_mask], pooling)
         fine_em = pool_frame_scores(fine_em_frames[predicted_event_mask], pooling)
+        grouped_fine_em = pool_frame_scores(
+            grouped_fine_em_frames[predicted_event_mask],
+            pooling,
+        )
     else:
         fine_um = 0.0
         fine_em = 0.0
+        grouped_fine_em = 0.0
 
     return {
         "coarse_uncertainty_measure": coarse_um,
         "fine_uncertainty_measure": fine_um,
         "coarse_entropy_measure": coarse_em,
         "fine_entropy_measure": fine_em,
+        "grouped_fine_entropy": grouped_fine_em,
     }
 
 
@@ -209,6 +324,28 @@ def score_unlabeled_clips(
     pooling: str,
 ) -> dict[str, dict[str, float]]:
     """Run F3ED over the unlabeled pool and score every annotation clip."""
+    scores_by_video_and_pooling = score_unlabeled_clips_for_poolings(
+        model,
+        dataset,
+        (pooling,),
+    )
+    return {
+        video: scores_by_pooling[pooling]
+        for video, scores_by_pooling in scores_by_video_and_pooling.items()
+    }
+
+
+def score_unlabeled_clips_for_poolings(
+    model: F3Set,
+    dataset: ActionSeqVideoDataset,
+    poolings: tuple[str, ...],
+) -> dict[str, dict[str, dict[str, float]]]:
+    """Run F3ED once and score every clip with each requested pooling."""
+    if not poolings:
+        raise ValueError("at least one query score pooling is required")
+
+    fine_subclass_groups = build_fine_subclass_groups(dataset._class_dict)
+
     predictions = {
         video: (
             np.zeros((video_len, 2), np.float64),
@@ -258,12 +395,16 @@ def score_unlabeled_clips(
             non_maximum_suppression_np(coarse_scores.copy(), WINDOW),
             axis=1,
         ).astype(bool)
-        scores_by_video[video] = calculate_query_scores(
-            coarse_scores,
-            fine_scores,
-            predicted_event_mask,
-            pooling,
-        )
+        scores_by_video[video] = {
+            pooling: calculate_query_scores(
+                coarse_scores,
+                fine_scores,
+                predicted_event_mask,
+                pooling,
+                fine_subclass_groups,
+            )
+            for pooling in poolings
+        }
     return scores_by_video
 
 
