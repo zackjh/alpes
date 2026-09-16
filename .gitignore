@@ -2,7 +2,7 @@
 *.pyc
 __pycache__
 data
-*.log
 *.pt
 *.pth
+*.log
 .DS_Store

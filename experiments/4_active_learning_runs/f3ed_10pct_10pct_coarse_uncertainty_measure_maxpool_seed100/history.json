@@ -1,0 +1,112 @@
+[
+  {
+    "round": 0,
+    "labeled_pool_size": 743,
+    "labeled_pool_frames": 163944,
+    "labeled_budget_percent": 10.021504692766525,
+    "best_epoch": 44,
+    "val_edit": 59.29765142889456,
+    "val_f1_event": 0.21825704286629552,
+    "val_f1_element": 0.6039331192057719,
+    "test_edit": 59.872593776550296
+  },
+  {
+    "round": 1,
+    "labeled_pool_size": 1251,
+    "labeled_pool_frames": 327886,
+    "labeled_budget_percent": 20.042887130315503,
+    "best_epoch": 45,
+    "val_edit": 66.9037557794754,
+    "val_f1_event": 0.31565546041827097,
+    "val_f1_element": 0.6871048302977816,
+    "test_edit": 65.30471687503703
+  },
+  {
+    "round": 2,
+    "labeled_pool_size": 1815,
+    "labeled_pool_frames": 491528,
+    "labeled_budget_percent": 30.045931285232424,
+    "best_epoch": 37,
+    "val_edit": 68.08688002759254,
+    "val_f1_event": 0.3600722097580302,
+    "val_f1_element": 0.7079956045362136,
+    "test_edit": 68.297567725015
+  },
+  {
+    "round": 3,
+    "labeled_pool_size": 2421,
+    "labeled_pool_frames": 655194,
+    "labeled_budget_percent": 40.050442502759914,
+    "best_epoch": 44,
+    "val_edit": 70.0707790065479,
+    "val_f1_event": 0.3807276400374682,
+    "val_f1_element": 0.7287891646232472,
+    "test_edit": 69.16884654220446
+  },
+  {
+    "round": 4,
+    "labeled_pool_size": 3062,
+    "labeled_pool_frames": 818853,
+    "labeled_budget_percent": 50.054525827025984,
+    "best_epoch": 39,
+    "val_edit": 69.43995123962671,
+    "val_f1_event": 0.4031728231420816,
+    "val_f1_element": 0.7354258049772874,
+    "test_edit": 68.6845590171976
+  },
+  {
+    "round": 5,
+    "labeled_pool_size": 3749,
+    "labeled_pool_frames": 982677,
+    "labeled_budget_percent": 60.06869520673968,
+    "best_epoch": 43,
+    "val_edit": 70.69387929854457,
+    "val_f1_event": 0.39272698454688154,
+    "val_f1_element": 0.7415530162599423,
+    "test_edit": 70.83662951222095
+  },
+  {
+    "round": 6,
+    "labeled_pool_size": 4481,
+    "labeled_pool_frames": 1146300,
+    "labeled_budget_percent": 70.07057793708991,
+    "best_epoch": 49,
+    "val_edit": 71.42029410628905,
+    "val_f1_event": 0.4169334709405963,
+    "val_f1_element": 0.7526301793505582,
+    "test_edit": 71.48262179718623
+  },
+  {
+    "round": 7,
+    "labeled_pool_size": 5329,
+    "labeled_pool_frames": 1309967,
+    "labeled_budget_percent": 80.07515028222618,
+    "best_epoch": 44,
+    "val_edit": 72.14268706603794,
+    "val_f1_event": 0.4211326309859686,
+    "val_f1_element": 0.7458020534540827,
+    "test_edit": 72.09636964590007
+  },
+  {
+    "round": 8,
+    "labeled_pool_size": 6343,
+    "labeled_pool_frames": 1473724,
+    "labeled_budget_percent": 90.08522411215205,
+    "best_epoch": 43,
+    "val_edit": 73.17429659175059,
+    "val_f1_event": 0.4236269809124003,
+    "val_f1_element": 0.7519504033965844,
+    "test_edit": 73.41075577561487
+  },
+  {
+    "round": 9,
+    "labeled_pool_size": 7436,
+    "labeled_pool_frames": 1635922,
+    "labeled_budget_percent": 100.0,
+    "best_epoch": 49,
+    "val_edit": 74.23475990380007,
+    "val_f1_event": 0.39926968959900005,
+    "val_f1_element": 0.7465396621715981,
+    "test_edit": 73.97462877307483
+  }
+]

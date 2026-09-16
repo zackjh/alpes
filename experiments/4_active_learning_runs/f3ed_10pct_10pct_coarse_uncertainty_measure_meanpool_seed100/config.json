@@ -1,0 +1,29 @@
+{
+  "name": "f3ed_10pct_10pct_coarse_uncertainty_measure_meanpool_seed100",
+  "seed": 100,
+  "query_strategy": "COARSE_UNCERTAINTY_MEASURE",
+  "query_score_pooling": "MEAN",
+  "initial_labeled_pool_size": 10.0,
+  "query_batch_size": 10.0,
+  "max_annotation_budget": 100.0,
+  "active_learning_budget_unit": "percent_of_training_frames",
+  "total_training_frames": 1635922,
+  "initial_labeled_pool_frame_budget": 163593,
+  "query_batch_frame_budget": 163593,
+  "max_annotation_frame_budget": 1635922,
+  "f3ed": {
+    "feature_arch": "rny002_tsm",
+    "temporal_arch": "gru",
+    "use_ctx": true,
+    "epoch_num_frames": 500000,
+    "clip_len": 96,
+    "stride": 2,
+    "crop_dim": 224,
+    "batch_size": 4,
+    "num_epochs": 50,
+    "warm_up_epochs": 3,
+    "start_val_epoch": 30,
+    "learning_rate": 0.001,
+    "window": 5
+  }
+}

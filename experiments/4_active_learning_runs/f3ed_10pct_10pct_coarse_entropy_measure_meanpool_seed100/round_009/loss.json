@@ -1,0 +1,98 @@
+[
+  {
+    "epoch": 0,
+    "train": 0.9439697466138322,
+    "val": 0.8103997008932149,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 1,
+    "train": 0.7084621055975854,
+    "val": 0.6136824914648489,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 2,
+    "train": 0.5376155568707374,
+    "val": 0.49224957586066126,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 3,
+    "train": 0.47267212770226913,
+    "val": 0.3964116308221056,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 4,
+    "train": 0.4317792748571724,
+    "val": 0.369539830308019,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 5,
+    "train": 0.39702084200448157,
+    "val": 0.3542913909704407,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 6,
+    "train": 0.35894563304297566,
+    "val": 0.32863509170482497,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 7,
+    "train": 0.34287743405446114,
+    "val": 0.3168617350740667,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 8,
+    "train": 0.3261748227060482,
+    "val": 0.2818656760307909,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 9,
+    "train": 0.312729042143591,
+    "val": 0.26921489725083664,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 10,
+    "train": 0.29425224946803213,
+    "val": 0.25383807604481107,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  },
+  {
+    "epoch": 11,
+    "train": 0.2867454998023499,
+    "val": 0.25054416142724045,
+    "val_f1_event": null,
+    "val_f1_element": null,
+    "val_edit": 0.0
+  }
+]
