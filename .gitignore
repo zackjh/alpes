@@ -6,3 +6,4 @@ data
 *.pth
 *.log
 .DS_Store
+*.tar
