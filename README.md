@@ -9,16 +9,14 @@ dependencies.
 For F3Set and the F3ED active-learning experiments:
 
 ```sh
-conda env create --file src/F3Set/environment.yml --name alpes-f3set
+conda env create --file envs/alpes-f3set/environment.yml --name alpes-f3set
 conda activate alpes-f3set
 ```
 
 For AdaSpot:
 
-```sh
-conda env create --file src/AdaSpot/environment.yml --name alpes-adaspot
-conda activate alpes-adaspot
-```
+> [!NOTE]
+> AdaSpot installation instructions are a work in progress.
 
 Then install the shared source tree from the repository root:
 
