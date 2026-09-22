@@ -1,0 +1,1 @@
+"""AdaSpot shared utilities."""
