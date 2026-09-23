@@ -59,6 +59,12 @@ def parse_args() -> argparse.Namespace:
         metavar="PERCENT",
         help="initial labeled-frame budget as a percentage of the training set",
     )
+    parser.add_argument(
+        "--frame_dir",
+        type=Path,
+        required=True,
+        help="Directory containing the F3Set-Tennis per-clip frame folders.",
+    )
     return parser.parse_args()
 
 
@@ -81,7 +87,7 @@ def main() -> None:
 
     project_root = Path(__file__).resolve().parents[1]
     dataset_root = project_root / "src" / "F3Set" / "data" / "f3set-tennis"
-    frame_dir = project_root / "data" / "f3set-tennis-frames"
+    frame_dir = args.frame_dir.expanduser().resolve()
 
     train_file = dataset_root / "train.json"
     val_file = dataset_root / "val.json"

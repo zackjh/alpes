@@ -19,7 +19,6 @@ from train_f3ed_f3set_tennis import (
 
 project_root = Path(__file__).resolve().parents[1]
 DATASET_ROOT = project_root / "src" / "F3Set" / "data" / "f3set-tennis"
-FRAME_DIR = project_root / "data" / "f3set-tennis-frames"
 
 
 def parse_args() -> argparse.Namespace:
@@ -52,6 +51,12 @@ def parse_args() -> argparse.Namespace:
             "(default: MEAN MAX)"
         ),
     )
+    parser.add_argument(
+        "--frame_dir",
+        type=Path,
+        required=True,
+        help="Directory containing the F3Set-Tennis per-clip frame folders.",
+    )
     return parser.parse_args()
 
 
@@ -75,6 +80,7 @@ def save_json(path: Path, value: object) -> None:
 
 def main() -> None:
     args = parse_args()
+    frame_dir = args.frame_dir.expanduser().resolve()
 
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -94,7 +100,7 @@ def main() -> None:
     train_data = ActionSeqVideoDataset(
         classes,
         str(train_file),
-        str(FRAME_DIR),
+        str(frame_dir),
         CLIP_LEN,
         crop_dim=CROP_DIM,
         stride=STRIDE,
