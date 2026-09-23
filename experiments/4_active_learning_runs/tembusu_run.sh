@@ -1,5 +1,4 @@
 #!/bin/bash
-#SBATCH --job-name=alpes
 #SBATCH --gres=gpu:h100-47:1
 #SBATCH --cpus-per-task=12
 #SBATCH --mem=32G
