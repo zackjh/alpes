@@ -40,8 +40,20 @@ LOCAL_DIR="/tmp/$USER/$SLURM_JOB_ID"
 mkdir -p "$LOCAL_DIR"
 trap 'rm -rf "$LOCAL_DIR"' EXIT
 
+echo "=== Copying dataset archive ==="
+echo "Start: $(date)"
+
 cp "$HOME/alpes/data/f3set-tennis-frames.tar" "$LOCAL_DIR"
-tar -xf "$LOCAL_DIR/f3set-tennis-frames.tar" -C "$LOCAL_DIR"
+
+echo "End: $(date)"
+
+echo
+echo "=== Extracting dataset ==="
+echo "Start: $(date)"
+
+/usr/bin/time -v tar -xf "$LOCAL_DIR/f3set-tennis-frames.tar" -C "$LOCAL_DIR"
+
+echo "End: $(date)"
 
 initial_pool_size=10
 query_batch_size=10
