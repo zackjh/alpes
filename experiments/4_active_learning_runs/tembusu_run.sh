@@ -34,7 +34,6 @@ source "$HOME/miniconda3/etc/profile.d/conda.sh"
 conda activate alpes-f3set
 
 cd "$HOME/alpes"
-python -m pip install -e . --no-deps
 
 LOCAL_DIR="/tmp/$USER/$SLURM_JOB_ID"
 mkdir -p "$LOCAL_DIR"
