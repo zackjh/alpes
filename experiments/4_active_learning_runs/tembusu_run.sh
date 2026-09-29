@@ -27,7 +27,7 @@ echo "Memory allocated: ${SLURM_MEM_PER_NODE:-unknown} MB"
 
 echo
 echo "=== GPU ==="
-nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader
+nvidia-smi -L
 
 source "$HOME/miniconda3/etc/profile.d/conda.sh"
 conda activate alpes-f3set
