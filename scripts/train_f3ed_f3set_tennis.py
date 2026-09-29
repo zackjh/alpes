@@ -442,6 +442,12 @@ def query(
 ) -> tuple[list[int], dict[int, dict[str, float]] | None]:
     """Select samples from the unlabeled pool."""
     if strategy == "RANDOM_SAMPLING":
+        if unlabeled_data is None:
+            raise ValueError("random query requires an unlabeled dataset")
+        # Match the scoring pass (and its RNG consumption) of existing scored
+        # runs without changing their training seeds. Discard the scores so
+        # acquisition still uses only the independent random.Random instance.
+        score_unlabeled_clips(model, unlabeled_data, score_pooling)
         return (
             random_clips_to_frame_budget(
                 unlabeled_indices,
@@ -855,30 +861,27 @@ def main() -> None:
             print("Entire training set is labeled.")
             break
 
-        unlabeled_data = None
-        index_by_video = None
-        if args.query_strategy != "RANDOM_SAMPLING":
-            unlabeled_file = round_dir / "unlabeled_pool.json"
-            unlabeled_annotations = [
-                train_annotations[i] for i in sorted(unlabeled_indices)
-            ]
-            save_json(unlabeled_file, unlabeled_annotations)
-            index_by_video = {
-                annotation["video"]: index
-                for index, annotation in enumerate(train_annotations)
-                if index in unlabeled_indices
-            }
-            if len(index_by_video) != len(unlabeled_indices):
-                raise ValueError("training video names must be unique")
-            unlabeled_data = ActionSeqVideoDataset(
-                classes,
-                str(unlabeled_file),
-                str(frame_dir),
-                CLIP_LEN,
-                crop_dim=CROP_DIM,
-                stride=STRIDE,
-                overlap_len=0,
-            )
+        unlabeled_file = round_dir / "unlabeled_pool.json"
+        unlabeled_annotations = [
+            train_annotations[i] for i in sorted(unlabeled_indices)
+        ]
+        save_json(unlabeled_file, unlabeled_annotations)
+        index_by_video = {
+            annotation["video"]: index
+            for index, annotation in enumerate(train_annotations)
+            if index in unlabeled_indices
+        }
+        if len(index_by_video) != len(unlabeled_indices):
+            raise ValueError("training video names must be unique")
+        unlabeled_data = ActionSeqVideoDataset(
+            classes,
+            str(unlabeled_file),
+            str(frame_dir),
+            CLIP_LEN,
+            crop_dim=CROP_DIM,
+            stride=STRIDE,
+            overlap_len=0,
+        )
 
         queried_indices, query_scores = query(
             args.query_strategy,
