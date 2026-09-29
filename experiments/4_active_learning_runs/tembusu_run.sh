@@ -79,4 +79,4 @@ name="f3ed_${initial_pool_size_name}pct_${query_batch_size_name}pct_${query_stra
     --query_batch_size "$query_batch_size" \
     --max_annotation_budget "$max_annotation_budget" \
     --query_strategy "$query_strategy" \
-    --query_score_pooling "$query_score_pooling"
+    --query_score_pooling "$query_score_pooling" \
