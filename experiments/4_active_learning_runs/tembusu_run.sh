@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --partition=gpu-long
 #SBATCH --gres=gpu:h100-47:1
-#SBATCH --nodelist=xgpi11,xgpi12,xgpi16,xgpi18,xgpi19
+#SBATCH --exclude=xgpi13,xgpi14,xgpi15,xgpi17
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=10G
 #SBATCH --time=36:00:00
