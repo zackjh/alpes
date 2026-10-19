@@ -1,0 +1,25 @@
+{
+  "checkpoint": "/mnt/ssd2/zachary/alpes/experiments/4_active_learning_runs/f3ed_10pct_10pct_random_sampling_meanpool_seed200/round_003/checkpoint.pt",
+  "test_f1_event": 0.3650259058490008,
+  "test_f1_element": 0.7240587569261533,
+  "test_f1_class_agnostic": 0.8592499428310084,
+  "test_edit": 71.69028854045385,
+  "G_high": {
+    "test_f1_event": 0.3650259058490008,
+    "test_f1_element": 0.7240587569261533,
+    "test_f1_class_agnostic": 0.8592499428310084,
+    "test_edit": 71.69028854045385
+  },
+  "G_mid": {
+    "test_f1_event": 0.44162453119776274,
+    "test_f1_element": 0.7364220282168343,
+    "test_f1_class_agnostic": 0.8592499428310084,
+    "test_edit": 80.20050033382502
+  },
+  "G_low": {
+    "test_f1_event": 0.6381115918696054,
+    "test_f1_element": 0.7834039466310199,
+    "test_f1_class_agnostic": 0.8592499428310084,
+    "test_edit": 86.18849824474216
+  }
+}

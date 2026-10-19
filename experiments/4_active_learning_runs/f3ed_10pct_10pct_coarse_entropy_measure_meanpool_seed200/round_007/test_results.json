@@ -1,0 +1,25 @@
+{
+  "checkpoint": "/mnt/ssd2/zachary/alpes/experiments/4_active_learning_runs/f3ed_10pct_10pct_coarse_entropy_measure_meanpool_seed200/round_007/checkpoint.pt",
+  "test_f1_event": 0.4168155163212584,
+  "test_f1_element": 0.7564257057487743,
+  "test_f1_class_agnostic": 0.8718211882768845,
+  "test_edit": 72.29639946856618,
+  "G_high": {
+    "test_f1_event": 0.4168155163212584,
+    "test_f1_element": 0.7564257057487743,
+    "test_f1_class_agnostic": 0.8718211882768845,
+    "test_edit": 72.29639946856618
+  },
+  "G_mid": {
+    "test_f1_event": 0.5030055541937867,
+    "test_f1_element": 0.7714004056026916,
+    "test_f1_class_agnostic": 0.8718211882768845,
+    "test_edit": 81.95374649889175
+  },
+  "G_low": {
+    "test_f1_event": 0.6753327454468998,
+    "test_f1_element": 0.7993442993238251,
+    "test_f1_class_agnostic": 0.8718211882768845,
+    "test_edit": 85.93734178269034
+  }
+}
