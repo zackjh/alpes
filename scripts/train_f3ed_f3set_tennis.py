@@ -47,6 +47,8 @@ QUERY_SCORE_KEYS = {
     "COARSE_ENTROPY_MEASURE": "coarse_entropy_measure",
     "FINE_UNCERTAINTY_MEASURE": "fine_uncertainty_measure",
     "FINE_ENTROPY_MEASURE": "fine_entropy_measure",
+    "WEIGHTED_UNCERTAINTY_MEASURE": "weighted_uncertainty_measure",
+    "WEIGHTED_ENTROPY_MEASURE": "weighted_entropy_measure",
     "GROUPED_FINE_ENTROPY": "grouped_fine_entropy",
 }
 
@@ -273,7 +275,7 @@ def calculate_query_scores(
     pooling: str,
     fine_subclass_groups: FineSubclassGroups,
 ) -> dict[str, float]:
-    """Calculate the coarse, fine, and grouped-fine clip scores."""
+    """Calculate the coarse, fine, weighted, and grouped-fine clip scores."""
     if coarse_probabilities.ndim != 2 or coarse_probabilities.shape[1] != 2:
         raise ValueError("coarse probabilities must have shape (frames, 2)")
     if fine_probabilities.ndim != 2:
@@ -303,6 +305,12 @@ def calculate_query_scores(
     coarse_um = pool_frame_scores(coarse_um_frames, pooling)
     coarse_em = pool_frame_scores(coarse_em_frames, pooling)
 
+    # Weight every frame by its event probability before temporal pooling.
+    # Use the raw event probability, without thresholding or NMS masking.
+    event_probabilities = coarse_probabilities[:, 1]
+    weighted_um = pool_frame_scores(fine_um_frames * event_probabilities, pooling)
+    weighted_em = pool_frame_scores(fine_em_frames * event_probabilities, pooling)
+
     if np.any(predicted_event_mask):
         fine_um = pool_frame_scores(fine_um_frames[predicted_event_mask], pooling)
         fine_em = pool_frame_scores(fine_em_frames[predicted_event_mask], pooling)
@@ -320,6 +328,8 @@ def calculate_query_scores(
         "fine_uncertainty_measure": fine_um,
         "coarse_entropy_measure": coarse_em,
         "fine_entropy_measure": fine_em,
+        "weighted_uncertainty_measure": weighted_um,
+        "weighted_entropy_measure": weighted_em,
         "grouped_fine_entropy": grouped_fine_em,
     }
 
