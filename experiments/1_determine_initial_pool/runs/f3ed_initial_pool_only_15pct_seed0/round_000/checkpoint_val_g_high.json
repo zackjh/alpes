@@ -1,0 +1,10 @@
+{
+  "checkpoint": "/mnt/ssd2/zachary/alpes/experiments/1_determine_initial_pool/runs/f3ed_initial_pool_only_15pct_seed0/round_000/checkpoint.pt",
+  "frame_dir": "/mnt/ssd/f3set-tennis-frames",
+  "split": "val",
+  "granularity": "G_high",
+  "delta": 0,
+  "val_f1_event": 0.29026189236160654,
+  "val_f1_element": 0.6697857954478292,
+  "val_edit": 67.05701908660528
+}
