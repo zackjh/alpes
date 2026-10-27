@@ -1,0 +1,25 @@
+{
+  "checkpoint": "/mnt/ssd2/zachary/alpes/experiments/4_active_learning_runs/f3ed_10pct_10pct_weighted_uncertainty_measure_meanpool_seed500/round_002/checkpoint.pt",
+  "test_f1_event": 0.39247832355908474,
+  "test_f1_element": 0.7264643852474093,
+  "test_f1_class_agnostic": 0.8580729910331829,
+  "test_edit": 68.50489319705136,
+  "G_high": {
+    "test_f1_event": 0.39247832355908474,
+    "test_f1_element": 0.7264643852474093,
+    "test_f1_class_agnostic": 0.8580729910331829,
+    "test_edit": 68.50489319705136
+  },
+  "G_mid": {
+    "test_f1_event": 0.47713282620545533,
+    "test_f1_element": 0.7416709796461737,
+    "test_f1_class_agnostic": 0.8580729910331829,
+    "test_edit": 78.88759448664852
+  },
+  "G_low": {
+    "test_f1_event": 0.6628297134539567,
+    "test_f1_element": 0.7792076124524616,
+    "test_f1_class_agnostic": 0.8580729910331829,
+    "test_edit": 84.08511633158847
+  }
+}
