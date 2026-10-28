@@ -1,0 +1,51 @@
+\section{Uncertainty-Based Query Strategies}
+\label{sec:Uncertainty-Based Query Strategies}
+
+We adapt the Uncertainty Measure (UM) and Entropy Measure (EM) used by \textcite{giancola_towards_2023} for action spotting. Our seven strategies measure uncertainty about event presence, event attributes, or both. All strategies assign a score to each unlabeled clip. Clips are ranked by decreasing score and selected until their total number of frames meets the acquisition budget. Whole clips are acquired, so the actual budget can slightly exceed the target.
+
+\subsubsection{Uncertainty Measures}
+For a binary probability $p$, we define
+\begin{align}
+    \mathrm{UM}(p) &= 1-2\left|p-\frac{1}{2}\right|, \\
+    \mathrm{EM}(p) &= -\frac{p\ln p+(1-p)\ln(1-p)}{\ln 2},
+\end{align}
+where $0\ln 0=0$. Both measures range from zero to one and are largest at $p=0.5$. They rank individual binary predictions identically, but their different numerical scales can produce different clip rankings after averaging.
+
+For a clip $X$ with $T_X$ sampled frames, let $q_t$ be the predicted event probability and $p_{t,j}$ the probability of attribute $j$ at frame $t$. F$^3$Set-Tennis represents events using $D=29$ attributes in eight groups \autocite{liu_f3set_2025}. Let $m\in\{\mathrm{UM},\mathrm{EM}\}$ and define the attribute uncertainty
+\begin{equation}
+    a_t^m=\frac{1}{D}\sum_{j=1}^{D}m(p_{t,j}).
+\end{equation}
+All experiments use mean pooling to obtain clip scores.
+
+\subsubsection{Coarse UM and EM}
+Coarse strategies measure uncertainty about whether an event occurs, independently of its attributes:
+\begin{equation}
+    S_{\mathrm{coarse}}^m(X)=\frac{1}{T_X}\sum_{t=1}^{T_X}m(q_t).
+\end{equation}
+Both strategies score all frames, including those predicted as background.
+
+\subsubsection{Fine UM and EM}
+Fine strategies measure attribute uncertainty only at predicted event locations. Let $\hat{\mathcal{T}}_X$ contain frames classified as events after non-maximum suppression with a five-frame window. Then
+\begin{equation}
+    S_{\mathrm{fine}}^m(X)=\frac{1}{|\hat{\mathcal{T}}_X|}
+        \sum_{t\in\hat{\mathcal{T}}_X}a_t^m.
+\end{equation}
+If no events are predicted, the score is zero. Each attribute contributes equally, so groups containing more attributes contribute more to the score.
+
+\subsubsection{Grouped Fine EM}
+Grouped Fine EM accounts for mutually exclusive values within each attribute group. For group $g$, we convert its attribute probabilities to logits $z_{t,j}=\ln[p_{t,j}/(1-p_{t,j})]$ and apply a softmax within the group. Probabilities are clipped away from zero and one before this conversion. Handedness, stroke type, and approach include an additional null category with logit zero, allowing no named value to be present.
+
+Let $\pi_{t,g,k}$ be the resulting categorical probabilities and $K_g$ the number of categories, including the null category where applicable. We normalize each group's entropy and average the eight groups equally:
+\begin{equation}
+    h_t^{\mathrm{group}}=\frac{1}{8}\sum_{g=1}^{8}
+        \left(-\frac{1}{\ln K_g}\sum_{k=1}^{K_g}
+        \pi_{t,g,k}\ln\pi_{t,g,k}\right).
+\end{equation}
+The clip score is the mean of $h_t^{\mathrm{group}}$ over $\hat{\mathcal{T}}_X$, or zero if no events are predicted. This avoids giving larger groups more weight solely because they contain more attributes.
+
+\subsubsection{Weighted UM and EM}
+Weighted strategies use event probability as a soft weight for attribute uncertainty:
+\begin{equation}
+    S_{\mathrm{weighted}}^m(X)=\frac{1}{T_X}\sum_{t=1}^{T_X}q_t a_t^m.
+\end{equation}
+They use all frames and the raw event probabilities, without thresholding or non-maximum suppression. The denominator is the number of frames, not the sum of event probabilities. Thus, a clip scores highly when attribute uncertainty coincides with substantial predicted event presence.

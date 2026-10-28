@@ -1,0 +1,17 @@
+\section{Key Findings and Implications}
+\label{sec:Interpretation of Results}
+
+\subsection{When to Use Active Learning}
+These experiments support active learning when the aim is to recognize detailed PES labels with a limited frame budget. The strongest gains occur in event F1 at high and medium granularity. Weighted EM reaches 95\% of full-budget mean performance earlier than random sampling, while improvements at low granularity and in class-agnostic spotting are smaller.
+
+This pattern is consistent with greater benefits for detailed event recognition, but it does not establish task difficulty as the cause. The granularities evaluate different projections of the same predictions, and the metrics use different averaging rules. The evidence is also limited to one dataset, model, and training setup. Similar variability in the benefits of active learning has been documented by \textcite{munjal_towards_2022}. Random sampling should therefore remain a baseline when assessing a new PES application.
+
+\subsection{Choice of Query Strategy}
+Weighted EM is the strongest choice among the tested strategies when high- or medium-granularity event F1 is the main objective. Coarse uncertainty is a useful simpler alternative, particularly for event localization or low-granularity labels. Neither choice improves every metric: their edit-score losses matter when an application depends on accurate event sequences.
+
+Grouped Fine EM also shows that the structure of PES labels can inform acquisition. Treating attributes as mutually exclusive groups improves event F1 over independent attribute entropy. This suggests that query design should reflect both event presence and label structure. The present experiments support these components separately; combining grouping with probability weighting would require a new evaluation.
+
+\subsection{Annotation Cost and Evaluation}
+A smaller frame budget does not necessarily imply a proportional reduction in annotation work. Coarse and weighted strategies acquire more events per frame, so annotators may still need to label more event instances in the selected video. Future comparisons should measure annotation time, alongside video volume and event counts. Repeated training and pool scoring also introduce computational costs that AULC does not capture.
+
+Finally, event F1, element F1, edit score, and class-agnostic F1 should be considered together. Their disagreement reveals whether a strategy benefits precise localization, complete labels, or sequence prediction. Strategy selection should follow the intended use of the annotations, rather than a small advantage on a single aggregate score.

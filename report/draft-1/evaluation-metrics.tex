@@ -1,0 +1,50 @@
+\section{Evaluation Metrics}
+\label{sec:Evaluation Metrics}
+
+\subsection{Predictive Performance}
+We evaluate event classification, attribute prediction, sequence accuracy, and temporal localization. Precise event spotting requires both correct labels and accurate timestamps \autocite{hong_spotting_2022}. Our $F_1$ metrics use temporal tolerance $\delta=0$ on the evaluation timeline, which samples every second source frame. Ground-truth timestamps are mapped to this timeline by integer division by two; exact matching therefore refers to sampled-frame indices.
+
+We project the same full-attribute predictions and labels to the three F$^3$Set granularities: $G_{\mathrm{high}}$ (29 attributes), $G_{\mathrm{mid}}$ (24), and $G_{\mathrm{low}}$ (11) \autocite{liu_f3set_2025}. Models are not retrained for each granularity. All $F_1$ scores lie in $[0,1]$, while edit score lies in $[0,100]$. Higher scores are better.
+
+\subsubsection{Mean $F_1$ Event}
+Event-wise mean $F_1$ requires the entire event label to match at the correct frame. Counts are pooled across test clips for each event class $c$:
+\begin{equation}
+    F_{1,c}=\frac{2TP_c}{2TP_c+FP_c+FN_c},\qquad
+    F_1^{\mathrm{evt}}=\frac{1}{|\mathcal{C}_{\mathrm{eval}}|}
+        \sum_{c\in\mathcal{C}_{\mathrm{eval}}}F_{1,c}.
+\end{equation}
+Following the F$^3$Set evaluator, predictions on background frames count as false positives. Missing or wrong-class predictions count as false negatives for the ground-truth class. A wrong-class prediction at an event frame does \emph{not} also count as a false positive for the predicted class. The set $\mathcal{C}_{\mathrm{eval}}$ includes classes with at least one recorded true positive, false positive, or false negative; classes with no counts are excluded.
+
+\subsubsection{Mean $F_1$ Element}
+Element-wise mean $F_1$ evaluates each event attribute separately. For attribute $j$, a true positive requires that attribute to be predicted at a frame where it is present. A predicted but absent attribute is a false positive, and a missing attribute is a false negative. After pooling counts across clips, we compute
+\begin{equation}
+    F_1^{\mathrm{elem}}=\frac{1}{D_G}\sum_{j=1}^{D_G}
+        \frac{2TP_j}{2TP_j+FP_j+FN_j},
+\end{equation}
+where $D_G$ is the number of attributes at the chosen granularity. All $D_G$ attributes are included; a zero denominator gives zero. Unlike event F1, this metric credits correct attributes even when the complete event label is wrong.
+
+\subsubsection{Edit Score}
+Edit score measures agreement between predicted and ground-truth event sequences \autocite{liu_f3set_2025}. Following the evaluator, we remove background labels and collapse consecutive identical event labels. Let $P_v$ and $Y_v$ be the resulting sequences for test clip $v$. Then
+\begin{equation}
+    \mathrm{Edit}=\frac{1}{V}\sum_{v=1}^{V}
+        100\left(1-\frac{d_{\mathrm{lev}}(P_v,Y_v)}
+        {\max(|P_v|,|Y_v|)}\right),
+\end{equation}
+where $d_{\mathrm{lev}}$ counts the minimum insertions, deletions, and substitutions needed to align the sequences. Test clips contain ground-truth events, so the denominator is nonzero. Edit score ignores exact timestamps and gives each clip equal weight, rather than each event class.
+
+\subsubsection{Mean $F_1$ Class-Agnostic}
+Class-agnostic $F_1$ evaluates event presence without considering event labels. We pool true positives, false positives, and false negatives across all test clips and compute
+\begin{equation}
+    F_1^{\mathrm{agn}}=\frac{2TP}{2TP+FP+FN}.
+\end{equation}
+A true positive requires a predicted event at the correct sampled frame. This isolates temporal localization and is identical across granularities because their event locations are shared. In the reported Mean F1 Class-Agnostic results, ``mean'' refers to averaging this pooled score across experimental seeds, not across event classes or clips.
+
+\subsection{Label Efficiency}
+We use Area Under the Learning Curve (AULC) to summarize performance across annotation budgets \autocite{settles_analysis_2008,giancola_towards_2023}. For each seed and metric, let $b_i$ be the actual percentage of training frames annotated and $s_i$ the score on a 0--100 scale. We multiply $F_1$ scores by 100 and leave edit scores unchanged. Normalized trapezoidal AULC is
+\begin{equation}
+    \mathrm{AULC}=\frac{1}{b_N-b_1}\sum_{i=1}^{N-1}
+        \frac{s_i+s_{i+1}}{2}(b_{i+1}-b_i).
+\end{equation}
+There are ten budget points, from approximately 10\% to 100\%. Actual budgets can slightly exceed nominal targets because whole clips are acquired. Higher AULC indicates better performance over this budget range. We report the mean and sample standard deviation across five seeds. Relative improvements are $100(A/A_{\mathrm{random}}-1)$, where $A$ is the mean AULC; these percentages differ from absolute AULC-point changes.
+
+For a concrete budget comparison, we also report the first observed mean-curve point reaching 95\% of the full-budget random-sampling mean. This uses a common reference across strategies, without interpolation or smoothing. It is a descriptive crossing, not a guarantee for individual runs or future data. Frame budgets measure labeled video volume, not annotation time.
