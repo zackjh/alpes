@@ -38,8 +38,8 @@ GRANULARITIES = ["G_high", "G_mid", "G_low"]
 METRICS = [f"{g}/{m}" for m in ("test_f1_event", "test_f1_element", "test_edit")
            for g in GRANULARITIES] + ["test_f1_class_agnostic"]
 BASELINE = "RANDOM_SAMPLING"
-FIGURES = ["learning_curves_test_f1_event.pdf", "learning_curves_test_f1_element.pdf",
-           "learning_curves_test_edit.pdf", "learning_curves_class_agnostic_pes.pdf"]
+FIGURES = ["learning-curves-mean-event-f1.pdf", "learning-curves-mean-element-f1.pdf",
+           "learning-curves-edit-score.pdf", "learning-curves-class-agnostic-f1.pdf"]
 
 
 def require(condition, message):
@@ -269,7 +269,7 @@ def main():
                        "paired_differences": paired, "paired_summary": pair_summary,
                        "threshold_crossings": crossings, "early_acquisitions": acquisitions}.items():
         data.to_csv(output / f"{name}.csv", index=False, float_format="%.12g")
-    destination = REPORT / "figures/early_acquisition_composition.pdf"
+    destination = REPORT / "figures/early-acquisition-composition.pdf"
     plot_acquisitions(acquisitions, destination)
     if args.refresh_learning_curves:
         refresh_learning_curves()
